@@ -7,31 +7,34 @@ import { path } from '../../utils/constant';
 
 const { AiOutlinePlusCircle } = icons;
 const Header = () => {
-   const navigate = useNavigate();
-   const goHome = useCallback(() => {
-      navigate(path.HOME);
-   }, [navigate]);
+  const navigate = useNavigate();
+  const goHome = useCallback(() => {
+    navigate('/');
+  }, [navigate]);
 
-   const goLogin = useCallback(() => {
-      navigate(path.LOGIN);
-   }, [navigate]);
+  const goLogin = useCallback(
+    (flag) => {
+      navigate(path.LOGIN, { state: { flag } });
+    },
+    [navigate],
+  );
 
-   return (
-      <div className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
-         <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
-         <div className="flex items-center gap-1">
-            <small>Phongtro123.com xin chào! </small>
-            <Button text={'Đăng ký'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={goLogin} />
-            <Button text={'Đăng nhập'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={goLogin} />
-            <Button
-               text={'Đăng tin mới'}
-               textColor={'text-white'}
-               bgColor={'bg-secondary2'}
-               IconRight={AiOutlinePlusCircle}
-            />
-         </div>
+  return (
+    <div className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
+      <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
+      <div className="flex items-center gap-1">
+        <small>Phongtro123.com xin chào! </small>
+        <Button text={'Đăng ký'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(true)} />
+        <Button text={'Đăng nhập'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(false)} />
+        <Button
+          text={'Đăng tin mới'}
+          textColor={'text-white'}
+          bgColor={'bg-secondary2'}
+          IconRight={AiOutlinePlusCircle}
+        />
       </div>
-   );
+    </div>
+  );
 };
 
 export default Header;

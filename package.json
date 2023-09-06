@@ -15,8 +15,8 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.2",
     "sass": "^1.66.1",
-    "thunk": "^0.0.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
