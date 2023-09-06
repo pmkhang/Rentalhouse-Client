@@ -4,10 +4,14 @@ import logo from '../../Assets/logo.png';
 import Button from '../../components/Button';
 import icons from '../../utils/icons';
 import { path } from '../../utils/constant';
+import { useSelector, useDispatch } from 'react-redux';
+import * as action from '../../store/actions';
 
 const { AiOutlinePlusCircle } = icons;
 const Header = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const goHome = useCallback(() => {
     navigate('/');
   }, [navigate]);
@@ -23,9 +27,29 @@ const Header = () => {
     <div className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
       <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
       <div className="flex items-center gap-1">
-        <small>Phongtro123.com xin chào! </small>
-        <Button text={'Đăng ký'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(true)} />
-        <Button text={'Đăng nhập'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(false)} />
+        {!isLoggedIn && (
+          <>
+            <span>Phongtro123.com xin chào! </span>
+            <Button text={'Đăng ký'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(true)} />
+            <Button
+              text={'Đăng nhập'}
+              textColor={'text-white'}
+              bgColor={'bg-[#3961fb]'}
+              onClick={() => goLogin(false)}
+            />
+          </>
+        )}
+        {isLoggedIn && (
+          <>
+            <span>Xin chào! TÊN </span>
+            <Button
+              text={'Đăng xuất'}
+              textColor={'text-white'}
+              bgColor={'bg-red-700'}
+              onClick={() => dispatch(action.logout())}
+            />
+          </>
+        )}
         <Button
           text={'Đăng tin mới'}
           textColor={'text-white'}

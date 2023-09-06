@@ -1,6 +1,6 @@
 import actionTypes from '../actions/actionTypes';
 
-const { REGISTER_FAIL, REGISTER_SUCCES, LOGIN, LOGOUT } = actionTypes;
+const { REGISTER_FAIL, REGISTER_SUCCES, LOGIN_FAIL, LOGIN_SUCCES, LOGOUT } = actionTypes;
 const initState = {
   isLoggedIn: false,
   token: null,
@@ -12,15 +12,31 @@ const authReducer = (state = initState, action) => {
     case REGISTER_SUCCES:
       return {
         ...state,
+        isLoggedIn: false,
+        token: action.data,
+        message: '',
+      };
+    case LOGIN_SUCCES:
+      return {
+        ...state,
         isLoggedIn: true,
         token: action.data,
+        message: '',
       };
     case REGISTER_FAIL:
+    case LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
         message: action.data,
         token: null,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+        token: null,
+        message: '',
       };
     default:
       return state;
