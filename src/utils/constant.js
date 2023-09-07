@@ -2,8 +2,8 @@ export const path = {
   HOME: '/*',
   LOGIN: 'dang-nhap',
   REGISTER: 'dang-ky',
-  rentMotel: 'cho-thue-phong-tro',
-  rentHouse: 'nha-cho-thue',
-  rentApartment: 'cho-thue-can-ho',
-  rentOffice: 'cho-thue-mat-bang',
+  PHONG_TRO: 'cho-thue-phong-tro',
+  NHA_THUE: 'cho-thue-nha',
+  CAN_HO: 'cho-thue-can-ho',
+  MAT_BANG: 'cho-thue-mat-bang',
 };

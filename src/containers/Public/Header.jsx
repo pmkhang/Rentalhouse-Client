@@ -7,7 +7,7 @@ import { path } from '../../utils/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from '../../store/actions';
 
-const { AiOutlinePlusCircle } = icons;
+const { AiOutlinePlusCircle, BiLogInCircle } = icons;
 const Header = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const Header = () => {
               textColor={'text-white'}
               bgColor={'bg-red-700'}
               onClick={() => dispatch(action.logout())}
+              IconRight={BiLogInCircle}
             />
           </>
         )}

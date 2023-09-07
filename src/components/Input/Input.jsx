@@ -1,24 +1,17 @@
 import React, { memo } from 'react';
 
-const Input = ({ label, id, type, name, onChange, placeholder, value, invalidField, onFocus }) => {
+const Input = ({ label, id, type = 'text', name, onChange, placeholder, value, invalidField, onFocus }) => {
   return (
     <>
       {type === 'checkbox' || type === 'radio' ? (
         <div className="inline-flex gap-1 items-center">
-          <input
-            type={type}
-            id={id}
-            name={name}
-            onChange={onChange}
-            placeholder={placeholder}
-            value={value}
-          />
+          <input type={type} id={id} name={name} onChange={onChange} placeholder={placeholder} value={value} />
           <label htmlFor={id} className="text-base">
             {label}
           </label>
         </div>
       ) : (
-        <div className='flex flex-col gap-1'>
+        <div className="flex flex-col gap-1">
           <label htmlFor={id} className="text-base">
             {label}
           </label>

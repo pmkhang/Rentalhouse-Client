@@ -5,6 +5,7 @@ const initState = {
   isLoggedIn: false,
   token: null,
   message: '',
+  update: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -30,6 +31,7 @@ const authReducer = (state = initState, action) => {
         isLoggedIn: false,
         message: action.data,
         token: null,
+        update: !state.update,
       };
     case LOGOUT:
       return {

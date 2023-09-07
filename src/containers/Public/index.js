@@ -2,3 +2,8 @@ export { default as Home } from './Home';
 export { default as Header } from './Header';
 export { default as SignUpLogin } from './SignUpLogin';
 export { default as Navigation } from './Navigation';
+export { default as RentHouse } from './RentHouse';
+export { default as RentApartment } from './RentApartment';
+export { default as RentMotel } from './RentMotel';
+export { default as RentGround } from './RentGround';
+export { default as HomePage } from './HomePage';

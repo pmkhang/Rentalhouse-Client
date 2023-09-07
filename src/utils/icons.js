@@ -1,7 +1,9 @@
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { BiLogInCircle } from 'react-icons/bi';
 
 const icons = {
-   AiOutlinePlusCircle,
+  AiOutlinePlusCircle,
+  BiLogInCircle,
 };
 
 export default icons;

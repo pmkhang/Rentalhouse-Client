@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import '@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import * as action from '../../store/actions';
 
-const SignUpLogin = () => {
+const SignUpLogin = ({ flag }) => {
   const location = useLocation();
   const [isRegister, setIsRegister] = useState(location.state?.flag);
   const [invalidField, setInvalidField] = useState([]);
@@ -19,15 +21,19 @@ const SignUpLogin = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, message, update } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    setIsRegister(location.state?.flag);
-  }, [location.state?.flag]);
+    flag ? setIsRegister(location.state?.flag) : setIsRegister(flag);
+  }, [location.state?.flag, flag]);
 
   useEffect(() => {
     isLoggedIn && navigate('/');
   }, [isLoggedIn, navigate]);
+
+  useEffect(() => {
+    message && Swal.fire('Oops !', 'Bạn đã sai số điện thoại hoặc mật khẩu !', 'error');
+  }, [message, update]);
 
   const handleSubmit = async () => {
     const finalPayload = isRegister
@@ -113,7 +119,7 @@ const SignUpLogin = () => {
   };
 
   return (
-    <div className="bg-white w-[600px] p-[30px] pb-[60px] rounded-md shadow-sm">
+    <div className="flex flex-col w-[600px] mx-auto my-0 mt-5  items-center justify-center bg-white p-[30px] pb-[60px] rounded-md shadow-sm">
       <h3 className="font-semibold text-2xl mb-3">{isRegister ? 'Đăng ký' : 'Đăng nhập'}</h3>
       <div className="w-full flex flex-col gap-5">
         {isRegister && (
@@ -183,7 +189,7 @@ const SignUpLogin = () => {
         />
       </div>
       {isRegister ? (
-        <div className="mt-7 flex flex-col gap-3">
+        <div className="mt-7 flex flex-col w-full gap-3 ">
           <p className="text-sm">
             Bấm vào nút đăng ký tức là bạn đã đồng ý với{' '}
             <span className="text-blue-700 hover:text-[red] cursor-pointer">Quy định sử dụng </span>
@@ -207,7 +213,7 @@ const SignUpLogin = () => {
           </p>
         </div>
       ) : (
-        <div className="mt-7 flex items-center justify-between">
+        <div className="mt-7 flex w-full items-center justify-between">
           <small className="text-[blue] hover:text-[red] cursor-pointer">Bạn quên mật khẩu</small>
           <small
             className="text-[blue] hover:text-[red] cursor-pointer"
