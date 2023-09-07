@@ -6,13 +6,14 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import * as action from '../../store/actions';
 
-const Login = () => {
+const SignUpLogin = () => {
   const location = useLocation();
   const [isRegister, setIsRegister] = useState(location.state?.flag);
   const [invalidField, setInvalidField] = useState([]);
   const [payload, setPayload] = useState({
     phone: '',
     password: '',
+    passwordConfirm: '',
     name: '',
   });
 
@@ -80,6 +81,18 @@ const Login = () => {
             invalidsCount++;
           }
           break;
+        case 'passwordConfirm':
+          if (field[1] !== payload.password) {
+            setInvalidField((prev) => [
+              ...prev,
+              {
+                name: field[0],
+                message: 'Xác nhận mật khẩu không khớp !',
+              },
+            ]);
+            invalidsCount++;
+          }
+          break;
         case 'phone':
           if (!+field[1]) {
             setInvalidField((prev) => [
@@ -138,6 +151,28 @@ const Login = () => {
           invalidField={invalidField}
           onFocus={() => setInvalidField([])}
         />
+
+        {isRegister && (
+          <div className="hidden gap-5 items-center justify-start">
+            <Input type={'radio'} label={'Nữ'} id={'female'} name={'gender'} value={'female'} />
+            <Input type={'radio'} label={'Nam'} id={'male'} name={'gender'} value={'male'} />
+            <Input type={'radio'} label={'Khác'} id={'orther'} name={'gender'} value={'orther'} />
+          </div>
+        )}
+
+        {isRegister && (
+          <Input
+            type={'password'}
+            label={'Xác nhận mật khẩu'}
+            id={'passwordConfirm'}
+            name={'passwordConfirm'}
+            placeholder={'Xác nhận mật khẩu'}
+            value={payload.passwordConfirm}
+            onChange={(e) => setPayload((prev) => ({ ...prev, passwordConfirm: e.target.value }))}
+            invalidField={invalidField}
+            onFocus={() => setInvalidField([])}
+          />
+        )}
         <Button
           className={'mt-2'}
           text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
@@ -150,12 +185,12 @@ const Login = () => {
       {isRegister ? (
         <div className="mt-7 flex flex-col gap-3">
           <p className="text-sm">
-            Bấm vào nút đăng ký tức là bạn đã đồng ý với
-            <span className="text-blue-700 hover:text-[red] cursor-pointer">quy định sử dụng </span>
+            Bấm vào nút đăng ký tức là bạn đã đồng ý với{' '}
+            <span className="text-blue-700 hover:text-[red] cursor-pointer">Quy định sử dụng </span>
             của chúng tôi
           </p>
           <p className="text-sm">
-            Bạn đã có tài khoản?
+            Bạn đã có tài khoản?{' '}
             <span
               className="text-blue-700 hover:text-[red] cursor-pointer"
               onClick={() => {
@@ -193,4 +228,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUpLogin;

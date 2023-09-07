@@ -12,16 +12,18 @@ const Header = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const goHome = useCallback(() => {
-    navigate('/');
-  }, [navigate]);
 
-  const goLogin = useCallback(
+  const goToLoginOrRegister = useCallback(
     (flag) => {
-      navigate(path.LOGIN, { state: { flag } });
+      const destination = flag ? path.REGISTER : path.LOGIN;
+      navigate(destination, { state: { flag } });
     },
     [navigate],
   );
+
+  const goHome = useCallback(() => {
+    navigate('/');
+  }, [navigate]);
 
   return (
     <div className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
@@ -30,12 +32,17 @@ const Header = () => {
         {!isLoggedIn && (
           <>
             <span>Phongtro123.com xin chào! </span>
-            <Button text={'Đăng ký'} textColor={'text-white'} bgColor={'bg-[#3961fb]'} onClick={() => goLogin(true)} />
+            <Button
+              text={'Đăng ký'}
+              textColor={'text-white'}
+              bgColor={'bg-[#3961fb]'}
+              onClick={() => goToLoginOrRegister(true)}
+            />
             <Button
               text={'Đăng nhập'}
               textColor={'text-white'}
               bgColor={'bg-[#3961fb]'}
-              onClick={() => goLogin(false)}
+              onClick={() => goToLoginOrRegister(false)}
             />
           </>
         )}

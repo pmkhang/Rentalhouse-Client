@@ -2,9 +2,9 @@ import React, { memo } from 'react';
 
 const Input = ({ label, id, type, name, onChange, placeholder, value, invalidField, onFocus }) => {
   return (
-    <div className="">
+    <>
       {type === 'checkbox' || type === 'radio' ? (
-        <>
+        <div className="inline-flex gap-1 items-center">
           <input
             type={type}
             id={id}
@@ -12,14 +12,13 @@ const Input = ({ label, id, type, name, onChange, placeholder, value, invalidFie
             onChange={onChange}
             placeholder={placeholder}
             value={value}
-            className="outline-none bg-[#e8f0fe] p-2 rounded-md w-full"
           />
           <label htmlFor={id} className="text-base">
             {label}
           </label>
-        </>
+        </div>
       ) : (
-        <>
+        <div className='flex flex-col gap-1'>
           <label htmlFor={id} className="text-base">
             {label}
           </label>
@@ -36,9 +35,9 @@ const Input = ({ label, id, type, name, onChange, placeholder, value, invalidFie
           {invalidField.length > 0 && invalidField.some((i) => i.name === name) && (
             <span className="text-red-500 italic">{invalidField.find((i) => i.name === name)?.message}</span>
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

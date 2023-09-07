@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { path } from '../../utils/constant';
+import NavItem from '../../components/NavItem/NavItem';
 
 const Navigation = () => {
   return (
@@ -8,30 +8,11 @@ const Navigation = () => {
       <div className="max-w-[1100px] my-0 mx-auto px-5">
         <nav>
           <ul className="h-[40px] flex items-center">
-            <li className="bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
-            <li className="hover:bg-[#f73859] h-[40px] w-[120px] flex items-center justify-center cursor-pointer">
-              <Link to={path.HOME}>Trang chủ</Link>
-            </li>
+            <NavItem text="Trang chủ" path={'/'} active={'bg-[#f73859]'} />
+            <NavItem text="Cho thuê phòng trọ" path={path.rentMotel} />
+            <NavItem text="Nhà cho thuê" path={path.rentHouse} />
+            <NavItem text="Cho thuê căn hộ" path={path.rentApartment} />
+            <NavItem text="Mặt bằng, văn phòng" path={path.rentOffice} />
           </ul>
         </nav>
       </div>
