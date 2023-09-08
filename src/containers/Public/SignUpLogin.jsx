@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import * as action from '../../store/actions';
+import { toast } from 'react-toastify';
 
 const SignUpLogin = ({ flag }) => {
   const location = useLocation();
@@ -24,11 +25,14 @@ const SignUpLogin = ({ flag }) => {
   const { isLoggedIn, message, update } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    flag ? setIsRegister(location.state?.flag) : setIsRegister(flag);
+    flag ? setIsRegister(flag) : setIsRegister(location.state?.flag);
   }, [location.state?.flag, flag]);
 
   useEffect(() => {
-    isLoggedIn && navigate('/');
+    if (isLoggedIn) {
+      navigate('/');
+      toast.success('Đăng nhập thành công !');
+    }
   }, [isLoggedIn, navigate]);
 
   useEffect(() => {
@@ -52,6 +56,7 @@ const SignUpLogin = ({ flag }) => {
           password: '',
           name: '',
         });
+        toast.success('Đăng ký thành công !');
       } else {
         dispatch(action.login(payload));
       }
@@ -157,6 +162,7 @@ const SignUpLogin = ({ flag }) => {
           invalidField={invalidField}
           onFocus={() => setInvalidField([])}
         />
+        {!isRegister && <Input type="checkbox" id="remember" label="Rememmber me" />}
 
         {isRegister && (
           <div className="hidden gap-5 items-center justify-start">
@@ -180,10 +186,8 @@ const SignUpLogin = ({ flag }) => {
           />
         )}
         <Button
-          className={'mt-2'}
+          className={'text-white bg-blue-700 hover:bg-blue-600 focus:ring-blue-300'}
           text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
-          textColor={'text-white'}
-          bgColor={'bg-secondary1'}
           fullWidth
           onClick={handleSubmit}
         />

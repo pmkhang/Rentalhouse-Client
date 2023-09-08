@@ -6,6 +6,7 @@ import icons from '../../utils/icons';
 import { path } from '../../utils/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from '../../store/actions';
+import { toast } from 'react-toastify';
 
 const { AiOutlinePlusCircle, BiLogInCircle } = icons;
 const Header = () => {
@@ -31,39 +32,49 @@ const Header = () => {
       <div className="flex items-center gap-1">
         {!isLoggedIn && (
           <>
-            <span>Phongtro123.com xin chào! </span>
+            <span className="mr-2">Phongtro123.com xin chào! </span>
             <Button
               text={'Đăng ký'}
-              textColor={'text-white'}
-              bgColor={'bg-[#3961fb]'}
+              className={
+                'text-white from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br  focus:ring-cyan-300'
+              }
               onClick={() => goToLoginOrRegister(true)}
             />
             <Button
               text={'Đăng nhập'}
-              textColor={'text-white'}
-              bgColor={'bg-[#3961fb]'}
+              className={
+                'text-white from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br  focus:ring-blue-300'
+              }
               onClick={() => goToLoginOrRegister(false)}
             />
           </>
         )}
+
         {isLoggedIn && (
           <>
-            <span>Xin chào! TÊN </span>
+            <Button
+              text={'Đăng tin mới'}
+              className={
+                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br  focus:ring-red-300 mr-5'
+              }
+              IconRight={AiOutlinePlusCircle}
+            />
+            <span className="mr-2 text-sm">
+              Xin chào! <span className="font-bold text-base">Phạm Minh Khang</span>{' '}
+            </span>
             <Button
               text={'Đăng xuất'}
-              textColor={'text-white'}
-              bgColor={'bg-red-700'}
-              onClick={() => dispatch(action.logout())}
+              onClick={() => {
+                dispatch(action.logout());
+                toast.warn('Đã đăng xuất !')
+              }}
               IconRight={BiLogInCircle}
+              className={
+                ' from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br  focus:ring-red-300 mr-5'
+              }
             />
           </>
         )}
-        <Button
-          text={'Đăng tin mới'}
-          textColor={'text-white'}
-          bgColor={'bg-secondary2'}
-          IconRight={AiOutlinePlusCircle}
-        />
       </div>
     </div>
   );

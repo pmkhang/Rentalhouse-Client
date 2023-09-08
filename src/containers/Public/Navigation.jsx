@@ -15,7 +15,7 @@ const Navigation = () => {
     fetchCategories();
   }, []);
   return (
-    <div className="w-full bg-secondary1 text-white">
+    <div className="w-full text-white from-blue-400 via-blue-500 to-blue-600 bg-gradient-to-br">
       <div className="max-w-[1100px] my-0 mx-auto px-5">
         <nav>
           <ul className="h-[38px] flex items-center">
