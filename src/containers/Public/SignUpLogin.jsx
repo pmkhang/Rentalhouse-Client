@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import '@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
 import React, { useEffect, useState } from 'react';

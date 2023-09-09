@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import NavItem from '../../components/NavItem/NavItem';
 import { apiGetCategories } from '../../services/category';
 
@@ -17,8 +17,8 @@ const Navigation = () => {
   return (
     <div className="w-full text-white from-blue-400 via-blue-500 to-blue-600 bg-gradient-to-br">
       <div className="max-w-[1100px] my-0 mx-auto px-5">
-        <nav>
-          <ul className="h-[38px] flex items-center">
+        <nav className='h-[38px]'>
+          <ul className=" flex items-center mb:hidden">
             <NavItem title={'Trang chủ'} path={'/'} />
             {categories?.length > 0 &&
               categories.map((item) => (
@@ -40,4 +40,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default memo(Navigation);

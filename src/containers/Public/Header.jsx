@@ -55,7 +55,7 @@ const Header = () => {
             <Button
               text={'Đăng tin mới'}
               className={
-                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br  focus:ring-red-300 mr-5'
+                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-red-300 mr-5'
               }
               IconRight={AiOutlinePlusCircle}
             />
@@ -66,11 +66,11 @@ const Header = () => {
               text={'Đăng xuất'}
               onClick={() => {
                 dispatch(action.logout());
-                toast.warn('Đã đăng xuất !')
+                toast.warn('Đã đăng xuất !');
               }}
               IconRight={BiLogInCircle}
               className={
-                ' from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br  focus:ring-red-300 mr-5'
+                ' from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br  focus:ring-red-300'
               }
             />
           </>

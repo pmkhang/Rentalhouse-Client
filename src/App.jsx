@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <div className="w-screen h-screen bg-primary">
+    <div className="w-full min-h-screen bg-primary overflow-hidden">
       <Routers />
       <ToastContainer />
     </div>

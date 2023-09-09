@@ -1,6 +1,5 @@
 import actionTypes from './actionTypes';
 import { apiRegister, apiLogin } from '../../services/auth';
-import { type } from '@testing-library/user-event/dist/type';
 
 const { REGISTER_FAIL, REGISTER_SUCCES, LOGIN_SUCCES, LOGIN_FAIL, LOGOUT } = actionTypes;
 
