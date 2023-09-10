@@ -4,7 +4,7 @@ const Button = ({ type = 'buttom', text, textStyle, fullWidth, IconLeft, IconRig
   return (
     <button
       type={type}
-      className={`flex items-center justify-center gap-1 transition-all bg-gradient-to-r shadow-md focus:ring-4 outline-none rounded-lg  px-5 py-2.5 ${className} ${
+      className={`flex items-center justify-center gap-1 transition-all bg-gradient-to-r shadow-md focus:ring-4 outline-none rounded-lg  px-5 py-2 ${className} ${
         fullWidth && 'w-full'
       } `}
       onClick={onClick}

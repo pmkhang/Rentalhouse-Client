@@ -12,10 +12,10 @@ const HomePage = () => {
       </div>
       <Province />
       <div className="w-full flex gap-4 mt-3">
-        <div className="w-[70%] min-h-screen bg-white shadow-lg rounded-[15px]">
+        <div className="w-[70%] min-h-screen bg-white shadow-lg rounded-[15px] tl:w-full">
           <List />
         </div>
-        <div className="w-[30%] min-h-screen bg-white shadow-lg rounded-[15px]">Sidebar</div>
+        <div className="w-[30%] min-h-screen bg-white shadow-lg rounded-[15px] tl:hidden">Sidebar</div>
       </div>
     </div>
   );

@@ -1,22 +1,81 @@
-import React, { memo } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-unused-vars */
+import React, { memo, useState } from 'react';
+import icons from '../../utils/icons';
 
-const imges = [
-  'https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/09/04/img-1693806824428-1693806836017_1693806858.jpg',
-  'https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/09/04/img-1693805953730-1693805971153_1693806601.jpg',
-  'https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/09/04/img-1693805949449-1693805969466_1693806613.jpg',
-  'https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2023/09/04/img-1693805949424-1693805967867_1693806623.jpg',
-];
+const { BiSolidStar, BiHeart, BiSolidHeart, BsFillBookmarkStarFill } = icons;
 
-const ListItem = () => {
+const ListItem = ({ images, address, attributes, desc, star, title, users }) => {
+  const [isHoverHeart, setIsHoverHeart] = useState(false);
+  const Address =
+    address.replace('Cho thuê', '').trim().charAt(0).toUpperCase() + address.replace('Cho thuê', '').trim().slice(1);
+
   return (
-    <div className="w-full flex items-center justify-between">
-      <div className="w-2/5 flex gap-2 flex-wrap items-center">
-        <img src={imges[0]} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-lg" />
-        <img src={imges[1]} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-lg" />
-        <img src={imges[2]} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-lg" />
-        <img src={imges[3]} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-lg" />
+    <div className="w-full flex items-center justify-between my-3 p-4 gap-5 bg-sky-100 rounded-xl shadow-lg tl:flex-col">
+      <div className="w-2/5 flex gap-1 flex-wrap items-center justify-center relative cursor-pointer tl:w-full">
+        {images &&
+          images
+            .slice(0, 4)
+            .map((image, index) => (
+              <img key={index} src={image} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-md" />
+            ))}
+        {/* <img src={images[0]} alt="" className="w-full h-full object-contain rounded-md" /> */}
+        <span className="text-white text-xs bg-overlay-70 py-1 px-2 rounded-md absolute left-3 bottom-1">
+          {`${images?.length}`} ảnh
+        </span>
+        <span
+          className="text-white text-2xl p-2 rounded-md absolute right-2 bottom-1"
+          onMouseEnter={() => setIsHoverHeart(!isHoverHeart)}
+          onMouseLeave={() => setIsHoverHeart(!isHoverHeart)}
+        >
+          {isHoverHeart ? <BiSolidHeart color="red" /> : <BiHeart />}
+        </span>
       </div>
-      <div className="w-3/5">Info</div>
+      <div className="w-3/5 flex flex-col justify-between gap-2 tl:w-full">
+        <div className="flex justify-between gap-[2px]">
+          <h3 className="text-red-600 font-bold text-[14px]">
+            <span className="inline-flex items-center gap-1">
+              {Array(+star)
+                .fill()
+                .map((_, index) => (
+                  <span key={index} className="text-[14px] text-[#ffd454]">
+                    <BiSolidStar />
+                  </span>
+                ))}
+            </span>
+            {title}
+          </h3>
+          {+star === 5 && (
+            <span className="pt-1 text-[#ffd454] text-[24px]">
+              <BsFillBookmarkStarFill />
+            </span>
+          )}
+        </div>
+        <div className="flex items-center justify-between gap-5 mb:flex-col mb:items-start ">
+          <span className="font-bold text-green-600 ">{attributes?.price}</span>
+          <span className="text-[14px]">{attributes?.acreage}</span>
+          <span className="text-[14px]">{Address}</span>
+        </div>
+        <p className="text-gray-500 text-sm w-full h-[100px] text-ellipsis overflow-hidden">{desc}</p>
+        <div className="flex items-center justify-between mb:flex-col mb:items-start mb:gap-3">
+          <div className="flex items-center gap-2 mb:w-full mb:justify-center">
+            <img
+              src="https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA="
+              alt="avatar"
+              className="w-[30px] h-[30px] object-cover rounded-full"
+            />
+            <span className="text-sm text-gray-500">{users?.name}</span>
+          </div>
+          <div className="flex items-center gap-2 mb:w-full mb:justify-center">
+            <a href={`tel:${users?.phone}`} className="text-xs text-white bg-blue-600 p-2 rounded-lg">
+              {`Gọi ${users?.phone}`}
+            </a>
+            <a href={`#`} className="text-xs text-blue-600 border border-blue-600 p-2 rounded-lg">
+              Nhắn Zalo
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

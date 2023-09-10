@@ -1,14 +1,14 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import '@sweetalert2/theme-bootstrap-4/bootstrap-4.scss';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import * as action from '../../store/actions';
-import { toast } from 'react-toastify';
 
 const SignUpLogin = ({ flag }) => {
   const location = useLocation();
@@ -37,7 +37,7 @@ const SignUpLogin = ({ flag }) => {
   }, [isLoggedIn, navigate]);
 
   useEffect(() => {
-    message && Swal.fire('Oops !', 'Bạn đã sai số điện thoại hoặc mật khẩu !', 'error');
+    message && Swal.fire('Oops !', message, 'error');
   }, [message, update]);
 
   const handleSubmit = async () => {
@@ -51,7 +51,7 @@ const SignUpLogin = ({ flag }) => {
     if (invalids === 0) {
       if (isRegister) {
         dispatch(action.register(payload));
-        setIsRegister(false);
+        navigate('/dang-nhap');
         setPayload({
           phone: '',
           password: '',
@@ -205,7 +205,7 @@ const SignUpLogin = ({ flag }) => {
             <span
               className="text-blue-700 hover:text-[red] cursor-pointer"
               onClick={() => {
-                setIsRegister(false);
+                navigate('/dang-nhap');
                 setPayload({
                   phone: '',
                   password: '',
@@ -223,7 +223,7 @@ const SignUpLogin = ({ flag }) => {
           <small
             className="text-[blue] hover:text-[red] cursor-pointer"
             onClick={() => {
-              setIsRegister(true);
+              navigate('/dang-ky');
               setPayload({
                 phone: '',
                 password: '',
@@ -239,4 +239,4 @@ const SignUpLogin = ({ flag }) => {
   );
 };
 
-export default SignUpLogin;
+export default memo(SignUpLogin);

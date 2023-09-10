@@ -10,11 +10,13 @@ export const register = (payload) => async (dispatch) => {
       dispatch({
         type: REGISTER_SUCCES,
         data: reponse.data.token,
+        error: reponse.data.error,
       });
     } else {
       dispatch({
         type: REGISTER_FAIL,
         data: reponse.data.message,
+        error: reponse.data.error,
       });
     }
   } catch (error) {
@@ -32,11 +34,13 @@ export const login = (payload) => async (dispatch) => {
       dispatch({
         type: LOGIN_SUCCES,
         data: reponse.data.token,
+        error: reponse.data.error,
       });
     } else {
       dispatch({
         type: LOGIN_FAIL,
         data: reponse.data.message,
+        error: reponse.data.error,
       });
     }
   } catch (error) {
