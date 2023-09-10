@@ -12,8 +12,8 @@ module.exports = {
       },
       screens: {
         dt: { max: '1400px' },
-        tl: { max: '1023px' },
-        mb: { max: '767px' },
+        tl: { max: '1024px' },
+        mb: { max: '768px' },
       },
     },
   },

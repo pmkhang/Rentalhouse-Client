@@ -1,9 +1,10 @@
 import { AiOutlinePlusCircle, AiOutlineSearch } from 'react-icons/ai';
-import { BiLogInCircle, BiSolidStar, BiHeart, BiSolidHeart } from 'react-icons/bi';
+import { BiLogInCircle, BiSolidStar, BiHeart, BiSolidHeart, } from 'react-icons/bi';
 import { FaHotel, FaRulerCombined } from 'react-icons/fa';
 import { ImLocation2, ImPriceTags } from 'react-icons/im';
 import { BsFillBookmarkStarFill } from 'react-icons/bs';
-import { IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowUp, } from 'react-icons/io';
+import {MdOutlineKeyboardArrowLeft,MdOutlineKeyboardArrowRight} from 'react-icons/md'
 
 const icons = {
   AiOutlinePlusCircle,
@@ -18,6 +19,8 @@ const icons = {
   ImPriceTags,
   BsFillBookmarkStarFill,
   IoIosArrowUp,
+  MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight,
 };
 
 export default icons;

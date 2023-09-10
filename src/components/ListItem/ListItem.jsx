@@ -51,10 +51,12 @@ const ListItem = ({ images, address, attributes, desc, star, title, users }) => 
             </span>
           )}
         </div>
-        <div className="flex items-center justify-between gap-5 mb:flex-col mb:items-start ">
-          <span className="font-bold text-green-600 ">{attributes?.price}</span>
+        <div className="flex items-center justify-between gap-5 mb:flex-col mb:items-start mb:gap-2 ">
+          <span className="font-bold text-green-600 whitespace-nowrap overflow-hidden text-ellipsis">
+            {attributes?.price}
+          </span>
           <span className="text-[14px]">{attributes?.acreage}</span>
-          <span className="text-[14px]">{Address}</span>
+          <span className="text-[14px] whitespace-nowrap overflow-hidden text-ellipsis">{Address}</span>
         </div>
         <p className="text-gray-500 text-sm w-full h-[100px] text-ellipsis overflow-hidden">{desc}</p>
         <div className="flex items-center justify-between mb:flex-col mb:items-start mb:gap-3">

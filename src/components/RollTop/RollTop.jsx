@@ -24,6 +24,7 @@ const RollTop = () => {
     <>
       {showBtnScrollTop && (
         <Link
+          to="header"
           smooth={true}
           duration={500}
           className="fixed flex items-center justify-center bottom-3 right-5 z-50 w-10 h-10 bg-blue-600 rounded-full cursor-pointer hover:bg-blue-400"

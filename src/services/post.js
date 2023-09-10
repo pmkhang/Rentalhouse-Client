@@ -13,3 +13,17 @@ export const apiGetPosts = () =>
       reject(error);
     }
   });
+
+export const apiGetPostsLimit = (page) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'get',
+        url: `/api/v1/post/all-posts-limit?page=${page}`,
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('Error apiGetPostsLimit: ', error);
+      reject(error);
+    }
+  });

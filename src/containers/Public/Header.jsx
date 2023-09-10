@@ -27,7 +27,7 @@ const Header = () => {
   }, [navigate]);
 
   return (
-    <div className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
+    <div id="header" className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
       <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
       <div className="flex items-center gap-1">
         {!isLoggedIn && (

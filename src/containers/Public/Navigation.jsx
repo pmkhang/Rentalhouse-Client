@@ -30,6 +30,7 @@ const Navigation = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  
   return (
     <div
       className={`w-full text-white from-blue-400 via-blue-500 to-blue-600 bg-gradient-to-br shadow-md ${
