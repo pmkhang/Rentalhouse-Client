@@ -4,9 +4,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import PostsSlice from '../Slice/PostsSlice';
 import AuthSlice from '../Slice/AuthSlice';
-import { persistConfig } from './persistConfig'; 
+import { persistConfig } from './persistConfig';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-
+import CategorySlice from '../Slice/CategorySlice';
 
 const persistedAuthReducer = persistReducer(persistConfig, AuthSlice);
 const customizedMiddleware = getDefaultMiddleware({
@@ -14,8 +14,9 @@ const customizedMiddleware = getDefaultMiddleware({
 });
 const store = configureStore({
   reducer: {
+    auth: persistedAuthReducer,
     post: PostsSlice,
-    auth: persistedAuthReducer, 
+    category: CategorySlice,
   },
   middleware: (getDefaultMiddleware) => customizedMiddleware,
 });

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Province } from '../../components/ProvinceBtn';
-// import { getPostsLimit } from '../../store/actions/post';
+import { useSearchParams } from 'react-router-dom';
+import SideBarItem from '../../components/SideBarItem';
 import { getPostsLimit } from '../../redux/action/postAction';
+import { getCategory } from '../../redux/action/categoryAction';
 import { text } from '../../utils/constant';
 import { List } from './index';
-import { useSearchParams } from 'react-router-dom';
 
 const HomePage = () => {
   const [params] = useSearchParams();
@@ -30,7 +31,11 @@ const HomePage = () => {
         <div className="w-[70%] h-fit bg-white shadow-lg rounded-[15px] tl:w-full">
           <List posts={posts} count={count} number={pageNumber} />
         </div>
-        <div className="w-[30%] min-h-screen bg-white shadow-lg rounded-[15px] tl:hidden">Sidebar</div>
+        <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
+          <SideBarItem category />
+          <SideBarItem fillter />
+          <SideBarItem fillter />
+        </div>
       </div>
     </div>
   );
