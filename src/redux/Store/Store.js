@@ -7,6 +7,8 @@ import CategorySlice from '../Slice/CategorySlice';
 import PostsSlice from '../Slice/PostsSlice';
 import UserSlice from '../Slice/UserSlice';
 import { persistConfig } from './persistConfig';
+import PricesSlice from '../Slice/PricesSlice';
+import AcreagesSlice from '../Slice/AcreagesSlice';
 
 const persistedAuthReducer = persistReducer(persistConfig, AuthSlice);
 const customizedMiddleware = getDefaultMiddleware({
@@ -18,6 +20,8 @@ const store = configureStore({
     post: PostsSlice,
     category: CategorySlice,
     user: UserSlice,
+    price: PricesSlice,
+    acreage: AcreagesSlice,
   },
   middleware: (getDefaultMiddleware) => customizedMiddleware,
 });

@@ -17,7 +17,7 @@ const ListItem = ({ images, address, attributes, desc, star, title, users }) => 
           images
             .slice(0, 4)
             .map((image, index) => (
-              <img key={index} src={image} alt="Preview" className="w-[120px] h-[120px] object-cover rounded-md" />
+              <img key={index} src={image} alt="Preview" className="w-[118px] h-[118px] object-cover rounded-md" />
             ))}
         {/* <img src={images[0]} alt="" className="w-full h-full object-contain rounded-md" /> */}
         <span className="text-white text-xs bg-overlay-70 py-1 px-2 rounded-md absolute left-3 bottom-1">

@@ -1,9 +1,13 @@
 import React, { memo } from 'react';
-import icons from '../../utils/icons';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import icons from '../../utils/icons';
 
 const { MdOutlineKeyboardArrowRight } = icons;
 const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategories }) => {
+  const { prices } = useSelector((state) => state.price);
+  const { acreages } = useSelector((state) => state.acreage);
+
   return (
     <div className="w-full h-fit p-5 flex flex-col bg-white shadow-lg rounded-lg gap-3">
       {category && <h3 className="text-lg font-semibold">Danh mục cho thuê</h3>}
@@ -13,7 +17,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
         {category &&
           memoizedCategories?.length > 0 &&
           memoizedCategories.map((item) => (
-            <div key={item.key} className="flex items-center text-sm gap-3">
+            <div key={item.key} className="flex items-center text-sm gap-3 border-b border-dashed border-gray-200 pb-1">
               <MdOutlineKeyboardArrowRight size={18} />
               <Link className={'transition-all hover:text-red-500 hover:translate-x-2'} to={item?.path}>
                 {item?.title}
@@ -21,24 +25,24 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
             </div>
           ))}
       </div>
-      {fillterPrice && (
-        <ul>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-        </ul>
-      )}
-      {fillterAcreage && (
-        <ul>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-          <li>Cho thuê căn hộ</li>
-        </ul>
-      )}
+      {fillterPrice &&
+        prices.map((item) => (
+          <div key={item?.code} className="flex items-center text-sm gap-3 border-b border-dashed border-gray-200 pb-1">
+            <MdOutlineKeyboardArrowRight size={18} />
+            <Link className={'transition-all hover:text-red-500 hover:translate-x-2'} to={''}>
+              {item?.value}
+            </Link>
+          </div>
+        ))}
+      {fillterAcreage &&
+        acreages.map((item) => (
+          <div key={item?.code} className="flex items-center text-sm gap-3 border-b border-dashed border-gray-200 pb-1">
+            <MdOutlineKeyboardArrowRight size={18} />
+            <Link className={'transition-all hover:text-red-500 hover:translate-x-2'} to={''}>
+              {item?.value}
+            </Link>
+          </div>
+        ))}
     </div>
   );
 };

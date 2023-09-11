@@ -1,16 +1,11 @@
-import React, { useEffect, useState, memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import NavItem from '../../components/NavItem/NavItem';
-import { useSelector, useDispatch } from 'react-redux';
-import { getCategory } from '../../redux/action/categoryAction';
 
 const Navigation = () => {
   const [addFixed, setAddFixed] = useState(false);
-  const dispatch = useDispatch();
 
   const { categories } = useSelector((state) => state.category);
-  useEffect(() => {
-    dispatch(getCategory());
-  }, [dispatch]);
 
   const memoizedCategories = useMemo(() => {
     return categories?.map((item) => ({

@@ -1,18 +1,16 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Province } from '../../components/ProvinceBtn';
 import { useSearchParams } from 'react-router-dom';
+import { Province } from '../../components/ProvinceBtn';
 import SideBarItem from '../../components/SideBarItem';
 import { getPostsLimit } from '../../redux/action/postAction';
 import { text } from '../../utils/constant';
 import { List } from './index';
 
-
 const HomePage = () => {
   const [params] = useSearchParams();
   const { posts, count } = useSelector((state) => state.post);
   const { categories } = useSelector((state) => state.category);
-  
 
   const pageNumber = +params.get('page');
   const dispatch = useDispatch();
@@ -35,8 +33,6 @@ const HomePage = () => {
       dispatch(getPostsLimit(pageNumber));
     }
   }, [dispatch, pageNumber]);
-
-  
 
   return (
     <div className="w-full min-h-[3000px] flex flex-col gap-3">
