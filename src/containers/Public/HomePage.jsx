@@ -1,24 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Province } from '../../components/ProvinceBtn';
 import { useSearchParams } from 'react-router-dom';
 import SideBarItem from '../../components/SideBarItem';
 import { getPostsLimit } from '../../redux/action/postAction';
-import { getCategory } from '../../redux/action/categoryAction';
 import { text } from '../../utils/constant';
 import { List } from './index';
+
 
 const HomePage = () => {
   const [params] = useSearchParams();
   const { posts, count } = useSelector((state) => state.post);
+  const { categories } = useSelector((state) => state.category);
+  
+
   const pageNumber = +params.get('page');
   const dispatch = useDispatch();
+
+  const memoizedCategories = useMemo(() => {
+    return categories?.map((item) => ({
+      key: item.code,
+      title: item.value,
+      path: item.value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .split(' ')
+        .join('-'),
+    }));
+  }, [categories]);
 
   useEffect(() => {
     if (!isNaN(pageNumber)) {
       dispatch(getPostsLimit(pageNumber));
     }
   }, [dispatch, pageNumber]);
+
+  
 
   return (
     <div className="w-full min-h-[3000px] flex flex-col gap-3">
@@ -32,9 +50,9 @@ const HomePage = () => {
           <List posts={posts} count={count} number={pageNumber} />
         </div>
         <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
-          <SideBarItem category />
-          <SideBarItem fillter />
-          <SideBarItem fillter />
+          <SideBarItem category memoizedCategories={memoizedCategories} />
+          <SideBarItem fillterPrice />
+          <SideBarItem fillterAcreage />
         </div>
       </div>
     </div>

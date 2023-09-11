@@ -1,18 +1,20 @@
-// Trong tệp userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    userData: {},
+    usersData: [],
   },
   reducers: {
-    setUserData: (state, action) => {
-      state.userData = action.payload;
+    getUsersDataSuccess: (state, action) => {
+      state.usersData = action.payload.response;
+    },
+    getUsersDataFail: (state, action) => {
+      state.usersData = {};
     },
   },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { getUsersDataSuccess, getUsersDataFail } = userSlice.actions;
 
 export default userSlice.reducer;

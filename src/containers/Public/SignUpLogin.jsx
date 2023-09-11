@@ -10,6 +10,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 // import * as action from '../../store/actions';
 import { register, login } from '../../redux/action/authAction';
+import { getUsersData } from '../../redux/action/userAction';
 
 const SignUpLogin = ({ flag }) => {
   const location = useLocation();
@@ -25,6 +26,15 @@ const SignUpLogin = ({ flag }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, message, update } = useSelector((state) => state.auth);
+
+  const { usersData } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (usersData) {
+      dispatch(getUsersData());
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRegister]);
 
   useEffect(() => {
     flag ? setIsRegister(flag) : setIsRegister(location.state?.flag);
@@ -42,25 +52,33 @@ const SignUpLogin = ({ flag }) => {
   }, [message, update]);
 
   const handleSubmit = async () => {
-    const finalPayload = isRegister
-      ? payload
-      : {
-          phone: payload.phone,
-          password: payload.password,
-        };
-    const invalids = validate(finalPayload);
-    if (invalids === 0) {
-      if (isRegister) {
+    const isRegistration = isRegister;
+    const { phone, password } = payload;
+    const invalids = validate({ phone, password });
+    if (invalids > 0) {
+      return;
+    }
+    const userExists = usersData.find((user) => user.phone === phone);
+    if (isRegistration) {
+      if (userExists) {
+        Swal.fire('Oops!', 'Số điện thoại này đã tồn tại!', 'error');
+      } else {
         dispatch(register(payload));
         navigate('/dang-nhap');
+        setIsRegister(false);
         setPayload({
           phone: '',
           password: '',
           name: '',
         });
-        toast.success('Đăng ký thành công !');
-      } else {
+        toast.success('Đăng ký thành công!');
+        dispatch(getUsersData());
+      }
+    } else {
+      if (userExists) {
         dispatch(login(payload));
+      } else {
+        Swal.fire('Oops!', 'Bạn nhập sai số điện thoại hoặc mật khẩu', 'error');
       }
     }
   };
