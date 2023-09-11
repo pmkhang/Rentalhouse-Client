@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Province } from '../../components/ProvinceBtn';
-import { getPostsLimit } from '../../store/actions/post';
+// import { getPostsLimit } from '../../store/actions/post';
+import { getPostsLimit } from '../../redux/action/postAction';
 import { text } from '../../utils/constant';
 import { List } from './index';
 import { useSearchParams } from 'react-router-dom';

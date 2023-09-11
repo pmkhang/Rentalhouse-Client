@@ -11,7 +11,6 @@ const Pagination = ({ length, number }) => {
 
   useEffect(() => {
     setCurrentPage(number);
-    console.log(number);
   }, [number]);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const Pagination = ({ length, number }) => {
         previousLabel={<MdOutlineKeyboardArrowLeft />}
         nextLabel={<MdOutlineKeyboardArrowRight />}
         breakLabel={'...'}
-        pageCount={length - 1}
+        pageCount={Math.ceil(length - 1)}
         marginPagesDisplayed={1}
         pageRangeDisplayed={2}
         onPageChange={(data) => setCurrentPage(data.selected + 1)}

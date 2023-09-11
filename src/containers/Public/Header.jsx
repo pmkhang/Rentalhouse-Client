@@ -6,6 +6,7 @@ import icons from '../../utils/icons';
 import { path } from '../../utils/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from '../../store/actions';
+import { logoutUser } from '../../redux/action/authAction';
 import { toast } from 'react-toastify';
 
 const { AiOutlinePlusCircle, BiLogInCircle } = icons;
@@ -65,7 +66,7 @@ const Header = () => {
             <Button
               text={'Đăng xuất'}
               onClick={() => {
-                dispatch(action.logout());
+                dispatch(logoutUser());
                 toast.warn('Đã đăng xuất !');
               }}
               IconRight={BiLogInCircle}

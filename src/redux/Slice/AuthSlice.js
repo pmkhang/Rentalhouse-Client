@@ -14,27 +14,27 @@ const authSlice = createSlice({
   reducers: {
     registerSuccess(state, action) {
       state.isLoggedIn = false;
-      state.token = action.payload.data;
+      state.token = action.payload.token;
       state.message = '';
       state.update = true;
       state.error = action.payload.error;
     },
     loginSuccess(state, action) {
       state.isLoggedIn = true;
-      state.token = action.payload.data;
+      state.token = action.payload.token;
       state.message = '';
       state.error = action.payload.error;
     },
     registerFail(state, action) {
       state.isLoggedIn = false;
-      state.message = action.payload.data;
+      state.message = action.payload.message;
       state.token = null;
       state.update = !state.update;
       state.error = action.payload.error;
     },
     loginFail(state, action) {
       state.isLoggedIn = false;
-      state.message = action.payload.data;
+      state.message = action.payload.message;
       state.token = null;
       state.error = action.payload.error;
     },

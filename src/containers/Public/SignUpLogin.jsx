@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import * as action from '../../store/actions';
+// import * as action from '../../store/actions';
+import { register, login } from '../../redux/action/authAction';
 
 const SignUpLogin = ({ flag }) => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const SignUpLogin = ({ flag }) => {
     const invalids = validate(finalPayload);
     if (invalids === 0) {
       if (isRegister) {
-        dispatch(action.register(payload));
+        dispatch(register(payload));
         navigate('/dang-nhap');
         setPayload({
           phone: '',
@@ -59,7 +60,7 @@ const SignUpLogin = ({ flag }) => {
         });
         toast.success('Đăng ký thành công !');
       } else {
-        dispatch(action.login(payload));
+        dispatch(login(payload));
       }
     }
   };
