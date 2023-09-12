@@ -11,17 +11,19 @@ import { getCategory } from '../../redux/action/categoryAction';
 
 const Home = () => {
   const location = useLocation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-  useEffect(() => {
+    
     dispatch(getAcreages());
     dispatch(getPrices());
     dispatch(getCategory());
-  }, [dispatch]);
-  
+  }, []);
+
   return (
     <div className="w-full h-full relative overflow-auto">
       <Header />

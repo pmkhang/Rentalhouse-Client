@@ -14,16 +14,34 @@ export const apiGetPosts = () =>
     }
   });
 
-export const apiGetPostsLimit = (page) =>
+// export const apiGetPostsLimit = (page, query) =>
+//   new Promise(async (resolve, reject) => {
+//     try {
+//       const response = await axiosConfig({
+//         method: 'get',
+//         url: `/api/v1/post/all-posts-limit`,
+//         params: {
+//           page,
+//           query,
+//         },
+//       });
+//       resolve(response);
+//     } catch (error) {
+//       console.log('Error apiGetPostsLimit: ', error);
+//       reject(error);
+//     }
+//   });
+
+export const apiGetPostsLimit = (query) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axiosConfig({
         method: 'get',
-        url: `/api/v1/post/all-posts-limit?page=${page}`,
+        url: `/api/v1/post/all-posts-limit`,
+        params: query,
       });
       resolve(response);
     } catch (error) {
-      console.log('Error apiGetPostsLimit: ', error);
       reject(error);
     }
   });

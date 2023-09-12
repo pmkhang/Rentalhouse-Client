@@ -6,6 +6,7 @@ import SideBarItem from '../../components/SideBarItem';
 import { getPostsLimit } from '../../redux/action/postAction';
 import { text } from '../../utils/constant';
 import { List } from './index';
+import Pagination from '../../components/Pagination';
 
 const HomePage = () => {
   const [params] = useSearchParams();
@@ -29,10 +30,10 @@ const HomePage = () => {
   }, [categories]);
 
   useEffect(() => {
-    if (!isNaN(pageNumber)) {
-      dispatch(getPostsLimit(pageNumber));
-    }
-  }, [dispatch, pageNumber]);
+    dispatch(getPostsLimit({ page: pageNumber }));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-full min-h-[3000px] flex flex-col gap-3">
@@ -42,13 +43,14 @@ const HomePage = () => {
       </div>
       <Province />
       <div className="w-full flex gap-4 mt-3">
-        <div className="w-[70%] h-fit bg-white shadow-lg rounded-[15px] tl:w-full">
-          <List posts={posts} count={count} number={pageNumber} />
+        <div className="w-[70%] h-fit p-5 bg-white shadow-lg rounded-[15px] tl:w-full">
+          <List posts={posts} count={count} page={params.get('page')} />
+          <Pagination length={count / 5} page={params.get('page')} />
         </div>
         <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
-          <SideBarItem category memoizedCategories={memoizedCategories} />
-          <SideBarItem fillterPrice />
-          <SideBarItem fillterAcreage />
+          <SideBarItem category memoizedCategories={memoizedCategories} pageNumber={pageNumber} />
+          <SideBarItem fillterPrice pageNumber={pageNumber} />
+          <SideBarItem fillterAcreage pageNumber={pageNumber} />
         </div>
       </div>
     </div>

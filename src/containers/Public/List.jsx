@@ -1,16 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import Button from '../../components/Button';
 // import ListItem from '../../components/ListItem';
-import Pagination from '../../components/Pagination';
 
 import { lazy, Suspense } from 'react';
+import { getPostsLimit } from '../../redux/action/postAction';
+import { useDispatch } from 'react-redux';
 
 const ListItem = lazy(() => import('../../components/ListItem'));
 
-const List = ({ posts, count, number }) => {
+const List = ({ posts, page }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const offset = page ? +page - 1 : 0;
+    dispatch(getPostsLimit(offset));
+  }, [page]);
+
   return (
-    <div className="w-full p-5">
+    <div className="w-full">
       <div className="flex items-center justify-between mb:flex-col mb:items-start">
         <h3 className="text-xl font-semibold">Danh sách tin đăng</h3>
         <span>Cập nhật: 12:05 25/08/2023</span>
@@ -73,7 +81,6 @@ const List = ({ posts, count, number }) => {
             </Suspense>
           ))}
       </div>
-      <Pagination length={count / 5} count={count || 0} number={number} />
     </div>
   );
 };
