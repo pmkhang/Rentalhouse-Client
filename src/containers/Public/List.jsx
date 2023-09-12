@@ -4,18 +4,30 @@ import Button from '../../components/Button';
 // import ListItem from '../../components/ListItem';
 
 import { lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPostsLimit } from '../../redux/action/postAction';
-import { useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 
 const ListItem = lazy(() => import('../../components/ListItem'));
 
-const List = ({ posts, page }) => {
+const List = ({ categoryCode }) => {
+  const { posts } = useSelector((state) => state.post);
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const offset = page ? +page - 1 : 0;
-    dispatch(getPostsLimit(offset));
-  }, [page]);
+    const paramsArray = Array.from(searchParams.entries());
+    const searchParamsObject = paramsArray.reduce((acc, [key, value]) => {
+      return {
+        ...acc,
+        [key]: acc[key] ? [...acc[key], value] : [value],
+      };
+    }, {});
+    if (categoryCode) {
+      searchParamsObject.categoryCode = categoryCode;
+    }
+    dispatch(getPostsLimit(searchParamsObject));
+  }, [searchParams, categoryCode]);
 
   return (
     <div className="w-full">

@@ -36,6 +36,7 @@ export const getPosts = () => async (dispatch) => {
 export const getPostsLimit = (query) => async (dispatch) => {
   try {
     const response = await apiGetPostsLimit(query);
+    
     if (response?.data.error === 0) {
       dispatch(getPostsSuccess(response.data.response));
     } else {

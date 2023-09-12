@@ -1,17 +1,16 @@
 import React, { memo, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import icons from '../../utils/icons';
-import { getPostsLimit } from '../../redux/action/postAction';
-import { createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 
 const { MdOutlineKeyboardArrowRight } = icons;
-const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategories, pageNumber }) => {
+const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => {
   const { prices } = useSelector((state) => state.price);
   const { acreages } = useSelector((state) => state.acreage);
-  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.category);
   const navigate = useNavigate();
   const location = useLocation();
+
   const formatContent = (content) => {
     if (!Array.isArray(content)) {
       return [];
@@ -24,9 +23,22 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
     }
     return formatContent;
   };
+  const memoizedCategories = useMemo(() => {
+    return categories?.map((item) => ({
+      key: item.code,
+      title: item.value,
+      path: item.value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .split(' ')
+        .join('-'),
+    }));
+  }, [categories]);
 
-  const memoizedAcreages = useMemo(() => {
-    return acreages?.map((item) => ({
+  const formatItems = (items) => {
+    if (!items) return [];
+    return items.map((item) => ({
       key: item.code,
       title: item.value,
       path: item.value
@@ -36,38 +48,23 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
         .replace(/\s+/g, '-')
         .replace(/[\u0300-\u036f]/g, ''),
     }));
-  }, [acreages]);
+  };
+  const memoizedAcreages = useMemo(() => formatItems(acreages), [acreages]);
+  const memoizedPrices = useMemo(() => formatItems(prices), [prices]);
 
-  const memoizedPrices = useMemo(() => {
-    return prices?.map((item) => ({
-      key: item.code,
-      title: item.value,
-      path: item.value
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[^\w\s]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/[\u0300-\u036f]/g, ''),
-    }));
-  }, [prices]);
-
-  console.log(location.pathname);
-
-  const handleFilterPricePost = (code, type) => {
-    dispatch(getPostsLimit({ page: pageNumber, priceCode: code }));
+  const handleFilterPricePost = (type) => {
     navigate({
-      pathname: location.pathname,
+      pathname: location?.pathname,
       search: createSearchParams({
-        gia_: type,
+        priceCode: type,
       }).toString(),
     });
   };
-  const handleFilterAcreagePost = (code, type) => {
-    dispatch(getPostsLimit({ page: pageNumber, acreageCode: code }));
+  const handleFilterAcreagePost = (type) => {
     navigate({
-      pathname: location.pathname,
+      pathname: location?.pathname,
       search: createSearchParams({
-        dien_tich: type,
+        acreageCode: type,
       }).toString(),
     });
   };
@@ -96,14 +93,14 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterPricePost(item.left.key, item.left.path)}
+                  onClick={() => handleFilterPricePost(item.left.key)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.left.title}
                 </div>
               </div>
               <div
-                onClick={() => handleFilterPricePost(item.right.key, item.right.path)}
+                onClick={() => handleFilterPricePost(item.right.key)}
                 className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1"
               >
                 <MdOutlineKeyboardArrowRight size={18} />
@@ -121,7 +118,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterAcreagePost(item.left.key, item.left.path)}
+                  onClick={() => handleFilterAcreagePost(item.left.key)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.left.title}
@@ -130,7 +127,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, memoizedCategorie
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterAcreagePost(item.right.key, item.right.path)}
+                  onClick={() => handleFilterAcreagePost(item.right.key)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.right.title}
