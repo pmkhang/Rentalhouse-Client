@@ -25,7 +25,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
   };
   const memoizedCategories = useMemo(() => {
     return categories?.map((item) => ({
-      key: item.code,
+      code: item.code,
       title: item.value,
       path: item.value
         .toLowerCase()
@@ -39,7 +39,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
   const formatItems = (items) => {
     if (!items) return [];
     return items.map((item) => ({
-      key: item.code,
+      code: item.code,
       title: item.value,
       path: item.value
         .toLowerCase()
@@ -52,21 +52,20 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
   const memoizedAcreages = useMemo(() => formatItems(acreages), [acreages]);
   const memoizedPrices = useMemo(() => formatItems(prices), [prices]);
 
-  const handleFilterPricePost = (type) => {
+  const handleFilterPricePost = (code) => {
     navigate({
       pathname: location?.pathname,
       search: createSearchParams({
-        priceCode: type,
+        priceCode: code,
       }).toString(),
     });
   };
-  const handleFilterAcreagePost = (type) => {
-    navigate({
-      pathname: location?.pathname,
-      search: createSearchParams({
-        acreageCode: type,
-      }).toString(),
-    });
+  const handleFilterAcreagePost = (code) => {
+    const queryParams = {
+      acreageCode: code,
+    };
+    const searchParams = new URLSearchParams(queryParams);
+    navigate(`?${searchParams.toString()}`);
   };
 
   return (
@@ -78,7 +77,10 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
         {category &&
           memoizedCategories?.length > 0 &&
           memoizedCategories.map((item) => (
-            <div key={item.key} className="flex items-center text-sm gap-3 border-b border-dashed border-gray-200 pb-1">
+            <div
+              key={item.code}
+              className="flex items-center text-sm gap-3 border-b border-dashed border-gray-200 pb-1"
+            >
               <MdOutlineKeyboardArrowRight size={18} />
               <Link className={'transition-all hover:text-red-500 hover:translate-x-2'} to={item?.path}>
                 {item?.title}
@@ -93,14 +95,14 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterPricePost(item.left.key)}
+                  onClick={() => handleFilterPricePost(item.left.code)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.left.title}
                 </div>
               </div>
               <div
-                onClick={() => handleFilterPricePost(item.right.key)}
+                onClick={() => handleFilterPricePost(item.right.code)}
                 className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1"
               >
                 <MdOutlineKeyboardArrowRight size={18} />
@@ -118,7 +120,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterAcreagePost(item.left.key)}
+                  onClick={() => handleFilterAcreagePost(item.left.code, item.left.path)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.left.title}
@@ -127,7 +129,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
               <div className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1">
                 <MdOutlineKeyboardArrowRight size={18} />
                 <div
-                  onClick={() => handleFilterAcreagePost(item.right.key)}
+                  onClick={() => handleFilterAcreagePost(item.right.code)}
                   className="transition-all hover:text-red-500 hover:translate-x-2 cursor-pointer"
                 >
                   {item.right.title}

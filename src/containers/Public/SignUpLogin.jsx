@@ -25,15 +25,13 @@ const SignUpLogin = ({ flag }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, message, update } = useSelector((state) => state.auth);
-
   const { usersData } = useSelector((state) => state.user);
-
   useEffect(() => {
     if (usersData) {
       dispatch(getUsersData());
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRegister]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRegister, location?.pathname]);
 
   useEffect(() => {
     flag ? setIsRegister(flag) : setIsRegister(location.state?.flag);
@@ -59,7 +57,7 @@ const SignUpLogin = ({ flag }) => {
     }
     const userExists = usersData.find((user) => user.phone === phone);
     if (isRegistration) {
-      if (userExists) {
+      if (userExists?.phone === payload?.phone) {
         Swal.fire('Oops!', 'Số điện thoại này đã tồn tại!', 'error');
       } else {
         dispatch(register(payload));
@@ -74,7 +72,7 @@ const SignUpLogin = ({ flag }) => {
         dispatch(getUsersData());
       }
     } else {
-      if (userExists) {
+      if (userExists?.phone === payload?.phone) {
         dispatch(login(payload));
       } else {
         Swal.fire('Oops!', 'Bạn nhập sai số điện thoại hoặc mật khẩu', 'error');

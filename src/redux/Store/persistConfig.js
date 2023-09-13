@@ -10,5 +10,5 @@ const commonConfig = {
 export const persistConfig = {
   ...commonConfig,
   key: 'auth',
-  whitelist: ['isLoggedIn', 'token'],
+  whitelist: ['isLoggedIn', 'token', 'id'],
 };

@@ -1,19 +1,28 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../Assets/logo.png';
 import Button from '../../components/Button';
 import icons from '../../utils/icons';
 import { path } from '../../utils/constant';
 import { useSelector, useDispatch } from 'react-redux';
-import * as action from '../../store/actions';
 import { logoutUser } from '../../redux/action/authAction';
 import { toast } from 'react-toastify';
 
 const { AiOutlinePlusCircle, BiLogInCircle } = icons;
 const Header = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const [userName, setUserName] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isLoggedIn, id } = useSelector((state) => state.auth);
+  const { usersData } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const userName = usersData.find((i) => i.id === id)?.name;
+      setUserName(userName);
+    }
+  },[id, isLoggedIn, usersData]);
+  
 
   const goToLoginOrRegister = useCallback(
     (flag) => {
@@ -28,9 +37,9 @@ const Header = () => {
   }, [navigate]);
 
   return (
-    <div id="header" className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
+    <div id="header" className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between ">
       <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 mb:hidden">
         {!isLoggedIn && (
           <>
             <span className="mr-2">Phongtro123.com xin chào! </span>
@@ -50,18 +59,17 @@ const Header = () => {
             />
           </>
         )}
-
         {isLoggedIn && (
-          <>
+          <div className='flex items-center mb:hidden'>
             <Button
               text={'Đăng tin mới'}
               className={
-                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-red-300 mr-5'
+                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-green-300 mr-5'
               }
               IconRight={AiOutlinePlusCircle}
             />
             <span className="mr-2 text-sm">
-              Xin chào! <span className="font-bold text-base">Phạm Minh Khang</span>{' '}
+              Xin chào! <span className="font-bold text-base">{userName}</span>{' '}
             </span>
             <Button
               text={'Đăng xuất'}
@@ -72,7 +80,7 @@ const Header = () => {
               IconRight={BiLogInCircle}
               className={' from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br  focus:ring-red-300'}
             />
-          </>
+          </div>
         )}
       </div>
     </div>

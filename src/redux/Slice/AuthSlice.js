@@ -1,5 +1,3 @@
-
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
@@ -10,6 +8,7 @@ const authSlice = createSlice({
     message: '',
     update: false,
     error: 2,
+    id: '',
   },
   reducers: {
     registerSuccess(state, action) {
@@ -24,6 +23,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.message = '';
       state.error = action.payload.error;
+      state.id = action.payload.id;
     },
     registerFail(state, action) {
       state.isLoggedIn = false;
