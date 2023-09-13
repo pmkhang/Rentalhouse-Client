@@ -24,7 +24,7 @@ const Intro = () => {
   }, [categories]);
 
   return (
-    <div className="min-h-[500px] w-full flex flex-col items-center justify-center p-12 gap-4 bg-white rounded-lg shadow-lg">
+    <div className="min-h-[500px] w-full flex flex-col items-center justify-center p-12 gap-4 mb:p-8 bg-white rounded-lg shadow-lg">
       <h3 className="font-bold text-[20px]">{dataIntro.title}</h3>
       <p className="text-center text-gray-600">
         {`${dataIntro.desc1} `}
