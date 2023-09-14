@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Rental from './Rental';
 
 const HomePage = () => {
-  
+  useEffect(() => {
+    document.title = 'Trang chủ';
+  }, []);
+
   return (
     <Rental
       title={'Kênh thông tin Phòng Trọ số 1 Việt Nam'}

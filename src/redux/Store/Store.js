@@ -9,6 +9,7 @@ import UserSlice from '../Slice/UserSlice';
 import { persistConfig } from './persistConfig';
 import PricesSlice from '../Slice/PricesSlice';
 import AcreagesSlice from '../Slice/AcreagesSlice';
+import ProvinceSlice from '../Slice/ProvinceSlice';
 
 const persistedAuthReducer = persistReducer(persistConfig, AuthSlice);
 const customizedMiddleware = getDefaultMiddleware({
@@ -22,6 +23,7 @@ const store = configureStore({
     user: UserSlice,
     price: PricesSlice,
     acreage: AcreagesSlice,
+    province: ProvinceSlice,
   },
   middleware: (getDefaultMiddleware) => customizedMiddleware,
 });

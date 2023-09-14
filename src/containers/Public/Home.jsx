@@ -10,6 +10,7 @@ import { getAcreages, getPrices } from '../../redux/action/priceAndArceage';
 import { getUsersData } from '../../redux/action/userAction';
 import Header from './Header';
 import Navigation from './Navigation';
+import { getProvince } from '../../redux/action/provinceAction';
 
 const Home = () => {
   const location = useLocation();
@@ -17,13 +18,14 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [location?.search, location?.pathname]);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getAcreages());
     dispatch(getPrices());
     dispatch(getCategory());
     dispatch(getUsersData());
     dispatch(getNewPosts());
+    dispatch(getProvince())
   }, [dispatch]);
 
   return (

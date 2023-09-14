@@ -21,6 +21,9 @@ const SignUpLogin = ({ flag }) => {
     passwordConfirm: '',
     name: '',
   });
+  useEffect(() => {
+    isRegister ? (document.title = 'Đăng ký') : (document.title = 'Đăng nhập');
+  }, [isRegister]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -1,7 +1,11 @@
 
+import { useEffect } from 'react';
 import Rental from './Rental';
 
 const RentMotel = () => {
+  useEffect(() => {
+    document.title = 'Cho thuê phòng trọ';
+  }, []);
   return (
     <Rental
       // rentPosts
