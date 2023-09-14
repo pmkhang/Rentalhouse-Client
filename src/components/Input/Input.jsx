@@ -1,6 +1,21 @@
 import React, { memo } from 'react';
 
-const Input = ({ label, id, type = 'text', name, onChange, placeholder, value, invalidField, onFocus, className }) => {
+const Input = ({
+  label,
+  id,
+  type = 'text',
+  max,
+  min,
+  name,
+  step,
+  onChange,
+  placeholder,
+  value,
+  invalidField = false,
+  onFocus,
+  className,
+  inputStyle,
+}) => {
   return (
     <>
       {type === 'checkbox' || type === 'radio' ? (
@@ -11,7 +26,7 @@ const Input = ({ label, id, type = 'text', name, onChange, placeholder, value, i
             name={name}
             onChange={onChange}
             value={value}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600"
+            className={`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 ${inputStyle}`}
           />
           <label htmlFor={id} className="w-full text-base ml-2 font-medium text-gray-900  cursor-pointer">
             {label}
@@ -35,12 +50,15 @@ const Input = ({ label, id, type = 'text', name, onChange, placeholder, value, i
             onFocus={onFocus}
             placeholder={placeholder}
             value={value}
+            max={max}
+            min={min}
+            step={step}
             className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${
-              invalidField.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'
-            }`}
+              invalidField?.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'
+            } ${inputStyle}`}
           />
-          {invalidField.length > 0 && invalidField.some((i) => i.name === name) && (
-            <span className="text-red-500 italic">{invalidField.find((i) => i.name === name)?.message}</span>
+          {invalidField?.length > 0 && invalidField?.some((i) => i?.name === name) && (
+            <span className="text-red-500 italic">{invalidField?.find((i) => i?.name === name)?.message}</span>
           )}
         </div>
       )}

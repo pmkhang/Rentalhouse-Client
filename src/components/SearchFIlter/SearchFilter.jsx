@@ -32,7 +32,7 @@ const SearchFilter = ({ text }) => {
           fullWidth
           IconLeft={FaHotel}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'categories')}
+          onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'category')}
         />
         <Button
           text={'Toàn quốc'}
@@ -40,7 +40,7 @@ const SearchFilter = ({ text }) => {
           fullWidth
           IconLeft={ImLocation2}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(provinces, 'Chọn bất vị trí', 'provinces')}
+          onClick={() => handleShowModal(provinces, 'Chọn bất vị trí', 'province')}
         />
         <Button
           text={'Chọn giá'}
@@ -48,7 +48,7 @@ const SearchFilter = ({ text }) => {
           fullWidth
           IconLeft={ImPriceTags}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(prices, 'Chọn giá', 'prices')}
+          onClick={() => handleShowModal(prices, 'Chọn giá', 'price')}
         />
         <Button
           text={'Chọn diện tích'}
@@ -56,7 +56,7 @@ const SearchFilter = ({ text }) => {
           fullWidth
           IconLeft={FaRulerCombined}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(acreages, 'Chọn diện tích', 'acreages')}
+          onClick={() => handleShowModal(acreages, 'Chọn diện tích', 'acreage')}
         />
         <Button
           text={'Tìm kiếm'}
