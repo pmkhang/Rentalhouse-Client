@@ -4,10 +4,9 @@ import { Province } from '../../components/ProvinceBtn';
 import SideBarItem from '../../components/SideBarItem';
 import { text } from '../../utils/constant';
 import { List } from './index';
+import PostsSidebar from '../../components/PostsSidebar';
 
 const HomePage = () => {
-  
-
   return (
     <div className="w-full h-fit flex flex-col gap-3">
       <div>
@@ -24,6 +23,7 @@ const HomePage = () => {
           <SideBarItem category />
           <SideBarItem fillterPrice />
           <SideBarItem fillterAcreage />
+          <PostsSidebar />
         </div>
       </div>
     </div>

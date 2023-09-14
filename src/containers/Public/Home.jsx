@@ -26,7 +26,7 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="w-full h-full relative overflow-auto">
+    <div className="w-full min-h-[4000px] relative overflow-auto">
       <Header />
       <Navigation />
       <SearchFilter />
