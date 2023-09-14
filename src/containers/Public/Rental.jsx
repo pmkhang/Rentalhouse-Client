@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getPostsLimit } from '../../redux/action/postAction';
 
-const Rental = ({ title, desc, text }) => {
+const Rental = ({ title, desc, text, homePage }) => {
   const { categories } = useSelector((state) => state.category);
   const { posts } = useSelector((state) => state.post);
   const [categoryCode, setCategoryCode] = useState('');
@@ -48,10 +48,8 @@ const Rental = ({ title, desc, text }) => {
     }, {});
     if (categoryCode) {
       searchParamsObject.categoryCode = categoryCode;
-      console.log(searchParamsObject);
       dispatch(getPostsLimit(searchParamsObject));
     } else {
-      console.log(searchParamsObject);
       dispatch(getPostsLimit(searchParamsObject));
     }
   }, [searchParams, categoryCode, dispatch]);
@@ -71,6 +69,7 @@ const Rental = ({ title, desc, text }) => {
             <Pagination />
           </div>
           <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
+            {homePage && <SideBarItem category />}
             <SideBarItem fillterPrice />
             <SideBarItem fillterAcreage />
             <PostsSidebar />

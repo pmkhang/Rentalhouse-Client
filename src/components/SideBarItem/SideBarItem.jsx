@@ -138,25 +138,7 @@ const SideBarItem = ({ category, fillterPrice, fillterAcreage, pageNumber }) => 
             </div>
           </div>
         ))}
-      {/* {[fillterPrice && memoizedAcreages, fillterAcreage && memoizedPrices].filter(Boolean).map((list, listIndex) => (
-        <div key={listIndex}>
-          {formatContent(list).map((item, itemIndex) => (
-            <div key={itemIndex} className="flex items-center justify-around gap-2">
-              {[item.left, item.right].map((side, sideIndex) => (
-                <div
-                  key={sideIndex}
-                  className="flex flex-1 items-center text-sm gap-1 border-b border-dashed border-gray-200 pb-1"
-                >
-                  <MdOutlineKeyboardArrowRight size={18} />
-                  <Link to={side.path} className="transition-all hover:text-red-500 hover:translate-x-2">
-                    {side.title}
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      ))} */}
+     
     </div>
   );
 };
