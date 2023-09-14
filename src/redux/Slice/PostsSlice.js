@@ -1,5 +1,3 @@
-
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const postSlice = createSlice({
@@ -8,6 +6,7 @@ const postSlice = createSlice({
     posts: [],
     message: '',
     count: 0,
+    newPosts: [],
   },
   reducers: {
     getPostsSuccess(state, action) {
@@ -20,8 +19,15 @@ const postSlice = createSlice({
       state.message = action.payload;
       state.count = 0;
     },
+    getNewPostsSuccess(state, action) {
+      state.newPosts = action.payload;
+    },
+    getNewPostsFail(state, action) {
+      state.newPosts = [];
+      state.message = action.payload;
+    },
   },
 });
 
-export const { getPostsSuccess, getPostsFail } = postSlice.actions;
+export const { getPostsSuccess, getPostsFail, getNewPostsSuccess, getNewPostsFail } = postSlice.actions;
 export default postSlice.reducer;

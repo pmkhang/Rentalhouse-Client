@@ -1,45 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { Province, ItemSidebar, RelatedPost } from '../../components';
-import { List, Pagination } from './index';
-import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { formatVietnameseToString } from '../../ultils/Common/formatVietnameseToString';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import Pagination from '../../components/Pagination';
+import PostsSidebar from '../../components/PostsSidebar';
+import { Province } from '../../components/ProvinceBtn';
+import SearchFilter from '../../components/SearchFIlter/SearchFilter';
+import SideBarItem from '../../components/SideBarItem';
+import { List } from './index';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { getPostsLimit } from '../../redux/action/postAction';
 
-const Rental = () => {
-  const { prices, areas, categories } = useSelector((state) => state.app);
-  const [categoryCurrent, setCategoryCurrent] = useState({});
-  const [categoryCode, setCategoryCode] = useState('none');
+const Rental = ({ title, desc, text }) => {
+  const { categories } = useSelector((state) => state.category);
+  const { posts } = useSelector((state) => state.post);
+  const [categoryCode, setCategoryCode] = useState('');
+
   const location = useLocation();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+
+  const memoizedCategories = useMemo(() => {
+    return categories?.map((item) => ({
+      key: item.code,
+      title: item.value,
+      path: item.value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .split(' ')
+        .join('-'),
+    }));
+  }, [categories]);
+
   useEffect(() => {
-    const category = categories?.find((item) => `/${formatVietnameseToString(item.value)}` === location.pathname);
-    console.log(category);
-    setCategoryCurrent(category);
+    const category = memoizedCategories?.find((i) => `/${i.path}` === location.pathname);
     if (category) {
-      setCategoryCode(category.code);
+      setCategoryCode(category.key);
     }
-  }, [categories, location]);
+  }, [location.pathname, memoizedCategories]);
+
+  useEffect(() => {
+    const paramsArray = Array.from(searchParams.entries());
+    const searchParamsObject = paramsArray.reduce((acc, [key, value]) => {
+      return {
+        ...acc,
+        [key]: acc[key] ? [...acc[key], value] : [value],
+      };
+    }, {});
+    if (categoryCode) {
+      searchParamsObject.categoryCode = categoryCode;
+      console.log(searchParamsObject);
+      dispatch(getPostsLimit(searchParamsObject));
+    } else {
+      console.log(searchParamsObject);
+      dispatch(getPostsLimit(searchParamsObject));
+    }
+  }, [searchParams, categoryCode, dispatch]);
 
   return (
-    <div className="w-full flex flex-col gap-3">
-      <div>
-        <h1 className="text-[28px] font-bold">{categoryCurrent?.header}</h1>
-        <p className="text-base text-gray-700">{categoryCurrent?.subheader}</p>
-      </div>
-      <Province />
-      <div className="w-full flex gap-4">
-        <div className="w-[70%]">
-          <List categoryCode={categoryCode} />
-          <Pagination />
+    <>
+      <SearchFilter text={text} />
+      <div className="w-full h-fit flex flex-col gap-3">
+        <div>
+          <h2 className="text-[28px] font-bold">{title}</h2>
+          <p className="text-sm text-gray-700 ">{desc}</p>
         </div>
-        <div className="w-[30%] flex flex-col gap-4 justify-start items-center">
-          <ItemSidebar isDouble={true} type="priceCode" content={prices} title="Xem theo giá" />
-          <ItemSidebar isDouble={true} type="areaCode" content={areas} title="Xem theo diện tích" />
-          <RelatedPost />
+        <Province />
+        <div className="w-full flex gap-4 mt-3">
+          <div className="w-[70%] h-fit p-5 bg-white shadow-lg rounded-[15px] tl:w-full">
+            <List posts={posts} categoryCode={categoryCode} />
+            <Pagination />
+          </div>
+          <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
+            <SideBarItem fillterPrice />
+            <SideBarItem fillterAcreage />
+            <PostsSidebar />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Rental;
+export default memo(Rental);

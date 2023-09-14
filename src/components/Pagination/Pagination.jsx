@@ -9,66 +9,54 @@ const { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } = icons;
 
 const Pagination = () => {
   const { count } = useSelector((state) => state.post);
-  const [searchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
   const [paramsSearch] = useSearchParams();
-  const entries = Array.from(paramsSearch.entries());
-
+  const entries = paramsSearch.entries();
   const append = (entries, number) => {
-    const searchParamsObject = {};
-    entries.forEach(([key, value]) => {
-      if (key !== 'page') {
-        if (searchParamsObject[key]) {
-          searchParamsObject[key].push(value);
-        } else {
-          searchParamsObject[key] = [value];
-        }
+    const params = new URLSearchParams(); 
+    params.set('page', number); 
+    for (let entry of entries) {
+      if (entry[0] !== 'page') {
+        params.append(entry[0], entry[1]);
       }
-    });
-    searchParamsObject.page = number;
-    return searchParamsObject;
+    }
+    return params;
   };
-
-  useEffect(() => {
-    const page = searchParams.get('page');
-    page && +page !== currentPage && setCurrentPage(+page);
-    !page && setCurrentPage(1);
-  }, [currentPage, searchParams]);
-
   const handleChangePage = (data) => {
     const number = data.selected + 1;
-    if (+number) {
-      setCurrentPage(+number);
+    if (!isNaN(number)) {
       const updatedSearchParams = append(entries, number);
-      const searchParamsString = new URLSearchParams(updatedSearchParams).toString();
+      const searchParamsString = updatedSearchParams.toString();
       navigate({
         pathname: location?.pathname,
         search: searchParamsString,
       });
     }
   };
-
   return (
-    <div className="w-full flex items-center justify-center mt-5">
-      <ReactPaginate
-        previousLabel={<MdOutlineKeyboardArrowLeft />}
-        nextLabel={<MdOutlineKeyboardArrowRight />}
-        breakLabel={'...'}
-        pageCount={Math.ceil(count / 5)}
-        marginPagesDisplayed={1}
-        pageRangeDisplayed={2}
-        onPageChange={(data) => handleChangePage(data)}
-        containerClassName={'pagination flex items-center gap-5'}
-        activeClassName={'bg-orange-400 text-white hover:bg-blue-400 hover:text-white rounded-md'}
-        previousClassName={'text-[24px]'}
-        nextClassName={'text-[24px]'}
-        pageLinkClassName={
-          'w-[30px] h-[30px] flex items-center justify-center rounded-md shadow-md hover:bg-blue-400 hover:text-white'
-        }
-      />
-    </div>
+    <>
+      {count !== 0 && (
+        <div className="w-full flex items-center justify-center mt-5">
+          <ReactPaginate
+            previousLabel={<MdOutlineKeyboardArrowLeft />}
+            nextLabel={<MdOutlineKeyboardArrowRight />}
+            breakLabel={'...'}
+            pageCount={Math.ceil(count / 5)}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={2}
+            onPageChange={(data) => handleChangePage(data)}
+            containerClassName={'pagination flex items-center gap-5'}
+            activeClassName={'bg-orange-400 text-white hover:bg-blue-400 hover:text-white rounded-md'}
+            previousClassName={'text-[24px]'}
+            nextClassName={'text-[24px]'}
+            pageLinkClassName={
+              'w-[30px] h-[30px] flex items-center justify-center rounded-md shadow-md hover:bg-blue-400 hover:text-white'
+            }
+          />
+        </div>
+      )}
+    </>
   );
 };
 

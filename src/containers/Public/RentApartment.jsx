@@ -1,10 +1,17 @@
-import React from 'react';
+
+import Rental from './Rental';
 
 const RentApartment = () => {
+
+
   return (
-    <div>
-      <h1>Cho Thuê Căn hộ</h1>
-    </div>
+    <Rental
+      title={'Cho Thuê Căn Hộ Chung Cư, Giá Rẻ, View Đẹp, Mới Nhất 2023'}
+      desc={
+        'Cho thuê căn hộ - Kênh đăng tin cho thuê căn hộ số 1: giá rẻ, chính chủ, đầy đủ tiện nghi. Cho thuê chung cư với nhiều mức giá, diện tích cho thuê khác nhau.'
+      }
+      text={'Cho thuê căn hộ'}
+    />
   );
 };
 

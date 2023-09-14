@@ -141,7 +141,7 @@ const SignUpLogin = ({ flag }) => {
   };
 
   return (
-    <div className="flex flex-col w-[600px] mx-auto my-0 mt-5  items-center justify-center bg-white p-[30px] pb-[60px] rounded-md shadow-sm">
+    <div className="flex flex-col w-[600px] mx-auto my-0 mt-5  items-center justify-center bg-white p-[30px] pb-[60px] rounded-md shadow-lg">
       <h3 className="font-semibold text-2xl mb-3">{isRegister ? 'Đăng ký' : 'Đăng nhập'}</h3>
       <div className="w-full flex flex-col gap-5">
         {isRegister && (

@@ -10,7 +10,7 @@ const Contact = () => {
       <h3 className="text-[20px] font-bold text-center">{dataContact.content}</h3>
       <div className="w-[90%] flex items-center justify-between tl:flex-col tl:gap-5">
         {dataContact.contact.map((i, index) => (
-          <div className="flex flex-col">
+          <div key={index} className="flex flex-col">
             <span className="text-center text-red-500 uppercase font-semibold">{i.title}</span>
             <span className="text-center font-semibold text-[18px] text-[#233762]">{i.phone}</span>
             <span className="text-center font-semibold text-[18px] text-[#233762]">{i.zalo}</span>

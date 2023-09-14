@@ -1,32 +1,16 @@
 import React from 'react';
-import Pagination from '../../components/Pagination';
-import { Province } from '../../components/ProvinceBtn';
-import SideBarItem from '../../components/SideBarItem';
-import { text } from '../../utils/constant';
-import { List } from './index';
-import PostsSidebar from '../../components/PostsSidebar';
+import Rental from './Rental';
 
 const HomePage = () => {
+
   return (
-    <div className="w-full h-fit flex flex-col gap-3">
-      <div>
-        <h2 className="text-[28px] font-bold">{text.HOME_TITLE}</h2>
-        <p className="text-sm text-gray-700 ">{text.HOME_DESC}</p>
-      </div>
-      <Province />
-      <div className="w-full flex gap-4 mt-3">
-        <div className="w-[70%] h-fit p-5 bg-white shadow-lg rounded-[15px] tl:w-full">
-          <List />
-          <Pagination />
-        </div>
-        <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">
-          <SideBarItem category />
-          <SideBarItem fillterPrice />
-          <SideBarItem fillterAcreage />
-          <PostsSidebar />
-        </div>
-      </div>
-    </div>
+    <Rental
+      title={'Kênh thông tin Phòng Trọ số 1 Việt Nam'}
+      desc={
+        'Kênh thông tin Phòng Trọ số 1 Việt Nam - Website đăng tin cho thuê phòng trọ, nhà nguyên căn, căn hộ, ở ghép nhanh, hiệu quả với 100.000+ tin đăng và 2.500.000 lượt xem mỗi tháng.'
+      }
+      text={'Phòng trọ, nhà trọ'}
+    />
   );
 };
 

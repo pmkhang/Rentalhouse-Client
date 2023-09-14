@@ -1,10 +1,17 @@
-import React from 'react';
+
+import Rental from './Rental';
 
 const RentHouse = () => {
   return (
-    <div>
-      <h1>Cho Thuê Nhà</h1>
-    </div>
+    <Rental
+      // rentPosts
+      // count
+      title={'Cho Thuê Nhà Nguyên Căn, Giá Rẻ, Chính Chủ, Mới Nhất 2023'}
+      desc={
+        'Cho thuê nhà nguyên căn - Kênh đăng tin cho thuê nhà số 1: giá rẻ, chính chủ, miễn trung gian, đầy đủ tiện nghi, mức giá, diện tích cho thuê khác nhau.'
+      }
+      text={'Cho thuê nhà'}
+    />
   );
 };
 

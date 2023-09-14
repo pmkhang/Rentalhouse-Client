@@ -5,14 +5,14 @@ import SearchModal from './SearchModal';
 
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
-const SearchFilter = () => {
+const SearchFilter = ({ text }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="max-w-[1100px] mx-auto my-0 px-5 mt-3">
+    <div className="w-full mx-auto my-0 mt-3">
       <div className=" w-full h-fit p-[8px] bg-[#febb02] rounded-lg flex items-center gap-1 shadow-md tl:flex-col tl:gap-3">
         <Button
-          text={'Phòng trọ, nhà trọ'}
+          text={text}
           textStyle={`font-medium text-sm text-gray-600 `}
           fullWidth
           IconLeft={FaHotel}
