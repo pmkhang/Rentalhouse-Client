@@ -2,6 +2,8 @@ import React, { memo, useEffect, useMemo, useState } from 'react';
 import icons from '../../utils/icons';
 import Input from '../Input';
 import Button from '../Button';
+import { getNumbers } from '../../utils/Common/getNumbers';
+import { getCodes } from '../../utils/Common/getCodes';
 
 const { FaTimes } = icons;
 
@@ -10,15 +12,31 @@ const SearchModal = ({
   content,
   title,
   name,
-  setTextBtn,
-  setTextBtn1,
+  setTextCategody,
+  setTextCity,
   setTextPrice,
   setTextAcreage,
   setQueries,
+  queries,
+  setArrMinMax,
+  arrMinMax,
 }) => {
-  const [persent1, setPersent1] = useState(0);
-  const [persent2, setPersent2] = useState(100);
-  const [text, setText] = useState();
+  
+  const defaultValue1 =
+    name === 'priceCode' && arrMinMax?.priceCode
+      ? arrMinMax.priceCode[0]
+      : arrMinMax?.acreageCode
+      ? arrMinMax.acreageCode[0]
+      : 0;
+  const defaultValue2 =
+    name === 'priceCode' && arrMinMax?.priceCode
+      ? arrMinMax.priceCode[1]
+      : arrMinMax?.acreageCode
+      ? arrMinMax.acreageCode[1]
+      : 100;
+
+  const [persent1, setPersent1] = useState(defaultValue1);
+  const [persent2, setPersent2] = useState(defaultValue2);
 
   useEffect(() => {
     if (name === 'priceCode' || name === 'acreageCode') {
@@ -72,57 +90,47 @@ const SearchModal = ({
     return (number * 100) / target;
   };
 
-  const getNumbers = (string) => {
-    return string
-      .split(' ')
-      .map((item) => parseFloat(item))
-      .filter((value) => !isNaN(value));
+  const handlePriceAndAcreage = (value) => {
+    if (value === null) {
+      setPersent1(0);
+      setPersent2(100);
+    } else {
+      const numbers = getNumbers(value);
+      const [convertedValue1, convertedValue2] = [convertTargetto100(numbers[0]), convertTargetto100(numbers[1])];
+      if (convertTargetto100(numbers[0]) === 100) {
+        setPersent1(convertTargetto100(numbers[0]));
+        setPersent2(convertTargetto100(numbers[0]));
+      } else {
+        setPersent1(isNaN(convertedValue1) ? 0 : convertedValue1);
+        setPersent2(isNaN(convertedValue2) ? 0 : convertedValue2);
+      }
+    }
   };
 
-  const handlePrice = (value) => {
-    const numbers = getNumbers(value);
-    const [convertedValue1, convertedValue2] = [convertTargetto100(numbers[0]), convertTargetto100(numbers[1])];
-    if (convertTargetto100(numbers[0]) === 100) {
-      setPersent1(convertTargetto100(numbers[0]));
-      setPersent2(convertTargetto100(numbers[0]));
-    } else {
-      setPersent1(isNaN(convertedValue1) ? 0 : convertedValue1);
-      setPersent2(isNaN(convertedValue2) ? 0 : convertedValue2);
-    }
-  };
-  const handleSubmit = (e, code) => {
+  const handleSubmit = (e) => {
     e.stopPropagation();
-    if (name === 'categoryCode' || name === 'provinceCode') {
-      if (name === 'categoryCode') {
-        setTextBtn(text);
-      } else {
-        setTextBtn1(text);
+    const numV1 = convert100toTarget(value1);
+    const numV2 = convert100toTarget(value2);
+    if (name === 'priceCode') {
+      if (numV1 === 0 && numV2 > 0) {
+        setTextPrice(`Giá từ ${numV1} - ${numV2} triệu`);
+      } else if (numV1 && numV2) {
+        setTextPrice(`Giá từ ${numV1} - ${numV2} triệu`);
       }
     } else {
-      if (name === 'priceCode') {
-        if (convert100toTarget(value1) === 15 && convert100toTarget(value2) === 15) {
-          setTextPrice('Giá trên 15 triệu');
-        } else if (convert100toTarget(value1) === 0 && convert100toTarget(value2) === 1) {
-          setTextPrice('Giá dưới 1 triệu');
-        } else {
-          setTextPrice(`Giá từ ${convert100toTarget(persent1)} - ${convert100toTarget(persent2)} triệu`);
-        }
-      } else {
-        if (convert100toTarget(value1) === 90 && convert100toTarget(value2) === 90) {
-          setTextAcreage('Diện tích trên 90 m²');
-        } else if (convert100toTarget(value1) === 0 && convert100toTarget(value2) === 20) {
-          setTextAcreage('Diện tích dưới 20 m²');
-        } else {
-          setTextAcreage(`Diện tích từ ${convert100toTarget(persent1)} - ${convert100toTarget(persent2)} m²`);
-        }
+      if (numV1 === 0 && numV2 > 0) {
+        setTextAcreage(`Diện tích từ ${numV1} - ${numV2} m²`);
+      } else if (numV1 && numV2) {
+        setTextAcreage(`Diện tích từ ${numV1} - ${numV2} m²`);
       }
     }
+
     setShowModal(false);
   };
 
   return (
     <div
-      onClick={(e) => {
+      onClick={() => {
         setShowModal(false);
       }}
       className="fixed top-0 left-0 right-0 bottom-0 bg-overlay-70 z-20 flex items-center justify-center"
@@ -149,6 +157,25 @@ const SearchModal = ({
           </div>
           {(name === 'categoryCode' || name === 'provinceCode') && (
             <div className="p-4 flex flex-col w-full gap-4">
+              <Input
+                className={'w-full border-b border-gray-300 pb-3 cursor-pointer'}
+                value={'Tất cả'}
+                type="radio"
+                label={'Tất cả'}
+                checked={''}
+                id={'defauls'}
+                name={name}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setQueries((prev) => ({ ...prev, [name]: null }));
+                  if (name === 'categoryCode') {
+                    setTextCategody('Tất cả');
+                  } else {
+                    setTextCity('Toàn quốc');
+                  }
+                  setShowModal(false);
+                }}
+              />
               {content?.map((i) => (
                 <Input
                   className={'w-full border-b border-gray-300 pb-3 cursor-pointer'}
@@ -156,21 +183,21 @@ const SearchModal = ({
                   value={i?.code}
                   type="radio"
                   label={i?.value}
+                  checked={i?.code === queries[name] ? true : false}
                   id={i?.code}
                   name={name}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setText(i?.value);
                     setQueries((prev) => ({ ...prev, [name]: i?.code }));
+                    if (name === 'categoryCode') {
+                      setTextCategody(i?.value);
+                    } else {
+                      setTextCity(i?.value);
+                    }
+                    setShowModal(false);
                   }}
                 />
               ))}
-              <Button
-                text="Áp dụng"
-                className={'bg-orange-500 hover:bg-orange-400 focus:ring-orange-200'}
-                textStyle={'text-white'}
-                onClick={handleSubmit}
-              />
             </div>
           )}
           {(name === 'priceCode' || name === 'acreageCode') && (
@@ -312,14 +339,35 @@ const SearchModal = ({
               <div className="w-full flex flex-col gap-3 mt-5">
                 <h3 className="text-lg font-medium">Chọn nhanh :</h3>
                 <div className="w-full flex flex-wrap gap-1">
+                  <button
+                    className="bg-blue-500 px-4 py-1 text-white text-md rounded-md cursor-pointer hover:bg-blue-400 focus:bg-orange-500"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setQueries((prev) => ({ ...prev, [name]: null }));
+                      setShowModal(false);
+                      if (name === 'priceCode') {
+                        setTextPrice(`Tất cả`);
+                      } else {
+                        setTextAcreage(`Tất cả`);
+                      }
+                    }}
+                  >
+                    Tất cả
+                  </button>
                   {content?.map((i) => (
                     <button
                       key={i?.code}
                       className="bg-blue-500 px-4 py-1 text-white text-md rounded-md cursor-pointer hover:bg-blue-400 focus:bg-orange-500"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handlePrice(i?.value);
+                        handlePriceAndAcreage(i?.value);
                         setQueries((prev) => ({ ...prev, [name]: i?.code }));
+                        setShowModal(false);
+                        if (name === 'priceCode') {
+                          setTextPrice(`Giá ${i?.value}`);
+                        } else {
+                          setTextAcreage(`Diện tích ${i?.value}²`);
+                        }
                       }}
                     >
                       {i?.value}
@@ -331,7 +379,20 @@ const SearchModal = ({
                   fullWidth
                   className="mt-8 bg-orange-500 hover:bg-orange-400 focus:ring-orange-300"
                   textStyle={'text-white uppercase'}
-                  onClick={handleSubmit}
+                  onClick={(e) => {
+                    handleSubmit(e);
+                    setQueries((prev) => {
+                      const numV1 = convert100toTarget(value1);
+                      const numV2 = convert100toTarget(value2);
+                      const gaps = getCodes([numV1, numV2], content);
+
+                      return {
+                        ...prev,
+                        [name]: gaps?.map((i) => i?.code),
+                      };
+                    });
+                    setArrMinMax((prev) => ({ ...prev, [name]: [value1, value2] }));
+                  }}
                 />
               </div>
             </div>

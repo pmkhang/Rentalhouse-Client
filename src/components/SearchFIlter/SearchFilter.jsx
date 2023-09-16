@@ -3,19 +3,19 @@ import { useSelector } from 'react-redux';
 import icons from '../../utils/icons';
 import Button from '../Button';
 import SearchModal from './SearchModal';
-
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
-const SearchFilter = ({ text }) => {
+const SearchFilter = () => {
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
-  const [textBtn, setTextBtn] = useState(text);
-  const [textBtn1, setTextBtn1] = useState('Toàn quốc');
-  const [textPrice, setTextPrice] = useState('Chọn giá');
-  const [textAcreage, setTextAcreage] = useState('Chọn diện tích');
+  const [textCategody, setTextCategody] = useState();
+  const [textCity, setTextCity] = useState();
+  const [textPrice, setTextPrice] = useState();
+  const [textAcreage, setTextAcreage] = useState();
   const [queries, setQueries] = useState({});
+  const [arrMinMax, setArrMinMax] = useState({});
 
   const { provinces } = useSelector((state) => state.province);
   const { prices } = useSelector((state) => state.price);
@@ -29,41 +29,40 @@ const SearchFilter = ({ text }) => {
     setName(name);
   };
 
-  const handleSubmit = (query) => {
-    
-  };
-  console.log(queries);
+  const handleSubmit = () => {};
+
+  // console.log(queries);
 
   return (
     <div className="w-full mx-auto my-0 mt-3">
       <div className=" w-full h-fit p-[8px] bg-[#febb02] rounded-lg flex items-center gap-2 shadow-md tl:flex-col tl:gap-3">
         <Button
-          text={textBtn}
-          textStyle={`font-medium text-sm text-gray-600 tl:justify-start`}
+          text={textCategody || 'Chọn loại Bất Động Sản'}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start ${textCategody && 'text-gray-600'}`}
           fullWidth
           IconLeft={FaHotel}
           className={'bg-white py-[8px] focus:ring-gray-300'}
           onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'categoryCode')}
         />
         <Button
-          text={textBtn1}
-          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
+          text={textCity || 'Chọn Vị trí'}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start ${textCity && 'text-gray-600'}`}
           fullWidth
           IconLeft={ImLocation2}
           className={'bg-white py-[8px] focus:ring-gray-300'}
           onClick={() => handleShowModal(provinces, 'Chọn bất vị trí', 'provinceCode')}
         />
         <Button
-          text={textPrice}
-          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
+          text={textPrice || 'Chọn giá'}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start ${textPrice && 'text-gray-600'}`}
           fullWidth
           IconLeft={ImPriceTags}
           className={'bg-white py-[8px] focus:ring-gray-300'}
           onClick={() => handleShowModal(prices, 'Chọn giá', 'priceCode')}
         />
         <Button
-          text={textAcreage}
-          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
+          text={textAcreage || 'Chọn diện tích'}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start ${textAcreage && 'text-gray-600'} `}
           fullWidth
           IconLeft={FaRulerCombined}
           className={'bg-white py-[8px] focus:ring-gray-300'}
@@ -75,6 +74,7 @@ const SearchFilter = ({ text }) => {
           fullWidth
           IconLeft={AiOutlineSearch}
           className={'bg-blue-600 text-white py-[8px] focus:ring-blue-300 hover:bg-blue-500 '}
+          onClick={() => handleSubmit()}
         />
       </div>
       {showModal && (
@@ -83,11 +83,14 @@ const SearchFilter = ({ text }) => {
           name={name}
           title={title}
           setShowModal={setShowModal}
-          setTextBtn={setTextBtn}
-          setTextBtn1={setTextBtn1}
+          setTextCategody={setTextCategody}
+          setTextCity={setTextCity}
           setTextPrice={setTextPrice}
           setTextAcreage={setTextAcreage}
           setQueries={setQueries}
+          queries={queries}
+          setArrMinMax={setArrMinMax}
+          arrMinMax={arrMinMax}
         />
       )}
     </div>
