@@ -52,14 +52,15 @@ const SignUpLogin = ({ flag }) => {
   }, [message, update]);
 
   const handleSubmit = async () => {
-    const isRegistration = isRegister;
     const { phone, password } = payload;
     const invalids = validate({ phone, password });
     if (invalids > 0) {
       return;
     }
     const userExists = usersData.find((user) => user.phone === phone);
-    if (isRegistration) {
+    console.log(isRegister);
+    console.log(userExists, payload?.phone);
+    if (isRegister) {
       if (userExists?.phone === payload?.phone) {
         Swal.fire('Oops!', 'Số điện thoại này đã tồn tại!', 'error');
       } else {
@@ -74,11 +75,11 @@ const SignUpLogin = ({ flag }) => {
         toast.success('Đăng ký thành công!');
         dispatch(getUsersData());
       }
-    } else {
-      if (userExists?.phone === payload?.phone) {
-        dispatch(login(payload));
-      } else {
+    } else if (!isRegister) {
+      if (userExists?.phone !== payload?.phone) {
         Swal.fire('Oops!', 'Bạn nhập sai số điện thoại hoặc mật khẩu', 'error');
+      } else {
+        dispatch(login(payload));
       }
     }
   };

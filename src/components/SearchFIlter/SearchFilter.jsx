@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Button from '../Button';
-import icons from '../../utils/icons';
-import SearchModal from './SearchModal';
 import { useSelector } from 'react-redux';
+import icons from '../../utils/icons';
+import Button from '../Button';
+import SearchModal from './SearchModal';
 
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
@@ -11,6 +11,12 @@ const SearchFilter = ({ text }) => {
   const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
+  const [textBtn, setTextBtn] = useState(text);
+  const [textBtn1, setTextBtn1] = useState('Toàn quốc');
+  const [textPrice, setTextPrice] = useState('Chọn giá');
+  const [textAcreage, setTextAcreage] = useState('Chọn diện tích');
+  const [queries, setQueries] = useState({});
+
   const { provinces } = useSelector((state) => state.province);
   const { prices } = useSelector((state) => state.price);
   const { acreages } = useSelector((state) => state.acreage);
@@ -23,50 +29,67 @@ const SearchFilter = ({ text }) => {
     setName(name);
   };
 
+  const handleSubmit = (query) => {
+    
+  };
+  console.log(queries);
+
   return (
     <div className="w-full mx-auto my-0 mt-3">
-      <div className=" w-full h-fit p-[8px] bg-[#febb02] rounded-lg flex items-center gap-1 shadow-md tl:flex-col tl:gap-3">
+      <div className=" w-full h-fit p-[8px] bg-[#febb02] rounded-lg flex items-center gap-2 shadow-md tl:flex-col tl:gap-3">
         <Button
-          text={text}
-          textStyle={`font-medium text-sm text-gray-600 `}
+          text={textBtn}
+          textStyle={`font-medium text-sm text-gray-600 tl:justify-start`}
           fullWidth
           IconLeft={FaHotel}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'category')}
+          onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'categoryCode')}
         />
         <Button
-          text={'Toàn quốc'}
-          textStyle={`font-medium text-sm text-gray-400`}
+          text={textBtn1}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
           fullWidth
           IconLeft={ImLocation2}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(provinces, 'Chọn bất vị trí', 'province')}
+          onClick={() => handleShowModal(provinces, 'Chọn bất vị trí', 'provinceCode')}
         />
         <Button
-          text={'Chọn giá'}
-          textStyle={`font-medium text-sm text-gray-400`}
+          text={textPrice}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
           fullWidth
           IconLeft={ImPriceTags}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(prices, 'Chọn giá', 'price')}
+          onClick={() => handleShowModal(prices, 'Chọn giá', 'priceCode')}
         />
         <Button
-          text={'Chọn diện tích'}
-          textStyle={`font-medium text-sm text-gray-400`}
+          text={textAcreage}
+          textStyle={`font-medium text-sm text-gray-400 tl:justify-start`}
           fullWidth
           IconLeft={FaRulerCombined}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(acreages, 'Chọn diện tích', 'acreage')}
+          onClick={() => handleShowModal(acreages, 'Chọn diện tích', 'acreageCode')}
         />
         <Button
           text={'Tìm kiếm'}
-          textStyle={`font-medium text-sm text-white tl:justify-center`}
+          textStyle={`font-medium text-sm text-white tl:justify-center `}
           fullWidth
           IconLeft={AiOutlineSearch}
           className={'bg-blue-600 text-white py-[8px] focus:ring-blue-300 hover:bg-blue-500 '}
         />
       </div>
-      {showModal && <SearchModal content={content} name={name} title={title} setShowModal={setShowModal} />}
+      {showModal && (
+        <SearchModal
+          content={content}
+          name={name}
+          title={title}
+          setShowModal={setShowModal}
+          setTextBtn={setTextBtn}
+          setTextBtn1={setTextBtn1}
+          setTextPrice={setTextPrice}
+          setTextAcreage={setTextAcreage}
+          setQueries={setQueries}
+        />
+      )}
     </div>
   );
 };

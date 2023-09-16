@@ -9,7 +9,9 @@ const Button = ({ type = 'buttom', text, textStyle, fullWidth, IconLeft, IconRig
       } `}
       onClick={onClick}
     >
-      <span className={`${textStyle} inline-flex items-center justify-center tl:justify-start w-full overflow-hidden text-ellipsis whitespace-nowrap gap-2`}>
+      <span
+        className={`${textStyle} w-full inline-flex items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap gap-2`}
+      >
         {IconLeft && <IconLeft />}
         {text}
         {IconRight && <IconRight />}

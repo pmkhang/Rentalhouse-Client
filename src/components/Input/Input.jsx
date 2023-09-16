@@ -15,11 +15,12 @@ const Input = ({
   onFocus,
   className,
   inputStyle,
+  onClick,
 }) => {
   return (
     <>
       {type === 'checkbox' || type === 'radio' ? (
-        <div className={`inline-flex gap-1 items-center mb-2 ml-1 ${className}`}>
+        <div className={`inline-flex gap-1 items-center mb-2 ml-1 ${className}`} onClick={onClick}>
           <input
             type={type}
             id={id}
