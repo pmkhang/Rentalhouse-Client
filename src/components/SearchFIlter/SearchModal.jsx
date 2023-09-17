@@ -21,7 +21,6 @@ const SearchModal = ({
   setArrMinMax,
   arrMinMax,
 }) => {
-  
   const defaultValue1 =
     name === 'priceCode' && arrMinMax?.priceCode
       ? arrMinMax.priceCode[0]
@@ -142,7 +141,7 @@ const SearchModal = ({
         }}
         className="max-w-[700px] w-full px-5"
       >
-        <div className="w-full h-fit flex flex-col bg-white p-5  rounded-lg shadow-lg">
+        <div className="w-full max-h-[500px] flex flex-col bg-white p-5  rounded-lg shadow-lg">
           <div className="h-[45px] w-full flex items-center justify-between border-b border-gray-300 pb-4">
             <span></span>
             <h3 className="ml-4 text-lg font-semibold">{title}</h3>
@@ -156,7 +155,7 @@ const SearchModal = ({
             />
           </div>
           {(name === 'categoryCode' || name === 'provinceCode') && (
-            <div className="p-4 flex flex-col w-full gap-4">
+            <div className="p-4 flex flex-col w-full gap-4 overflow-hidden overflow-y-scroll ">
               <Input
                 className={'w-full border-b border-gray-300 pb-3 cursor-pointer'}
                 value={'Tất cả'}
@@ -167,7 +166,12 @@ const SearchModal = ({
                 name={name}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setQueries((prev) => ({ ...prev, [name]: null }));
+                  setQueries((prev) => {
+                    if (prev.hasOwnProperty(name)) {
+                      delete prev[name];
+                    }
+                    return { ...prev };
+                  });
                   if (name === 'categoryCode') {
                     setTextCategody('Tất cả');
                   } else {
@@ -343,7 +347,12 @@ const SearchModal = ({
                     className="bg-blue-500 px-4 py-1 text-white text-md rounded-md cursor-pointer hover:bg-blue-400 focus:bg-orange-500"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setQueries((prev) => ({ ...prev, [name]: null }));
+                      setQueries((prev) => {
+                        if (prev.hasOwnProperty(name)) {
+                          delete prev[name];
+                        }
+                        return { ...prev };
+                      });
                       setShowModal(false);
                       if (name === 'priceCode') {
                         setTextPrice(`Tất cả`);
@@ -385,7 +394,6 @@ const SearchModal = ({
                       const numV1 = convert100toTarget(value1);
                       const numV2 = convert100toTarget(value2);
                       const gaps = getCodes([numV1, numV2], content);
-
                       return {
                         ...prev,
                         [name]: gaps?.map((i) => i?.code),

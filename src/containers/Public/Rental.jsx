@@ -58,7 +58,7 @@ const Rental = ({ title, desc, text, homePage }) => {
     <>
       <SearchFilter text={text} />
       <div className="w-full h-fit flex flex-col gap-3">
-        <div>
+        <div className="w-full h-[80px]">
           <h2 className="text-[28px] font-bold">{title}</h2>
           <p className="text-sm text-gray-700 ">{desc}</p>
         </div>

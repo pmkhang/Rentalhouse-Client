@@ -7,6 +7,7 @@ export const path = {
   NHA_THUE: 'cho-thue-nha',
   CAN_HO: 'cho-thue-can-ho',
   MAT_BANG: 'cho-thue-mat-bang',
+  SEARCH_DETAIL: 'tim-kiem',
 };
 
 export const text = {

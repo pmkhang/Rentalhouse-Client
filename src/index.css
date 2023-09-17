@@ -11,13 +11,13 @@
 html {
   scroll-behavior: smooth;
 }
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 8px;
   background-color: transparent;
 }
 
 /* Ẩn các chỉ mục của thanh cuộn */
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #2563eb;
 }
 
@@ -85,6 +85,8 @@ input[type='range']::-ms-thumb:active {
 label,
 button,
 a,
-input[type='submit'] {
+input[type='submit'],
+input[type='radio'],
+input[type='checkbox'] {
   -webkit-tap-highlight-color: transparent;
 }

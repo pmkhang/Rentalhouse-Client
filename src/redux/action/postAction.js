@@ -36,7 +36,7 @@ import { apiGetPostsLimit, apiGetNewPosts } from '../../services/post';
 export const getPostsLimit = (query) => async (dispatch) => {
   try {
     const response = await apiGetPostsLimit(query);
-
+    console.log(response);
     if (response?.data.error === 0) {
       dispatch(getPostsSuccess(response.data.response));
     } else {

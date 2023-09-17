@@ -82,6 +82,7 @@ const SignUpLogin = ({ flag }) => {
         dispatch(login(payload));
       }
     }
+    //TODO check password
   };
 
   const validate = (payload) => {

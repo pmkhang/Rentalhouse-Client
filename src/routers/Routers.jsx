@@ -1,5 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
-import { SignUpLogin, Home, RentHouse, RentApartment, RentMotel, RentGround, HomePage } from '../containers/Public';
+import {
+  SignUpLogin,
+  Home,
+  RentHouse,
+  RentApartment,
+  RentMotel,
+  RentGround,
+  HomePage,
+  SearchDetail,
+} from '../containers/Public';
 import { path } from '../utils/constant';
 
 const routes = [
@@ -11,6 +20,7 @@ const routes = [
   { path: path.CAN_HO, element: <RentApartment /> },
   { path: path.MAT_BANG, element: <RentGround /> },
   { path: path.PHONG_TRO, element: <RentMotel /> },
+  { path: path.SEARCH_DETAIL, element: <SearchDetail /> },
 ];
 
 const Routers = () => {

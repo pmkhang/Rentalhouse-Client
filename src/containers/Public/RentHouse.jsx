@@ -14,7 +14,7 @@ const RentHouse = () => {
       desc={
         'Cho thuê nhà nguyên căn - Kênh đăng tin cho thuê nhà số 1: giá rẻ, chính chủ, miễn trung gian, đầy đủ tiện nghi, mức giá, diện tích cho thuê khác nhau.'
       }
-      text={'Cho thuê nhà'}
+      
     />
   );
 };

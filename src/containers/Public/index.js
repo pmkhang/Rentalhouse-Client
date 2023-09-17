@@ -8,3 +8,4 @@ export { default as RentMotel } from './RentMotel';
 export { default as RentGround } from './RentGround';
 export { default as HomePage } from './HomePage';
 export { default as List } from './List';
+export { default as SearchDetail } from './SearchDetail';

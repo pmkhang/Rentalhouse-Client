@@ -11,7 +11,7 @@ const RentGround = () => {
       desc={
         'Có 2.856 tin đăng cho thuê mặt bằng, văn phòng kinh doanh. Giá rẻ, gần chợ, trường học, tiện mở quán ăn, cafe. Đăng tin mặt bằng, văn phòng hiệu quả tại Phongtro123.com'
       }
-      text={'Cho thuê mặt bằng'}
+      
     />
   );
 };

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import icons from '../../utils/icons';
 import Button from '../Button';
 import SearchModal from './SearchModal';
+import { getPostsLimit } from '../../redux/action/postAction';
+import { useNavigate, createSearchParams } from 'react-router-dom';
+import { path } from '../../utils/constant';
+
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
 const SearchFilter = () => {
@@ -22,6 +26,9 @@ const SearchFilter = () => {
   const { acreages } = useSelector((state) => state.acreage);
   const { categories } = useSelector((state) => state.category);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleShowModal = (content, title, name) => {
     setShowModal(true);
     setContent(content);
@@ -29,9 +36,13 @@ const SearchFilter = () => {
     setName(name);
   };
 
-  const handleSubmit = () => {};
-
-  // console.log(queries);
+  const handleSubmit = () => {
+    navigate({
+      pathname: path.SEARCH_DETAIL,
+      search: createSearchParams(queries).toString(),
+    });
+    console.log(queries);
+  };
 
   return (
     <div className="w-full mx-auto my-0 mt-3">
@@ -42,7 +53,7 @@ const SearchFilter = () => {
           fullWidth
           IconLeft={FaHotel}
           className={'bg-white py-[8px] focus:ring-gray-300'}
-          onClick={() => handleShowModal(categories, 'Chọn bất loại bất động sản', 'categoryCode')}
+          onClick={() => handleShowModal(categories, 'Chọn loại bất động sản', 'categoryCode')}
         />
         <Button
           text={textCity || 'Chọn Vị trí'}
