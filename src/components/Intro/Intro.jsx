@@ -3,12 +3,14 @@ import { dataIntro } from '../../utils/dataIntro';
 import Button from '../Button';
 import icons from '../../utils/icons';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const { BiSolidStar } = icons;
 const star = [1, 2, 3, 4, 5];
 
 const Intro = () => {
   const { categories } = useSelector((state) => state.category);
+  const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const memoizedCategories = useMemo(() => {
     return categories?.map((item) => ({
@@ -57,11 +59,16 @@ const Intro = () => {
       <span className="text-sm text-gray-500">{dataIntro.author}</span>
       <h3 className="font-bold text-center text-[20px]">{dataIntro.question}</h3>
       <span className="text-md text-gray-500 text-sm">{dataIntro.answer}</span>
-      <Button
-        text={'Đăng ký ngay'}
-        className={'bg-secondary2 hover:bg-[#ff526f] focus:ring-red-300'}
-        textStyle={'font-bold text-white text-sm'}
-      />
+      {!isLoggedIn && (
+        <Button
+          text={'Đăng ký ngay'}
+          className={'bg-orange-500 hover:bg-orange-400 focus:ring-orange-300'}
+          textStyle={'font-bold text-white text-sm'}
+          onClick={() => {
+            navigate('/dang-ky');
+          }}
+        />
+      )}
     </div>
   );
 };

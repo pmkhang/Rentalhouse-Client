@@ -36,7 +36,7 @@ const Navigation = () => {
 
   return (
     <div
-      className={`w-full text-white from-blue-400 via-blue-500 to-blue-600 bg-gradient-to-br shadow-md ${
+      className={`w-full text-white bg-blue-600 shadow-md ${
         addFixed && 'fixed top-0 right-0 left-0 z-10'
       }`}
     >

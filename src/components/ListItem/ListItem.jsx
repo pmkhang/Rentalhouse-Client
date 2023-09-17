@@ -66,11 +66,11 @@ const ListItem = ({ images, address, attributes, desc, star, title, users }) => 
               alt="avatar"
               className="w-[30px] h-[30px] object-cover rounded-full"
             />
-            <span className="text-sm text-gray-500">{users?.name}</span>
+            <span className="text-sm text-gray-500">{users?.name.substring(0, 2) + '....'}</span>
           </div>
           <div className="flex items-center gap-2 mb:w-full mb:justify-center">
-            <a href={`tel:${users?.phone}`} className="text-xs text-white bg-blue-600 p-2 rounded-lg">
-              {`Gọi ${users?.phone}`}
+            <a href={`#`} className="text-xs text-white bg-blue-600 p-2 rounded-lg">
+              {`Gọi ${users?.phone.substring(0, 5) + 'xxxxx'}`}
             </a>
             <a href={`#`} className="text-xs text-blue-600 border border-blue-600 p-2 rounded-lg">
               Nhắn Zalo

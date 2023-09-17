@@ -7,8 +7,8 @@ const NavItem = ({ title, path, activeClassName }) => {
       <NavLink
         className={({ isActive }) =>
           isActive
-            ? 'leading-[38px] px-5 text-[13.3px] font-bold bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br'
-            : 'leading-[38px] px-5 text-[13.3px] font-bold from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br'
+            ? 'leading-[38px] px-5 text-[13.3px] font-bold bg-orange-600 '
+            : 'leading-[38px] px-5 text-[13.3px] font-bold  hover:bg-orange-500'
         }
         to={path}
       >

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { path } from '../../utils/constant';
 import icons from '../../utils/icons';
 import Button from '../Button';
 import SearchModal from './SearchModal';
-import { getPostsLimit } from '../../redux/action/postAction';
-import { useNavigate, createSearchParams } from 'react-router-dom';
-import { path } from '../../utils/constant';
 
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
@@ -26,7 +25,6 @@ const SearchFilter = () => {
   const { acreages } = useSelector((state) => state.acreage);
   const { categories } = useSelector((state) => state.category);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleShowModal = (content, title, name) => {
@@ -37,16 +35,23 @@ const SearchFilter = () => {
   };
 
   const handleSubmit = () => {
-    navigate({
-      pathname: path.SEARCH_DETAIL,
-      search: createSearchParams(queries).toString(),
-    });
-    console.log(queries);
+    const titleSearch = `${queries.categoryCode ? textCategody : 'Cho thuê tất cả,'} ${
+      queries.provinceCode ? ' - Tại ' + textCity : ''
+    } ${queries.priceCode || queries.priceNumber ? ' - ' + textPrice : ''} ${
+      queries.acreageCode || queries.acreageNumber ? ' - ' + textAcreage : ''
+    } `;
+    navigate(
+      {
+        pathname: `/${path.SEARCH_DETAIL}`,
+        search: createSearchParams(queries).toString(),
+      },
+      { state: titleSearch },
+    );
   };
 
   return (
     <div className="w-full mx-auto my-0 mt-3">
-      <div className=" w-full h-fit p-[8px] bg-[#febb02] rounded-lg flex items-center gap-2 shadow-md tl:flex-col tl:gap-3">
+      <div className=" w-full h-fit p-[8px] bg-orange-400 rounded-lg flex items-center gap-2 shadow-md tl:flex-col tl:gap-3">
         <Button
           text={textCategody || 'Chọn loại Bất Động Sản'}
           textStyle={`font-medium text-sm text-gray-400 tl:justify-start ${textCategody && 'text-gray-600'}`}

@@ -1,9 +1,8 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
-import icons from '../../utils/icons';
-import Input from '../Input';
-import Button from '../Button';
 import { getNumbers } from '../../utils/Common/getNumbers';
-import { getCodes } from '../../utils/Common/getCodes';
+import icons from '../../utils/icons';
+import Button from '../Button';
+import Input from '../Input';
 
 const { FaTimes } = icons;
 
@@ -370,13 +369,19 @@ const SearchModal = ({
                       onClick={(e) => {
                         e.stopPropagation();
                         handlePriceAndAcreage(i?.value);
-                        setQueries((prev) => ({ ...prev, [name]: i?.code }));
                         setShowModal(false);
                         if (name === 'priceCode') {
                           setTextPrice(`Giá ${i?.value}`);
                         } else {
                           setTextAcreage(`Diện tích ${i?.value}²`);
                         }
+                        setQueries((prev) => {
+                          if (prev.hasOwnProperty('priceNumber') || prev.hasOwnProperty('acreageNumber')) {
+                            delete prev['priceNumber'];
+                            delete prev['acreageNumber'];
+                          }
+                          return { ...prev, [name]: i?.code };
+                        });
                       }}
                     >
                       {i?.value}
@@ -390,16 +395,19 @@ const SearchModal = ({
                   textStyle={'text-white uppercase'}
                   onClick={(e) => {
                     handleSubmit(e);
+                    setArrMinMax((prev) => ({ ...prev, [name]: [value1, value2] }));
                     setQueries((prev) => {
                       const numV1 = convert100toTarget(value1);
                       const numV2 = convert100toTarget(value2);
-                      const gaps = getCodes([numV1, numV2], content);
-                      return {
+                      if (prev.hasOwnProperty(name)) {
+                        delete prev[name];
+                      }
+                      const updatedQuery = {
                         ...prev,
-                        [name]: gaps?.map((i) => i?.code),
+                        [`${name === 'priceCode' ? 'priceNumber' : 'acreageNumber'}`]: [numV1, numV2],
                       };
+                      return updatedQuery;
                     });
-                    setArrMinMax((prev) => ({ ...prev, [name]: [value1, value2] }));
                   }}
                 />
               </div>

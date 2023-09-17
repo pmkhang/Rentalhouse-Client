@@ -29,13 +29,11 @@ const Pagination = () => {
     if (!isNaN(number)) {
       const updatedSearchParams = append(entries, number);
       const searchParamsString = updatedSearchParams.toString();
-      console.log(searchParamsString)
       navigate({
         pathname: location?.pathname,
         search: searchParamsString,
       });
     }
-    console.log(location.search);
   };
   return (
     <>

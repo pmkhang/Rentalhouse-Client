@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../Assets/logo.png';
+import logoRentalHouse from '../../Assets/logoRentalHouse.png';
 import Button from '../../components/Button';
 import icons from '../../utils/icons';
 import { path } from '../../utils/constant';
@@ -21,8 +21,7 @@ const Header = () => {
       const userName = usersData.find((i) => i.id === id)?.name;
       setUserName(userName);
     }
-  },[id, isLoggedIn, usersData]);
-  
+  }, [id, isLoggedIn, usersData]);
 
   const goToLoginOrRegister = useCallback(
     (flag) => {
@@ -38,34 +37,33 @@ const Header = () => {
 
   return (
     <div id="header" className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between ">
-      <img src={logo} alt="logo" className="w-[240px] h-[70px] object-contain cursor-pointer" onClick={goHome} />
+      <img
+        src={logoRentalHouse}
+        alt="logo"
+        className=" h-[70px] object-contain cursor-pointer py-2"
+        onClick={goHome}
+      />
       <div className="flex items-center gap-1 mb:hidden">
         {!isLoggedIn && (
           <>
-            <span className="mr-2">Phongtro123.com xin chào! </span>
+            <span className="mr-2">RentalHouse xin chào! </span>
             <Button
               text={'Đăng ký'}
-              className={
-                'text-white from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br  focus:ring-cyan-300'
-              }
+              className={'text-white bg-orange-500 hover:bg-orange-400  focus:ring-orange-300'}
               onClick={() => goToLoginOrRegister(true)}
             />
             <Button
               text={'Đăng nhập'}
-              className={
-                'text-white from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br  focus:ring-blue-300'
-              }
+              className={'text-white bg-blue-600 hover:bg-blue-500  focus:ring-blue-300'}
               onClick={() => goToLoginOrRegister(false)}
             />
           </>
         )}
         {isLoggedIn && (
-          <div className='flex items-center mb:hidden'>
+          <div className="flex items-center mb:hidden">
             <Button
               text={'Đăng tin mới'}
-              className={
-                'text-white font-bold from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-green-300 mr-5'
-              }
+              className={'text-white font-bold bg-green-600 hover:bg-green-500 focus:ring-green-300 mr-5'}
               IconRight={AiOutlinePlusCircle}
             />
             <span className="mr-2 text-sm">
@@ -78,7 +76,8 @@ const Header = () => {
                 toast.warn('Đã đăng xuất !');
               }}
               IconRight={BiLogInCircle}
-              className={' from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br  focus:ring-red-300'}
+              className={' bg-orange-500  hover:bg-orange-400 focus:ring-orange-300'}
+              textStyle={'font-medium text-white'}
             />
           </div>
         )}
