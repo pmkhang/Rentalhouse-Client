@@ -42,6 +42,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.token = null;
       state.message = '';
+      state.id = '';
     },
   },
 });

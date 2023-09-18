@@ -4,14 +4,16 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     usersData: [],
-    name: '',
+    userDataByID: [],
   },
   reducers: {
     getUsersDataSuccess: (state, action) => {
       state.usersData = action.payload.response;
+      state.userDataByID = action.payload.response;
     },
     getUsersDataFail: (state, action) => {
-      state.usersData = {};
+      state.usersData = [];
+      state.userDataByID = [];
     },
   },
 });

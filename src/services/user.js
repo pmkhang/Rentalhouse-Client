@@ -13,3 +13,17 @@ export const apiGetUsersData = () =>
       reject(error);
     }
   });
+
+export const apiGetUserByID = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'get',
+        url: '/api/v1/user/user-data',
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('Error apiGetUsersData: ', error);
+      reject(error);
+    }
+  });

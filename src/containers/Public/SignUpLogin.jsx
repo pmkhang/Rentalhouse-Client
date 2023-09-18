@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { register, login } from '../../redux/action/authAction';
+import { login, register } from '../../redux/action/authAction';
 import { getUsersData } from '../../redux/action/userAction';
 
 const SignUpLogin = ({ flag }) => {
@@ -28,13 +28,7 @@ const SignUpLogin = ({ flag }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, message, update } = useSelector((state) => state.auth);
-  const { usersData } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (usersData) {
-      dispatch(getUsersData());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRegister, location?.pathname]);
+  const { userDataByID } = useSelector((state) => state.user);
 
   useEffect(() => {
     flag ? setIsRegister(flag) : setIsRegister(location.state?.flag);
@@ -51,15 +45,13 @@ const SignUpLogin = ({ flag }) => {
     message && Swal.fire('Oops !', message, 'error');
   }, [message, update]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const { phone, password } = payload;
     const invalids = validate({ phone, password });
     if (invalids > 0) {
       return;
     }
-    const userExists = usersData.find((user) => user.phone === phone);
-    console.log(isRegister);
-    console.log(userExists, payload?.phone);
+    const userExists = userDataByID?.phone === phone;
     if (isRegister) {
       if (userExists?.phone === payload?.phone) {
         Swal.fire('Oops!', 'Số điện thoại này đã tồn tại!', 'error');
@@ -76,11 +68,7 @@ const SignUpLogin = ({ flag }) => {
         dispatch(getUsersData());
       }
     } else if (!isRegister) {
-      if (userExists?.phone !== payload?.phone) {
-        Swal.fire('Oops!', 'Bạn nhập sai số điện thoại hoặc mật khẩu', 'error');
-      } else {
-        dispatch(login(payload));
-      }
+      dispatch(login(payload));
     }
     //TODO check password
   };
