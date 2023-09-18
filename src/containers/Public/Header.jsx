@@ -8,9 +8,10 @@ import { logoutUser } from '../../redux/action/authAction';
 import { path } from '../../utils/constant';
 import icons from '../../utils/icons';
 import { menuManager } from '../../utils/menuManager';
+import User from '../../components/User';
 
 const { BsClipboardPlus, BsChevronDoubleDown, BiLogInCircle } = icons;
-const Header = ({ userName }) => {
+const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -66,9 +67,7 @@ const Header = ({ userName }) => {
         )}
         {isLoggedIn && (
           <div className="flex items-center mb:hidden gap-2">
-            <span className="text-sm">
-              Xin chào! <span className="font-bold text-base">{userName}</span>{' '}
-            </span>
+            <User />
             <div className="relative">
               <Button
                 text={'Quản lý tài khoản'}

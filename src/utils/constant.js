@@ -10,6 +10,14 @@ export const path = {
   SEARCH_DETAIL: 'tim-kiem',
 };
 
+export const pathSystem = {
+  SYSTEM: '/quan-ly/*',
+  CREATE_POST: 'dang-tin-cho-thue',
+  POSTS: 'tin-dang',
+  INFO: 'thong-tin-ca-nhan',
+  SAVED_POSTS: 'tin-da-luu',
+};
+
 export const text = {
   HOME_TITLE: 'Kênh thông tin Phòng Trọ số 1 Việt Nam',
   HOME_DESC:

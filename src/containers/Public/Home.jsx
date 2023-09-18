@@ -17,27 +17,11 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location?.search, location?.pathname]);
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const { userDataByID } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(getAcreages());
-    dispatch(getPrices());
-    dispatch(getCategory());
-    dispatch(getNewPosts());
-    dispatch(getProvince());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      isLoggedIn && dispatch(getUserDataByID());
-    }, 100);
-  }, [dispatch, isLoggedIn, location?.pathname]);
+  
 
   return (
     <div className="w-full min-h-[4000px] relative overflow-auto">
-      <Header userName={userDataByID?.name} />
+      <Header />
       <Navigation />
       <div className="max-w-[1100px] flex flex-col mx-auto my-0 px-5 mt-3 gap-5">
         <Outlet />

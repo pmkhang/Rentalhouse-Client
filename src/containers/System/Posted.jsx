@@ -1,11 +1,11 @@
 import React from 'react'
 
-const UserManager = () => {
+const Posted = () => {
   return (
     <div>
-      
+      Posted
     </div>
   )
 }
 
-export default UserManager
+export default Posted
