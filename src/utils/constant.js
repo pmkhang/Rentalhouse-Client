@@ -14,7 +14,7 @@ export const pathSystem = {
   SYSTEM: '/quan-ly/*',
   CREATE_POST: 'dang-tin-cho-thue',
   POSTS: 'tin-dang',
-  INFO: 'thong-tin-ca-nhan',
+  INFO: 'cap-nhat-thong-tin-ca-nhan',
   SAVED_POSTS: 'tin-da-luu',
 };
 

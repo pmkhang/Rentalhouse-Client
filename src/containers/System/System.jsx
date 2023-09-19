@@ -20,7 +20,7 @@ const System = () => {
         <aside className="min-w-[320px] h-[calc(100vh-40px)] bg-gray-200 border-r border-gray-300 p-5 tl:hidden">
           <Sidebar />
         </aside>
-        <div className="w-full h-[calc(100vh-40px)] overflow-y-scroll bg-white p-5 ">
+        <div className="w-full h-[calc(100vh-40px)] overflow-y-scroll bg-white py-5 px-8 ">
           <Outlet />
         </div>
       </div>

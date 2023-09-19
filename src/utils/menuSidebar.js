@@ -1,8 +1,8 @@
 import icons from './icons';
 
-const { BsClipboardPlus, BsClipboardCheck, BiUser, BiHeart } = icons;
+const { BsClipboardPlus, BsClipboardCheck, BiUser, BiHeart, AiOutlineContacts } = icons;
 
-export const menuManager = [
+export const menuSidebar = [
   {
     id: 1,
     text: 'Đăng tin cho thuê',
@@ -17,7 +17,7 @@ export const menuManager = [
   },
   {
     id: 3,
-    text: 'Thông tin cá nhân',
+    text: 'Sửa thông tin cá nhân',
     path: '/quan-ly/cap-nhat-thong-tin-ca-nhan',
     icon: <BiUser />,
   },
@@ -26,5 +26,11 @@ export const menuManager = [
     text: 'Tin đã lưu',
     path: '/quan-ly/tin-da-luu',
     icon: <BiHeart />,
+  },
+  {
+    id: 5,
+    text: 'Liên hệ',
+    path: '/lien-he',
+    icon: <AiOutlineContacts />,
   },
 ];

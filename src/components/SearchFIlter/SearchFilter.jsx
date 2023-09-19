@@ -35,7 +35,7 @@ const SearchFilter = () => {
   };
 
   const handleSubmit = () => {
-    const titleSearch = `${queries.categoryCode ? textCategody : 'Cho thuê tất cả,'} ${
+    const titleSearch = `${queries.categoryCode ? textCategody : 'Cho thuê tất cả'} ${
       queries.provinceCode ? ' - Tại ' + textCity : ''
     } ${queries.priceCode || queries.priceNumber ? ' - ' + textPrice : ''} ${
       queries.acreageCode || queries.acreageNumber ? ' - ' + textAcreage : ''

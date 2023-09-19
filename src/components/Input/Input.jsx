@@ -17,6 +17,8 @@ const Input = ({
   inputStyle,
   onClick,
   checked,
+  readOnly,
+  labelStyle,
 }) => {
   return (
     <>
@@ -41,7 +43,7 @@ const Input = ({
             htmlFor={id}
             className={`text-base block font-medium text-gray-900 cursor-pointer ${
               invalidField.length > 0 && 'text-red-900'
-            }`}
+            } ${labelStyle}`}
           >
             {label}
           </label>
@@ -56,6 +58,7 @@ const Input = ({
             max={max}
             min={min}
             step={step}
+            readOnly={readOnly}
             className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${
               invalidField?.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'
             } ${inputStyle}`}

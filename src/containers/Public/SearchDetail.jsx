@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../components/Pagination';
 import PostsSidebar from '../../components/PostsSidebar';
@@ -29,7 +29,6 @@ const SearchDetail = ({ text, homePage }) => {
   useEffect(() => {
     document.title = location?.state || 'Kết quả tìm kiếm';
   }, [location?.state]);
-
   return (
     <>
       <SearchFilter text={text} />
