@@ -1,7 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 
-const SelectorAddress = ({ label, id, options, value, setValue, type }) => {
+const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) => {
   return (
     <div className="flex flex-col py-4 flex-1 gap-2">
       <label htmlFor={id} className="font-semibold">

@@ -19,6 +19,8 @@ const Input = ({
   checked,
   readOnly,
   labelStyle,
+  decs1,
+  decs2,
 }) => {
   return (
     <>
@@ -47,25 +49,29 @@ const Input = ({
           >
             {label}
           </label>
-          <input
-            type={type}
-            id={id}
-            name={name}
-            onChange={onChange}
-            onFocus={onFocus}
-            placeholder={placeholder}
-            value={value}
-            max={max}
-            min={min}
-            step={step}
-            readOnly={readOnly}
-            className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${
-              invalidField?.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'
-            } ${inputStyle}`}
-          />
+          <div className="flex items-center">
+            <input
+              type={type}
+              id={id}
+              name={name}
+              onChange={onChange}
+              onFocus={onFocus}
+              placeholder={placeholder}
+              value={value}
+              max={max}
+              min={min}
+              step={step}
+              readOnly={readOnly}
+              className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${
+                invalidField?.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'
+              } ${inputStyle}`}
+            />
+            {decs1 && <span className="p-2 text-sm border border-gray-300 bg-slate-100 rounded-r-md">{decs1}</span>}
+          </div>
           {invalidField?.length > 0 && invalidField?.some((i) => i?.name === name) && (
             <span className="text-red-500 italic">{invalidField?.find((i) => i?.name === name)?.message}</span>
           )}
+          {decs2 && <span className="p-2 text-xs mt-[-6px] text-gray-400">{decs2}</span>}
         </div>
       )}
     </>

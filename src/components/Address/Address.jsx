@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import SelectorAddress from './SelectorAddress';
 import Input from '../Input';
 import { apiGetPublicDistrict, apiGetPublicProvince } from '../../services/province';
+import { memo } from 'react';
 
-const Address = () => {
+const Address = ({ setPayload }) => {
   const [dataProvinces, setDataProvinces] = useState([]);
   const [dataDistricts, setDataDistricts] = useState([]);
   const [province, setProvince] = useState('');
@@ -52,8 +53,16 @@ const Address = () => {
     );
   }, [address, dataDistricts, dataProvinces, district, province]);
 
+  useEffect(() => {
+    setPayload((prev) => ({
+      ...prev,
+      address: addressFinal,
+      province: `${province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name + '.' : ''}`,
+    }));
+  }, [addressFinal, dataProvinces, province, setPayload]);
+
   return (
-    <div className="w-full min-h-[500px] ">
+    <div className="w-full h-fit">
       <h2 className="font-semibold text-xl">Địa chỉ cho thuê</h2>
       <div className=" w-full flex flex-col gap-4">
         <div className="w-full flex items-center gap-4">
@@ -61,7 +70,7 @@ const Address = () => {
             label="Tỉnh/Thành phố"
             id="tinh_thanh"
             options={dataProvinces}
-            value={province}
+            value={province || 'a'}
             setValue={setProvince}
             type="province"
           />
@@ -69,7 +78,7 @@ const Address = () => {
             label="Quận/Huyện"
             id="quan_huyen"
             options={dataDistricts}
-            value={district}
+            value={district || 'a'}
             setValue={setDistrict}
             type="district"
           />
@@ -97,4 +106,4 @@ const Address = () => {
   );
 };
 
-export default Address;
+export default memo(Address);

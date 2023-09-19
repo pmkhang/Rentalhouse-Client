@@ -1,9 +1,10 @@
 import React from 'react';
 import { memo } from 'react';
 
-const SelectorAddress = ({ label, id, options, value, setValue, type }) => {
+const SelectorOverview = ({ label, id, options, value, setValue, type }) => {
+  
   return (
-    <div className="flex flex-col py-4 flex-1 gap-2">
+    <div className="flex flex-col py-4 gap-2 w-1/2">
       <label htmlFor={id} className="font-semibold">
         {label}
       </label>
@@ -15,11 +16,8 @@ const SelectorAddress = ({ label, id, options, value, setValue, type }) => {
       >
         <option value="">-- Chọn {label} --</option>
         {options?.map((i) => (
-          <option
-            key={i}
-            value={i}
-          >
-            {i}
+          <option key={i?.code} value={i?.code}>
+            {i?.value}
           </option>
         ))}
       </select>
@@ -27,4 +25,4 @@ const SelectorAddress = ({ label, id, options, value, setValue, type }) => {
   );
 };
 
-export default memo(SelectorAddress);
+export default memo(SelectorOverview);
