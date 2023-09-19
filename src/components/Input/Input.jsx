@@ -21,6 +21,7 @@ const Input = ({
   labelStyle,
   decs1,
   decs2,
+  onWheel,
 }) => {
   return (
     <>
@@ -61,6 +62,7 @@ const Input = ({
               max={max}
               min={min}
               step={step}
+              onWheel={onWheel}
               readOnly={readOnly}
               className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${
                 invalidField?.length > 0 && 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700'

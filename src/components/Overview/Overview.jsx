@@ -5,8 +5,9 @@ import Input from '../Input';
 import icons from '../../utils/icons';
 import { useEffect } from 'react';
 import { apiUploadImages } from '../../services/post';
+import { ColorRing } from 'react-loader-spinner';
 
-const { BsCamera2 } = icons;
+const { BsCamera2, FaTimes } = icons;
 
 const targerts = [
   {
@@ -26,6 +27,7 @@ const targerts = [
 const Overview = ({ setPayload }) => {
   const { categories } = useSelector((state) => state.category);
   const { userDataByID } = useSelector((state) => state.user);
+  const [isLoading, setIsloading] = useState(false);
 
   const [formData, setFormData] = useState({
     userName: '',
@@ -63,7 +65,7 @@ const Overview = ({ setPayload }) => {
     e.stopPropagation();
     const files = e.target.files;
     const formData = new FormData();
-
+    setIsloading(true);
     for (let i of files) {
       formData.append('file', i);
       formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
@@ -81,6 +83,20 @@ const Overview = ({ setPayload }) => {
         console.error('An error occurred:', error);
       }
     }
+    setIsloading(false);
+  };
+
+  const handleDelImage = (i) => {
+    const indexToRemove = formData.images.indexOf(i);
+    if (indexToRemove !== -1) {
+      const updatedImages = [...formData.images];
+      updatedImages.splice(indexToRemove, 1);
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        images: updatedImages,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -88,18 +104,31 @@ const Overview = ({ setPayload }) => {
       ...prev,
       userName,
       userPhone,
+      userID: userDataByID?.id,
       categoryCode,
       title,
       desc,
       target: genderCode,
       acreageNumber: acreage,
-      priceNumber: price,
+      priceNumber: price / 10 ** 6,
       images: JSON.stringify(images),
     }));
-  }, [acreage, categoryCode, desc, genderCode, images, price, setPayload, title, userName, userPhone]);
+  }, [
+    acreage,
+    categoryCode,
+    desc,
+    genderCode,
+    images,
+    price,
+    setPayload,
+    title,
+    userDataByID?.id,
+    userName,
+    userPhone,
+  ]);
 
   return (
-    <div className="w-full min-h-[1500px] flex flex-col gap-3">
+    <div className="w-full h-fit flex flex-col gap-3">
       <h2 className="font-semibold text-xl">Thông tin mô tả</h2>
       <div className="w-full flex flex-col gap-3">
         <SelectorOverview
@@ -150,29 +179,31 @@ const Overview = ({ setPayload }) => {
           name="userPhone"
           value={userPhone || ''}
         />
-        <Input
-          type="text"
-          inputStyle={'py-2 bg-white rounded-r-none border-r-0 focus:border focus:border-blue-400'}
-          label="Giá cho thuê"
-          id="price"
-          labelStyle={'font-semibold'}
-          name="price"
-          decs1={'Đồng/tháng'}
-          decs2={'Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000'}
-          value={price}
-          onChange={handleInputChange}
-        />
-        <Input
-          type="number"
-          inputStyle={'py-2 bg-white rounded-r-none border-r-0  focus:border focus:border-blue-400'}
-          label="Diện tích"
-          id="acreage"
-          labelStyle={'font-semibold'}
-          name="acreage"
-          decs1={'m²'}
-          value={acreage}
-          onChange={handleInputChange}
-        />
+        <div className="w-1/2">
+          <Input
+            type="text"
+            inputStyle={'py-2 bg-white rounded-r-none border-r-0 focus:border focus:border-blue-400'}
+            label="Giá cho thuê"
+            id="price"
+            labelStyle={'font-semibold'}
+            name="price"
+            decs1={'Đồng/tháng'}
+            decs2={'Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000'}
+            value={price}
+            onChange={handleInputChange}
+          />
+          <Input
+            type="number"
+            inputStyle={'py-2 bg-white rounded-r-none border-r-0  focus:border focus:border-blue-400'}
+            label="Diện tích"
+            id="acreage"
+            labelStyle={'font-semibold'}
+            name="acreage"
+            decs1={'m²'}
+            value={acreage}
+            onChange={handleInputChange}
+          />
+        </div>
         <SelectorOverview
           label="Đối tượng cho thuê"
           options={targerts}
@@ -188,24 +219,43 @@ const Overview = ({ setPayload }) => {
             htmlFor="file"
             className="w-full min-h-[200px] text-gray-400 flex flex-col items-center justify-center border-4 border-dashed border-gray-400 rounded-lg shadow-md cursor-pointer transition-all hover:bg-gray-100"
           >
-            <span className="text-[100px] ">
-              <BsCamera2 />
-            </span>
-            Thêm ảnh
+            {isLoading ? (
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={['#b8c480', '#B2A3B5', '#F4442E', '#51E5FF', '#429EA6']}
+              />
+            ) : (
+              <span className="flex flex-col items-center">
+                <BsCamera2 size={120} />
+                Thêm ảnh
+              </span>
+            )}
           </label>
           <input type="file" id="file" hidden multiple onChange={handleFiles} />
         </div>
         {images.length > 0 && (
           <div className="flex flex-col gap-3">
             <h3 className="font-semibold">Hình đã upload</h3>
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-6 items-center">
               {images?.map((i, index) => (
-                <img
+                <div
                   key={index}
-                  src={i}
-                  alt="preview"
-                  className="w-[150px] h-[150px] object-contain border border-gray-400 shadow-md"
-                />
+                  className="relative w-[235px] h-[150px] border border-gray-400 rounded-lg shadow-md p-2"
+                >
+                  <img key={index} src={i} alt="preview" className="w-full h-full object-contain " />
+                  <span
+                    title="Xoá ảnh"
+                    className="absolute top-[-12px] right-[-12px] text-[28px] bg-white border border-gray-400 shadow-md rounded-sm cursor-pointer transition-all hover:scale-125"
+                    onClick={() => handleDelImage(i)}
+                  >
+                    <FaTimes />
+                  </span>
+                </div>
               ))}
             </div>
           </div>

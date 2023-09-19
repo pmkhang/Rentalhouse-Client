@@ -29,3 +29,10 @@ export const getCodes = (arrMinMax, totals) => {
     (i) => (i?.min >= arrMinMax[0] && i?.min <= arrMinMax[1]) || (i?.max > arrMinMax[0] && i?.max <= arrMinMax[1]),
   );
 };
+
+export const getCodesWithNumber = (num, totals) => {
+  if (totals) {
+    const maxMin = getMinMax(totals);
+    return maxMin?.find((i) => i.max >= num && i.min < num);
+  }
+};

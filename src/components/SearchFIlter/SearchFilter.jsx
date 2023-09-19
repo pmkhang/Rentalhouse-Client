@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { path } from '../../utils/constant';
 import icons from '../../utils/icons';
 import Button from '../Button';
 import SearchModal from './SearchModal';
+import { setSearchTitle } from '../../redux/Slice/appStateSlice';
 
 const { AiOutlineSearch, FaHotel, ImLocation2, ImPriceTags, FaRulerCombined } = icons;
 
@@ -26,6 +27,7 @@ const SearchFilter = () => {
   const { categories } = useSelector((state) => state.category);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleShowModal = (content, title, name) => {
     setShowModal(true);
@@ -40,13 +42,11 @@ const SearchFilter = () => {
     } ${queries.priceCode || queries.priceNumber ? ' - ' + textPrice : ''} ${
       queries.acreageCode || queries.acreageNumber ? ' - ' + textAcreage : ''
     } `;
-    navigate(
-      {
-        pathname: `/${path.SEARCH_DETAIL}`,
-        search: createSearchParams(queries).toString(),
-      },
-      { state: titleSearch },
-    );
+    dispatch(setSearchTitle(titleSearch));
+    navigate({
+      pathname: `/${path.SEARCH_DETAIL}`,
+      search: createSearchParams(queries).toString(),
+    });
   };
 
   return (

@@ -49,8 +49,8 @@ const Pagination = () => {
             onPageChange={(data) => handleChangePage(data)}
             containerClassName={'pagination flex items-center gap-5 mb:gap-4'}
             activeClassName={'bg-orange-400 border-orange-400 text-white hover:bg-blue-400 hover:text-white rounded-md'}
-            previousClassName={'text-[24px] mb:hidden'}
-            nextClassName={'text-[24px] mb:hidden'}
+            previousClassName={`text-[24px] mb:hidden ${Math.ceil(count / 5) === 1 && 'hidden'}`}
+            nextClassName={`text-[24px] mb:hidden ${Math.ceil(count / 5) === 1 && 'hidden'}`}
             pageLinkClassName={
               'w-[30px] h-[30px] flex items-center justify-center rounded-md shadow-md border border-gray-200 hover:bg-blue-400 hover:border-blue-400 hover:text-white'
             }

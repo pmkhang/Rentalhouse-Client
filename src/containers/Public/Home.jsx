@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 import Contact from '../../components/Contact';
 import Intro from '../../components/Intro';
-import RollTop from '../../components/RollTop/RollTop';
-import { getCategory } from '../../redux/action/categoryAction';
-import { getNewPosts } from '../../redux/action/postAction';
-import { getAcreages, getPrices } from '../../redux/action/priceAndArceage';
-import { getUserDataByID } from '../../redux/action/userAction';
+import RollTop from '../../components/RollTop';
 import Header from './Header';
 import Navigation from './Navigation';
-import { getProvince } from '../../redux/action/provinceAction';
 
 const Home = () => {
   const location = useLocation();

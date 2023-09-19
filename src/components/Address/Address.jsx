@@ -57,9 +57,11 @@ const Address = ({ setPayload }) => {
     setPayload((prev) => ({
       ...prev,
       address: addressFinal,
-      province: `${province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name + '.' : ''}`,
+      province: `${province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name : ''}`,
+      provinceCode: province,
+      districtCode: district,
     }));
-  }, [addressFinal, dataProvinces, province, setPayload]);
+  }, [addressFinal, dataProvinces, district, province, setPayload]);
 
   return (
     <div className="w-full h-fit">
@@ -82,6 +84,7 @@ const Address = ({ setPayload }) => {
             setValue={setDistrict}
             type="district"
           />
+          {/*TODO: Selector Ward https://vapi.vnappmob.com/api/province/ward/xxx */}
         </div>
         <Input
           type="text"

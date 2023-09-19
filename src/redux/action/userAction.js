@@ -1,5 +1,6 @@
 import { apiGetUsersData, apiGetUserByID } from '../../services/user';
-import { getUsersDataSuccess, getUsersDataFail } from '../Slice/UserSlice';
+import { getUsersDataSuccess } from '../Slice/UserSlice';
+import { logout } from '../Slice/AuthSlice';
 
 export const getUsersData = (payload) => async (dispatch) => {
   try {
@@ -7,10 +8,10 @@ export const getUsersData = (payload) => async (dispatch) => {
     if (response?.data.error === 0) {
       dispatch(getUsersDataSuccess(response.data));
     } else {
-      dispatch(getUsersDataFail(response.data));
+      dispatch(logout());
     }
   } catch (error) {
-    dispatch(getUsersDataFail({ data: null, error: 2 }));
+    dispatch(logout());
   }
 };
 
@@ -20,9 +21,9 @@ export const getUserDataByID = (payload) => async (dispatch) => {
     if (response?.data.error === 0) {
       dispatch(getUsersDataSuccess(response.data));
     } else {
-      dispatch(getUsersDataFail(response.data));
+      dispatch(logout());
     }
   } catch (error) {
-    dispatch(getUsersDataFail({ data: null, error: 2 }));
+    dispatch(logout());
   }
 };
