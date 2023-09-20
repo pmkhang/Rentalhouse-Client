@@ -17,8 +17,7 @@ const CreatePost = () => {
 
   const [payload, setPayload] = useState({
     title: '',
-    userName: '',
-    userPhone: '',
+    
     address: '',
     desc: '',
     target: '',
@@ -41,8 +40,8 @@ const CreatePost = () => {
   useEffect(() => {
     setPayload((prev) => ({
       ...prev,
-      acreageCode: getCodesWithNumber(acreageNumber, acreages)?.code,
-      priceCode: getCodesWithNumber(priceNumber, prices)?.code,
+      acreageCode: getCodesWithNumber(acreageNumber, acreages)?.code || '',
+      priceCode: getCodesWithNumber(priceNumber, prices)?.code || '',
     }));
   }, [acreageNumber, acreages, priceNumber, prices]);
 

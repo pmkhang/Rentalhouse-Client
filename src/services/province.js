@@ -42,3 +42,17 @@ export const apiGetPublicDistrict = (provinceId) =>
       reject(error);
     }
   });
+
+export const apiGetPublicWard = (districtId) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `https://vapi.vnappmob.com/api/province/ward/${districtId}`,
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('Error apiGetProvince: ', error);
+      reject(error);
+    }
+  });

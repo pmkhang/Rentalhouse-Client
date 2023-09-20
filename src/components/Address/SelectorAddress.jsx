@@ -2,8 +2,29 @@ import React from 'react';
 import { memo } from 'react';
 
 const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) => {
+  let valueKey;
+  let nameKey;
+
+  switch (type) {
+    case 'province':
+      valueKey = 'province_id';
+      nameKey = 'province_name';
+      break;
+    case 'district':
+      valueKey = 'district_id';
+      nameKey = 'district_name';
+      break;
+    case 'ward':
+      valueKey = 'ward_id';
+      nameKey = 'ward_name';
+      break;
+    default:
+      valueKey = '';
+      nameKey = '';
+  }
+
   return (
-    <div className="flex flex-col py-4 flex-1 gap-2">
+    <div className="flex flex-col flex-1 gap-2">
       <label htmlFor={id} className="font-semibold">
         {label}
       </label>
@@ -14,12 +35,9 @@ const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) =>
         className="outline-none border border-gray-400 rounded-md py-1 px-2 text-sm"
       >
         <option value="">-- Chọn {label} --</option>
-        {options?.map((i) => (
-          <option
-            key={type === 'province' ? i?.province_id : i?.district_id}
-            value={type === 'province' ? i?.province_id : i?.district_id}
-          >
-            {type === 'province' ? i?.province_name : i?.district_name}
+        {options?.map((item) => (
+          <option key={item[valueKey]} value={item[valueKey]}>
+            {item[nameKey]}
           </option>
         ))}
       </select>

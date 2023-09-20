@@ -102,30 +102,16 @@ const Overview = ({ setPayload }) => {
   useEffect(() => {
     setPayload((prev) => ({
       ...prev,
-      userName,
-      userPhone,
       userID: userDataByID?.id,
       categoryCode,
       title,
       desc,
       target: genderCode,
-      acreageNumber: acreage,
-      priceNumber: price / 10 ** 6,
+      acreageNumber: acreage || 0,
+      priceNumber: price / 10 ** 6 || 0,
       images: JSON.stringify(images),
     }));
-  }, [
-    acreage,
-    categoryCode,
-    desc,
-    genderCode,
-    images,
-    price,
-    setPayload,
-    title,
-    userDataByID?.id,
-    userName,
-    userPhone,
-  ]);
+  }, [acreage, categoryCode, desc, genderCode, images, price, setPayload, title, userDataByID?.id]);
 
   return (
     <div className="w-full h-fit flex flex-col gap-3">

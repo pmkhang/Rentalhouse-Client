@@ -7,8 +7,8 @@ import icons from '../../utils/icons';
 import { menuSidebar } from '../../utils/menuSidebar';
 
 const { BiLogInCircle } = icons;
-const navNotActive = 'w-full flex items-center gap-3 transition-all hover:text-orange-500 hover:translate-x-2';
-const navActive = 'w-full flex items-center gap-3 transition-all text-orange-500 translate-x-2';
+const navNotActive = 'w-full flex items-center gap-3 transition-all hover:text-orange-500 hover:font-semibold';
+const navActive = 'w-full flex items-center gap-3 transition-all text-orange-500 font-semibold';
 
 const Sidebar = () => {
   const { userDataByID } = useSelector((state) => state.user);
