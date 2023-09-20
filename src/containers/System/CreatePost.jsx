@@ -4,49 +4,57 @@ import Address from '../../components/Address';
 import Button from '../../components/Button';
 import Overview from '../../components/Overview';
 import { getCodesWithNumber } from '../../utils/Common/getCodes';
+import { apiCreatePost } from '../../services/post';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { pathSystem } from '../../utils/constant';
 
 const CreatePost = () => {
   const { prices } = useSelector((state) => state.price);
   const { acreages } = useSelector((state) => state.acreage);
-
-  // console.log({ prices, acreages });
-
+  const navigate = useNavigate();
   useEffect(() => {
     document.title = 'Đăng tin cho thuê';
   }, []);
 
   const [payload, setPayload] = useState({
     title: '',
-    
     address: '',
     desc: '',
     target: '',
-    province: '',
+    provinceName: '',
+    districtName: '',
     provinceCode: '',
     districtCode: '',
     categoryCode: '',
+    categoryName: '',
     priceCode: '',
     acreageCode: '',
     acreageNumber: 0,
     priceNumber: 0,
     userID: '',
-    // labelCode: '',
+    label: '',
     images: [],
     star: Math.ceil(Math.random() * 5),
   });
 
-  const { acreageNumber, priceNumber } = payload;
+  const { acreageNumber, priceNumber, districtName, categoryName } = payload;
 
   useEffect(() => {
     setPayload((prev) => ({
       ...prev,
       acreageCode: getCodesWithNumber(acreageNumber, acreages)?.code || '',
       priceCode: getCodesWithNumber(priceNumber, prices)?.code || '',
+      label: `${categoryName} ${districtName}`,
     }));
-  }, [acreageNumber, acreages, priceNumber, prices]);
+  }, [acreageNumber, acreages, categoryName, districtName, priceNumber, prices]);
 
-  const handleSubmit = () => {
-    console.log(payload);
+  const handleSubmit = async () => {
+    if (payload) {
+      await apiCreatePost(payload);
+      toast.success('Đăng tin cho thuê thành công !');
+      navigate(`/quan-ly/${pathSystem.POSTS}`);
+    }
   };
 
   return (

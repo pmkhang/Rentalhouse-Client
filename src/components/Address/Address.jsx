@@ -3,6 +3,7 @@ import SelectorAddress from './SelectorAddress';
 import Input from '../Input';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 
 const Address = ({ setPayload }) => {
   const [dataProvinces, setDataProvinces] = useState([]);
@@ -78,8 +79,10 @@ const Address = ({ setPayload }) => {
     setPayload((prev) => ({
       ...prev,
       address: formattedAddress,
-      province:
+      provinceName:
         `${province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name : ''}`.trim() || '',
+      districtName:
+        `${district ? dataDistricts?.find((i) => i?.district_id === district)?.district_name : ''}`.trim() || '',
       provinceCode: province || '',
       districtCode: district || '',
     }));

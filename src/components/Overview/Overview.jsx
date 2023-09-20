@@ -11,15 +11,15 @@ const { BsCamera2, FaTimes } = icons;
 
 const targerts = [
   {
-    code: 'all',
+    code: 'Tất cả',
     value: 'Tất cả',
   },
   {
-    code: 'male',
+    code: 'Nam',
     value: 'Nam',
   },
   {
-    code: 'female',
+    code: 'Nữ',
     value: 'Nữ',
   },
 ];
@@ -104,14 +104,15 @@ const Overview = ({ setPayload }) => {
       ...prev,
       userID: userDataByID?.id,
       categoryCode,
+      categoryName: categories.find((i) => i?.code === categoryCode)?.value,
       title,
       desc,
       target: genderCode,
-      acreageNumber: acreage || 0,
+      acreageNumber: +acreage || 0,
       priceNumber: price / 10 ** 6 || 0,
       images: JSON.stringify(images),
     }));
-  }, [acreage, categoryCode, desc, genderCode, images, price, setPayload, title, userDataByID?.id]);
+  }, [acreage, categories, categoryCode, desc, genderCode, images, price, setPayload, title, userDataByID?.id]);
 
   return (
     <div className="w-full h-fit flex flex-col gap-3">
