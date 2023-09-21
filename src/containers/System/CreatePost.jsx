@@ -9,9 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { pathSystem } from '../../utils/constant';
 
+import { useForm } from 'react-hook-form';
+
 const CreatePost = () => {
   const { prices } = useSelector((state) => state.price);
   const { acreages } = useSelector((state) => state.acreage);
+
   const navigate = useNavigate();
   useEffect(() => {
     document.title = 'Đăng tin cho thuê';
@@ -38,7 +41,25 @@ const CreatePost = () => {
     star: Math.ceil(Math.random() * 5),
   });
 
-  const { acreageNumber, priceNumber, districtName, categoryName } = payload;
+  const {
+    acreageNumber,
+    priceNumber,
+    districtName,
+    categoryName,
+    title,
+    address,
+    desc,
+    target,
+    provinceName,
+    categoryCode,
+  } = payload;
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   useEffect(() => {
     setPayload((prev) => ({
@@ -49,28 +70,30 @@ const CreatePost = () => {
     }));
   }, [acreageNumber, acreages, categoryName, districtName, priceNumber, prices]);
 
-  const handleSubmit = async () => {
-    if (payload) {
-      await apiCreatePost(payload);
-      toast.success('Đăng tin cho thuê thành công !');
-      navigate(`/quan-ly/${pathSystem.POSTS}`);
-    }
+  const onSubmit = async (data) => {
+    console.log(data);
+    reset();
+
+    // if (payload) {
+    //   await apiCreatePost(payload);
+    //   toast.success('Đăng tin cho thuê thành công !');
+    //   navigate(`/quan-ly/${pathSystem.POSTS}`);
+    // }
   };
 
   return (
     <div className="flex flex-col">
       <h2 className="text-3xl font-medium py-4 border-b border-gray-200">Đăng tin mới</h2>
       <div className="w-full flex gap-5">
-        <div className="w-[70%] min-h-[1800px] flex flex-col gap-8 py-4 tl:w-full">
-          <Address setPayload={setPayload} />
-          <Overview payload={payload} setPayload={setPayload} />
+        <form className="w-[70%] min-h-[1800px] flex flex-col gap-8 py-4 tl:w-full" onSubmit={handleSubmit(onSubmit)}>
+          <Address payload={payload} setPayload={setPayload} register={register} errors={errors} />
+          <Overview payload={payload} setPayload={setPayload} register={register} errors={errors} />
           <Button
             text={'Đăng tin'}
             className={'bg-green-700 focus:ring-green-500 hover:bg-green-600'}
             textStyle={'text-white font-semibold'}
-            onClick={handleSubmit}
           />
-        </div>
+        </form>
         <div className="w-[30%] py-4 tl:hidden">
           <div className="w-full min-h-[500px] border border-red-400 ">Map</div>
         </div>

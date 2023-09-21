@@ -1,7 +1,7 @@
 import { registerSuccess, loginSuccess, registerFail, loginFail, logout } from '../Slice/AuthSlice';
 import { apiRegister, apiLogin } from '../../services/auth';
 
-export const register = (payload) => async (dispatch) => {
+export const registerUser = (payload) => async (dispatch) => {
   try {
     const response = await apiRegister(payload);
     if (response?.data.error === 0) {

@@ -3,9 +3,8 @@ import SelectorAddress from './SelectorAddress';
 import Input from '../Input';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
 
-const Address = ({ setPayload }) => {
+const Address = ({ setPayload, register, errors, payload }) => {
   const [dataProvinces, setDataProvinces] = useState([]);
   const [dataDistricts, setDataDistricts] = useState([]);
   const [dataWards, setDataWards] = useState([]);
@@ -93,16 +92,19 @@ const Address = ({ setPayload }) => {
       <h2 className="font-semibold text-xl">Địa chỉ cho thuê</h2>
       <div className=" w-full flex flex-col gap-8">
         <Input
+          {...register('address')}
           type="text"
           label="Nhập địa chỉ cho thuê"
           labelStyle={'font-semibold'}
           id="address"
           inputStyle={'py-2 bg-white focus:border focus:border-blue-400'}
+          value={address || ''}
           onChange={(e) => setAddress(e.target.value)}
           placeholder={'Nhập số nhà và đường'}
           className={'mt-5'}
+          errors={errors?.address}
         />
-        <div className="w-full flex flex-wrap items-center gap-4">
+        <div className="w-full flex flex-col gap-4">
           <SelectorAddress
             label="Tỉnh/Thành phố"
             id="province"
@@ -120,6 +122,7 @@ const Address = ({ setPayload }) => {
             type="district"
           />
           <SelectorAddress
+            className={'flex-2'}
             label="Phường/Xã"
             id="ward"
             options={dataWards}
@@ -128,7 +131,6 @@ const Address = ({ setPayload }) => {
             type="ward"
           />
         </div>
-
         <Input
           type="text"
           inputStyle={'py-2 bg-gray-200 focus:border focus:border-blue-400'}

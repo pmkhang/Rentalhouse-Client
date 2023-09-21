@@ -24,12 +24,13 @@ const authSlice = createSlice({
       state.message = '';
       state.error = action.payload.error;
       state.id = action.payload.id;
+      state.update = true;
     },
     registerFail(state, action) {
       state.isLoggedIn = false;
       state.message = action.payload.message;
       state.token = null;
-      state.update = !state.update;
+      state.update = false;
       state.error = action.payload.error;
     },
     loginFail(state, action) {
@@ -37,6 +38,7 @@ const authSlice = createSlice({
       state.message = action.payload.message;
       state.token = null;
       state.error = action.payload.error;
+      state.update = false;
     },
     logout(state) {
       state.isLoggedIn = false;
@@ -44,8 +46,11 @@ const authSlice = createSlice({
       state.message = '';
       state.id = '';
     },
+    setUpdate(state, action) {
+      state.update = action.payload;
+    },
   },
 });
 
-export const { registerSuccess, loginSuccess, registerFail, loginFail, logout } = authSlice.actions;
+export const { registerSuccess, loginSuccess, registerFail, loginFail, logout, setUpdate } = authSlice.actions;
 export default authSlice.reducer;

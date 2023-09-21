@@ -1,7 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 
-const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) => {
+const SelectorAddress = ({ label, id, options, value = 'a', setValue, type, className, invalidField }) => {
   let valueKey;
   let nameKey;
 
@@ -24,7 +24,7 @@ const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) =>
   }
 
   return (
-    <div className="flex flex-col flex-1 gap-2">
+    <div className={`flex flex-col w-1/2 gap-2 ${className}`}>
       <label htmlFor={id} className="font-semibold">
         {label}
       </label>
@@ -41,6 +41,17 @@ const SelectorAddress = ({ label, id, options, value = 'a', setValue, type }) =>
           </option>
         ))}
       </select>
+      {value === 'a' ? (
+        <span className="text-red-500 text-xs">
+          {invalidField && invalidField?.some((i) => i?.name === `${type}Name`)
+            ? invalidField?.find((i) => i?.name === `${type}Name`)?.message
+            : value === 'a' && invalidField
+            ? 'Bạn không được dể trống trường này'
+            : ''}
+        </span>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

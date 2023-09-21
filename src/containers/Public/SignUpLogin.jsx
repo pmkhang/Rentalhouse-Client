@@ -8,27 +8,27 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { login, register } from '../../redux/action/authAction';
-import { getUsersData } from '../../redux/action/userAction';
+import { login, registerUser } from '../../redux/action/authAction';
+import { setUpdate } from '../../redux/Slice/AuthSlice';
+import { useForm } from 'react-hook-form';
 
 const SignUpLogin = ({ flag }) => {
   const location = useLocation();
   const [isRegister, setIsRegister] = useState(location.state?.flag);
-  const [invalidField, setInvalidField] = useState([]);
-  const [payload, setPayload] = useState({
-    phone: '',
-    password: '',
-    passwordConfirm: '',
-    name: '',
-  });
   useEffect(() => {
     isRegister ? (document.title = 'Đăng ký') : (document.title = 'Đăng nhập');
   }, [isRegister]);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoggedIn, message, update } = useSelector((state) => state.auth);
-  const { userDataByID } = useSelector((state) => state.user);
+  const { isLoggedIn, message, update, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     flag ? setIsRegister(flag) : setIsRegister(location.state?.flag);
@@ -40,167 +40,116 @@ const SignUpLogin = ({ flag }) => {
       toast.success('Đăng nhập thành công !');
     }
   }, [isLoggedIn, navigate]);
+  console.log({ error, update, isLoggedIn });
 
-  useEffect(() => {
-    message && Swal.fire('Oops !', message, 'error');
-  }, [message, update]);
-
-  const handleSubmit = () => {
-    const { phone, password } = payload;
-    const invalids = validate({ phone, password });
-    if (invalids > 0) {
-      return;
-    }
-    const userExists = userDataByID?.phone === phone;
+  const onSubmit = ({ name, phone, password }) => {
     if (isRegister) {
-      if (userExists?.phone === payload?.phone) {
-        Swal.fire('Oops!', 'Số điện thoại này đã tồn tại!', 'error');
+      dispatch(registerUser({ name, phone, password }));
+      if (update === false) {
+        Swal.fire('Oops !', message, 'error');
+        return;
       } else {
-        dispatch(register(payload));
         navigate('/dang-nhap');
         setIsRegister(false);
-        setPayload({
-          phone: '',
-          password: '',
-          name: '',
-        });
         toast.success('Đăng ký thành công!');
-        dispatch(getUsersData());
+        reset();
       }
-    } else if (!isRegister) {
-      dispatch(login(payload));
+    } else {
+      dispatch(login({ phone, password }));
+      if (isLoggedIn) {
+        dispatch(setUpdate(true));
+        navigate('/');
+        toast.success('Đăng nhập thành công!');
+        reset();
+      } else if (!isLoggedIn && update === false) {
+        Swal.fire('Oops !', 'Bạn đã sai mật khẩu hoặc số điện thoại', 'error');
+        return;
+      }
     }
-    //TODO check password
-  };
-
-  const validate = (payload) => {
-    const fields = Object.entries(payload);
-    let invalidsCount = 0;
-    fields.forEach((field) => {
-      if (field[1] === '') {
-        setInvalidField((prev) => [
-          ...prev,
-          {
-            name: field[0],
-            message: 'Bạn không được bỏ trống trường này !',
-          },
-        ]);
-        invalidsCount++;
-      }
-    });
-    fields.forEach((field) => {
-      switch (field[0]) {
-        case 'password':
-          if (field[1].length < 6) {
-            setInvalidField((prev) => [
-              ...prev,
-              {
-                name: field[0],
-                message: 'Mật khẩu tối thiểu 8 ký tự!',
-              },
-            ]);
-            invalidsCount++;
-          }
-          break;
-        case 'passwordConfirm':
-          if (field[1] !== payload.password) {
-            setInvalidField((prev) => [
-              ...prev,
-              {
-                name: field[0],
-                message: 'Xác nhận mật khẩu không khớp !',
-              },
-            ]);
-            invalidsCount++;
-          }
-          break;
-        case 'phone':
-          if (!+field[1]) {
-            setInvalidField((prev) => [
-              ...prev,
-              {
-                name: field[0],
-                message: 'Số điện thoại không hợp lệ',
-              },
-            ]);
-            invalidsCount++;
-          }
-        default:
-          break;
-      }
-    });
-
-    return invalidsCount;
   };
 
   return (
     <div className="flex flex-col w-[600px] mx-auto my-0 mt-5  items-center justify-center bg-white p-[30px] pb-[60px] rounded-md shadow-lg">
       <h3 className="font-semibold text-2xl mb-3">{isRegister ? 'Đăng ký' : 'Đăng nhập'}</h3>
       <div className="w-full flex flex-col gap-5">
-        {isRegister && (
+        <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+          {isRegister && (
+            <Input
+              {...register('name', {
+                required: 'Bạn cần phải nhập trường này !',
+              })}
+              type={'text'}
+              label={'Họ tên'}
+              id={'name'}
+              name={'name'}
+              placeholder={'Nhập họ tên'}
+              errors={errors?.name}
+            />
+          )}
           <Input
+            {...register('phone', {
+              required: 'Bạn cần phải nhập trường này !',
+              pattern: {
+                value: /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/,
+                message: 'Bạn phải nhập đúng định đạng số điện thoại',
+              },
+            })}
             type={'text'}
-            label={'Họ tên'}
-            id={'name'}
-            name={'name'}
-            placeholder={'Nhập họ tên'}
-            value={payload.name}
-            onChange={(e) => setPayload((prev) => ({ ...prev, name: e.target.value }))}
-            invalidField={invalidField}
-            onFocus={() => setInvalidField([])}
+            label={'Số điện thoại'}
+            id={'phone'}
+            name={'phone'}
+            placeholder={'Nhập số điện thoại'}
+            errors={errors?.phone}
           />
-        )}
-        <Input
-          type={'tel'}
-          label={'Số điện thoại'}
-          id={'phone'}
-          name={'phone'}
-          placeholder={'Nhập số điện thoại'}
-          value={payload.phone}
-          onChange={(e) => setPayload((prev) => ({ ...prev, phone: e.target.value }))}
-          invalidField={invalidField}
-          onFocus={() => setInvalidField([])}
-        />
-        <Input
-          type={'password'}
-          label={'Mật khẩu'}
-          id={'password'}
-          name={'password'}
-          placeholder={'Nhập mật khẩu'}
-          value={payload.password}
-          onChange={(e) => setPayload((prev) => ({ ...prev, password: e.target.value }))}
-          invalidField={invalidField}
-          onFocus={() => setInvalidField([])}
-        />
-        {!isRegister && <Input type="checkbox" id="remember" label="Rememmber me" />}
-
-        {isRegister && (
-          <div className="hidden gap-5 items-center justify-start">
-            <Input type={'radio'} label={'Nữ'} id={'female'} name={'gender'} value={'female'} />
-            <Input type={'radio'} label={'Nam'} id={'male'} name={'gender'} value={'male'} />
-            <Input type={'radio'} label={'Khác'} id={'orther'} name={'gender'} value={'orther'} />
-          </div>
-        )}
-
-        {isRegister && (
           <Input
+            {...register('password', {
+              required: 'Bạn cần phải nhập trường này !',
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/,
+                message: 'Nhập tối thiễu 8 ký tự, chữ thường, chữ in hoa, số và ký tự đặt biệt',
+              },
+            })}
             type={'password'}
-            label={'Xác nhận mật khẩu'}
-            id={'passwordConfirm'}
-            name={'passwordConfirm'}
-            placeholder={'Xác nhận mật khẩu'}
-            value={payload.passwordConfirm}
-            onChange={(e) => setPayload((prev) => ({ ...prev, passwordConfirm: e.target.value }))}
-            invalidField={invalidField}
-            onFocus={() => setInvalidField([])}
+            label={'Mật khẩu'}
+            id={'password'}
+            name={'password'}
+            placeholder={'Nhập mật khẩu'}
+            errors={errors?.password}
           />
-        )}
-        <Button
-          className={'text-white bg-blue-700 hover:bg-blue-600 focus:ring-blue-300'}
-          text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
-          fullWidth
-          onClick={handleSubmit}
-        />
+          {!isRegister && <Input type="checkbox" id="remember" label="Rememmber me" />}
+
+          {isRegister && (
+            <div className="hidden gap-5 items-center justify-start">
+              <Input type={'radio'} label={'Nữ'} id={'female'} name={'gender'} value={'female'} />
+              <Input type={'radio'} label={'Nam'} id={'male'} name={'gender'} value={'male'} />
+              <Input type={'radio'} label={'Khác'} id={'orther'} name={'gender'} value={'orther'} />
+            </div>
+          )}
+
+          {isRegister && (
+            <Input
+              {...register('confirmPassword', {
+                required: 'Bạn cần phải nhập trường này !',
+                validate: (value) => {
+                  if (watch('password') !== value) {
+                    return 'Xác nhận mật khẩu không khớp';
+                  }
+                },
+              })}
+              type={'password'}
+              label={'Xác nhận mật khẩu'}
+              id={'confirmPassword'}
+              name={'confirmPassword'}
+              placeholder={'Xác nhận mật khẩu'}
+              errors={errors?.confirmPassword}
+            />
+          )}
+          <Button
+            className={'text-white bg-blue-700 hover:bg-blue-600 focus:ring-blue-300'}
+            text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
+            fullWidth
+          />
+        </form>
       </div>
       {isRegister ? (
         <div className="mt-7 flex flex-col w-full gap-3 ">
@@ -215,11 +164,7 @@ const SignUpLogin = ({ flag }) => {
               className="text-blue-700 hover:text-[red] cursor-pointer"
               onClick={() => {
                 navigate('/dang-nhap');
-                setPayload({
-                  phone: '',
-                  password: '',
-                  name: '',
-                });
+                reset();
               }}
             >
               Đăng nhập ngay
@@ -233,11 +178,7 @@ const SignUpLogin = ({ flag }) => {
             className="text-[blue] hover:text-[red] cursor-pointer"
             onClick={() => {
               navigate('/dang-ky');
-              setPayload({
-                phone: '',
-                password: '',
-                name: '',
-              });
+              reset();
             }}
           >
             Tạo tài khoản mới
