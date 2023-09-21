@@ -24,7 +24,7 @@ const targerts = [
   },
 ];
 
-const Overview = ({ setPayload }) => {
+const Overview = ({ setPayload, setInvalidField, invalidField }) => {
   const { categories } = useSelector((state) => state.category);
   const { userDataByID } = useSelector((state) => state.user);
   const [isLoading, setIsloading] = useState(false);
@@ -43,6 +43,13 @@ const Overview = ({ setPayload }) => {
   const [genderCode, setGenderCode] = useState('');
   const [categoryCode, setCategoryCode] = useState('');
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
   useEffect(() => {
     if (userDataByID) {
       setFormData((prevFormData) => ({
@@ -52,14 +59,6 @@ const Overview = ({ setPayload }) => {
       }));
     }
   }, [userDataByID]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
 
   const handleFiles = async (e) => {
     e.stopPropagation();
@@ -104,12 +103,12 @@ const Overview = ({ setPayload }) => {
       ...prev,
       userID: userDataByID?.id,
       categoryCode,
-      categoryName: categories.find((i) => i?.code === categoryCode)?.value,
+      categoryName: categories.find((i) => i?.code === categoryCode)?.value || '',
       title,
       desc,
-      target: genderCode,
-      acreageNumber: +acreage || 0,
-      priceNumber: price / 10 ** 6 || 0,
+      target: genderCode || '',
+      acreageNumber: +acreage || '',
+      priceNumber: price / 10 ** 6 || '',
       images: JSON.stringify(images),
     }));
   }, [acreage, categories, categoryCode, desc, genderCode, images, price, setPayload, title, userDataByID?.id]);
@@ -123,6 +122,9 @@ const Overview = ({ setPayload }) => {
           options={categories}
           value={categoryCode || 'a'}
           setValue={setCategoryCode}
+          setInvalidField={setInvalidField}
+          invalidField={invalidField}
+          type="categoryCode"
         />
         <Input
           type="text"
@@ -133,6 +135,9 @@ const Overview = ({ setPayload }) => {
           name="title"
           value={title}
           onChange={handleInputChange}
+          invalidField={invalidField}
+          onFocus={() => setInvalidField([])}
+          typeName="title"
         />
         <div className="flex flex-col gap-2">
           <label htmlFor="content" className="text-base block font-semibold text-gray-900 cursor-pointer">
@@ -144,7 +149,13 @@ const Overview = ({ setPayload }) => {
             name="desc"
             value={desc}
             onChange={handleInputChange}
+            onFocus={() => setInvalidField([])}
           />
+          {invalidField && invalidField?.some((i) => i?.name === 'desc') ? (
+            <span className="text-red-500 text-xs">{invalidField?.find((i) => i?.name === 'desc')?.message}</span>
+          ) : (
+            ''
+          )}
         </div>
         <Input
           type="text"
@@ -178,6 +189,9 @@ const Overview = ({ setPayload }) => {
             decs2={'Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000'}
             value={price}
             onChange={handleInputChange}
+            invalidField={invalidField}
+            onFocus={() => setInvalidField([])}
+            typeName="priceNumber"
           />
           <Input
             type="number"
@@ -189,6 +203,9 @@ const Overview = ({ setPayload }) => {
             decs1={'m²'}
             value={acreage}
             onChange={handleInputChange}
+            invalidField={invalidField}
+            onFocus={() => setInvalidField([])}
+            typeName="acreageNumber"
           />
         </div>
         <SelectorOverview
@@ -196,6 +213,9 @@ const Overview = ({ setPayload }) => {
           options={targerts}
           value={genderCode || 'a'}
           setValue={setGenderCode}
+          setInvalidField={setInvalidField}
+          invalidField={invalidField}
+          type="target"
         />
       </div>
       <div className="w-full flex flex-col gap-2">

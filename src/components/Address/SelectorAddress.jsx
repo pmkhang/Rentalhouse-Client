@@ -1,7 +1,17 @@
 import React from 'react';
 import { memo } from 'react';
 
-const SelectorAddress = ({ label, id, options, value = 'a', setValue, type, className, invalidField }) => {
+const SelectorAddress = ({
+  label,
+  id,
+  options,
+  value = 'a',
+  setValue,
+  type,
+  className,
+  invalidField,
+  setInvalidField,
+}) => {
   let valueKey;
   let nameKey;
 
@@ -33,6 +43,7 @@ const SelectorAddress = ({ label, id, options, value = 'a', setValue, type, clas
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="outline-none border border-gray-400 rounded-md py-1 px-2 text-sm"
+        onFocus={() => setInvalidField([])}
       >
         <option value="">-- Chọn {label} --</option>
         {options?.map((item) => (
@@ -41,12 +52,10 @@ const SelectorAddress = ({ label, id, options, value = 'a', setValue, type, clas
           </option>
         ))}
       </select>
-      {value === 'a' ? (
+      {value === 'a' && type !== 'ward' ? (
         <span className="text-red-500 text-xs">
           {invalidField && invalidField?.some((i) => i?.name === `${type}Name`)
             ? invalidField?.find((i) => i?.name === `${type}Name`)?.message
-            : value === 'a' && invalidField
-            ? 'Bạn không được dể trống trường này'
             : ''}
         </span>
       ) : (

@@ -3,8 +3,9 @@ import SelectorAddress from './SelectorAddress';
 import Input from '../Input';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 
-const Address = ({ setPayload, register, errors, payload }) => {
+const Address = ({ setPayload, invalidField, setInvalidField }) => {
   const [dataProvinces, setDataProvinces] = useState([]);
   const [dataDistricts, setDataDistricts] = useState([]);
   const [dataWards, setDataWards] = useState([]);
@@ -92,17 +93,17 @@ const Address = ({ setPayload, register, errors, payload }) => {
       <h2 className="font-semibold text-xl">Địa chỉ cho thuê</h2>
       <div className=" w-full flex flex-col gap-8">
         <Input
-          {...register('address')}
           type="text"
           label="Nhập địa chỉ cho thuê"
           labelStyle={'font-semibold'}
           id="address"
           inputStyle={'py-2 bg-white focus:border focus:border-blue-400'}
-          value={address || ''}
           onChange={(e) => setAddress(e.target.value)}
           placeholder={'Nhập số nhà và đường'}
           className={'mt-5'}
-          errors={errors?.address}
+          invalidField={invalidField}
+          onFocus={() => setInvalidField([])}
+          typeName="address"
         />
         <div className="w-full flex flex-col gap-4">
           <SelectorAddress
@@ -112,6 +113,8 @@ const Address = ({ setPayload, register, errors, payload }) => {
             value={province || 'a'}
             setValue={setProvince}
             type="province"
+            invalidField={invalidField}
+            setInvalidField={setInvalidField}
           />
           <SelectorAddress
             label="Quận/Huyện"
@@ -120,6 +123,8 @@ const Address = ({ setPayload, register, errors, payload }) => {
             value={district || 'a'}
             setValue={setDistrict}
             type="district"
+            invalidField={invalidField}
+            setInvalidField={setInvalidField}
           />
           <SelectorAddress
             className={'flex-2'}
@@ -129,6 +134,8 @@ const Address = ({ setPayload, register, errors, payload }) => {
             value={ward || 'a'}
             setValue={setWard}
             type="ward"
+            invalidField={invalidField}
+            setInvalidField={setInvalidField}
           />
         </div>
         <Input

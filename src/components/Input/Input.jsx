@@ -24,6 +24,9 @@ const Input = forwardRef(
       decs2,
       onWheel,
       errors,
+      invalidField,
+      setInvalidField,
+      typeName,
       ...prop
     },
     ref,
@@ -80,8 +83,13 @@ const Input = forwardRef(
               />
               {decs1 && <span className="p-2 text-sm border border-gray-300 bg-slate-100 rounded-r-md">{decs1}</span>}
             </div>
+            {errors && <span className="text-red-500 text-xs">{errors?.message}</span>}
+            {invalidField && invalidField?.some((i) => i?.name === typeName) ? (
+              <span className="text-red-500 text-xs">{invalidField?.find((i) => i?.name === typeName)?.message}</span>
+            ) : (
+              ''
+            )}
             {decs2 && <span className="p-2 text-xs mt-[-6px] text-gray-400">{decs2}</span>}
-            {errors && <span className="text-red-400 text-sm font-semibold">{errors?.message}</span>}
           </div>
         )}
       </>
