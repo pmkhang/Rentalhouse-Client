@@ -7,6 +7,7 @@ const postSlice = createSlice({
     message: '',
     count: 0,
     newPosts: [],
+    userPosts: [],
   },
   reducers: {
     getPostsSuccess(state, action) {
@@ -26,8 +27,25 @@ const postSlice = createSlice({
       state.newPosts = [];
       state.message = action.payload;
     },
+    getUserPostSucces(state, action) {
+      state.userPosts = action.payload.rows;
+      state.message = action.payload.message;
+      state.count = action.payload.count;
+    },
+    getUserPostFail(state, action) {
+      state.userPosts = [];
+      state.message = action.payload;
+      state.count = 0;
+    },
   },
 });
 
-export const { getPostsSuccess, getPostsFail, getNewPostsSuccess, getNewPostsFail } = postSlice.actions;
+export const {
+  getPostsSuccess,
+  getPostsFail,
+  getNewPostsSuccess,
+  getNewPostsFail,
+  getUserPostSucces,
+  getUserPostFail,
+} = postSlice.actions;
 export default postSlice.reducer;

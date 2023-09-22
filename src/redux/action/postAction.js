@@ -1,7 +1,14 @@
 // postActions.js
 
-import { getPostsSuccess, getPostsFail, getNewPostsSuccess, getNewPostsFail } from '../Slice/PostsSlice';
-import { apiGetPostsLimit, apiGetNewPosts } from '../../services/post';
+import {
+  getPostsSuccess,
+  getPostsFail,
+  getNewPostsSuccess,
+  getNewPostsFail,
+  getUserPostFail,
+  getUserPostSucces,
+} from '../Slice/PostsSlice';
+import { apiGetPostsLimit, apiGetNewPosts, apiGetUserPosts } from '../../services/post';
 
 // export const getPosts = () => async (dispatch) => {
 //   try {
@@ -42,5 +49,19 @@ export const getNewPosts = (query) => async (dispatch) => {
   } catch (error) {
     console.log('Error getPostsLimit: ', error);
     dispatch(getNewPostsFail({ message: 'An error occurred' }));
+  }
+};
+
+export const getUserPosts = (query) => async (dispatch) => {
+  try {
+    const response = await apiGetUserPosts(query);
+    if (response?.data.error === 0) {
+      dispatch(getUserPostSucces(response.data.response));
+    } else {
+      dispatch(getUserPostFail({ message: response.data.message }));
+    }
+  } catch (error) {
+    console.log('Error getUserPosts: ', error);
+    dispatch(getUserPostFail({ message: 'An error occurred' }));
   }
 };

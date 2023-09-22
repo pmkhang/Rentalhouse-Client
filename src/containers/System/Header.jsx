@@ -1,8 +1,5 @@
 import React, { useMemo } from 'react';
-// import logo from '../../Assets/logoRentalHouse-white.png';
-import { Navigation } from '../Public';
 import { useSelector } from 'react-redux';
-import NavItem from '../../components/NavItem/NavItem';
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {

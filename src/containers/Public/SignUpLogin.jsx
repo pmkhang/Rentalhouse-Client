@@ -61,6 +61,7 @@ const SignUpLogin = ({ flag }) => {
     } else {
       dispatch(login({ phone, password }));
       if (isLoggedIn) {
+        dispatch(login({ phone, password }));
         dispatch(setUpdate(true));
         navigate('/');
         toast.success('Đăng nhập thành công!');

@@ -3,7 +3,6 @@ import SelectorAddress from './SelectorAddress';
 import Input from '../Input';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
 
 const Address = ({ setPayload, invalidField, setInvalidField, register, errors }) => {
   const [dataProvinces, setDataProvinces] = useState([]);

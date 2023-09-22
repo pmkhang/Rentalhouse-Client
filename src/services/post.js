@@ -88,3 +88,18 @@ export const apiCreatePost = (payload) =>
       reject(error);
     }
   });
+
+export const apiGetUserPosts = (query) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'get',
+        url: `/api/v1/post/user-posts`,
+        params: query,
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('apiGetUserPosts error: ', error);
+      reject(error);
+    }
+  });
