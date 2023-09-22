@@ -75,8 +75,8 @@ const Input = forwardRef(
                 step={step}
                 onWheel={onWheel}
                 readOnly={readOnly}
-                {...prop}
                 ref={ref}
+                {...prop}
                 className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  ${inputStyle} ${
                   errors && 'bg-red-100 border-red-300 text-red-400'
                 }`}

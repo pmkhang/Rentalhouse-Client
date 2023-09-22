@@ -35,7 +35,7 @@ const authSlice = createSlice({
     },
     loginFail(state, action) {
       state.isLoggedIn = false;
-      state.message = action.payload.message;
+      state.message = 'saimk&sdt' || action.payload.message;
       state.token = null;
       state.error = action.payload.error;
       state.update = false;

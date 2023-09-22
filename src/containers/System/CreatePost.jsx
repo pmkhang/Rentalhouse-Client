@@ -64,8 +64,14 @@ const CreatePost = () => {
       label: `${categoryName} ${districtName}`,
     }));
   }, [acreageNumber, acreages, categoryName, districtName, priceNumber, prices]);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = async () => {
+    
     const result = validate(
       { provinceName, districtName, categoryCode, address, target, title, desc, acreageNumber, priceNumber },
       setInvalidField,
@@ -81,16 +87,21 @@ const CreatePost = () => {
     <div className="flex flex-col">
       <h2 className="text-3xl font-medium py-4 border-b border-gray-200">Đăng tin mới</h2>
       <div className="w-full flex gap-5">
-        <div className="w-[70%] min-h-[1800px] flex flex-col gap-8 py-4 tl:w-full">
-          <Address invalidField={invalidField} setInvalidField={setInvalidField} setPayload={setPayload} />
+        <form className="w-[70%] min-h-[1800px] flex flex-col gap-8 py-4 tl:w-full" onSubmit={handleSubmit(onSubmit)}>
+          <Address
+            invalidField={invalidField}
+            setInvalidField={setInvalidField}
+            setPayload={setPayload}
+            register={register}
+            errors={errors}
+          />
           <Overview invalidField={invalidField} setInvalidField={setInvalidField} setPayload={setPayload} />
           <Button
             text={'Đăng tin'}
             className={'bg-green-700 focus:ring-green-500 hover:bg-green-600'}
             textStyle={'text-white font-semibold'}
-            onClick={onSubmit}
           />
-        </div>
+        </form>
         <div className="w-[30%] py-4 tl:hidden">
           <div className="w-full min-h-[500px] border border-red-400 ">Map</div>
         </div>

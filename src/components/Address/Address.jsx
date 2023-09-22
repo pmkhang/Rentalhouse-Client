@@ -5,7 +5,7 @@ import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '..
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-const Address = ({ setPayload, invalidField, setInvalidField }) => {
+const Address = ({ setPayload, invalidField, setInvalidField, register, errors }) => {
   const [dataProvinces, setDataProvinces] = useState([]);
   const [dataDistricts, setDataDistricts] = useState([]);
   const [dataWards, setDataWards] = useState([]);

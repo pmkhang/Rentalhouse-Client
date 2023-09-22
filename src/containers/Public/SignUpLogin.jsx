@@ -42,6 +42,10 @@ const SignUpLogin = ({ flag }) => {
   }, [isLoggedIn, navigate]);
   console.log({ error, update, isLoggedIn });
 
+  // useEffect(() => {
+  //   message && Swal.fire('Oops !', 'Bạn đã sai mật khẩu hoặc số điện thoại', 'error');
+  // }, [message]);
+
   const onSubmit = ({ name, phone, password }) => {
     if (isRegister) {
       dispatch(registerUser({ name, phone, password }));
@@ -61,9 +65,8 @@ const SignUpLogin = ({ flag }) => {
         navigate('/');
         toast.success('Đăng nhập thành công!');
         reset();
-      } else if (!isLoggedIn && update === false) {
+      } else if (message === 'saimk&sdt') {
         Swal.fire('Oops !', 'Bạn đã sai mật khẩu hoặc số điện thoại', 'error');
-        return;
       }
     }
   };
