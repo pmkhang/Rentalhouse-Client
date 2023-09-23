@@ -55,9 +55,7 @@ const Input = forwardRef(
           <div className={`flex flex-col gap-1 ${className}`}>
             <label
               htmlFor={id}
-              className={`text-base block font-medium text-gray-900 cursor-pointer  ${labelStyle} ${
-                errors && 'text-red-400 font-semibold'
-              }`}
+              className={`text-base block font-medium text-gray-900 cursor-pointer  ${labelStyle} `}
             >
               {label}
             </label>

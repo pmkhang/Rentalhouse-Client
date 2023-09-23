@@ -30,7 +30,6 @@ const CreatePost = () => {
     districtName: '',
     provinceCode: '',
     districtCode: '',
-    wardName: '',
     categoryCode: '',
     categoryName: '',
     priceCode: '',
@@ -65,6 +64,7 @@ const CreatePost = () => {
     }));
   }, [acreageNumber, acreages, categoryName, districtName, priceNumber, prices]);
   const {
+    
     handleSubmit,
     register,
     formState: { errors },
@@ -75,11 +75,12 @@ const CreatePost = () => {
       { provinceName, districtName, categoryCode, address, target, title, desc, acreageNumber, priceNumber },
       setInvalidField,
     );
-    if (result === 0 && payload) {
-      await apiCreatePost(payload);
-      toast.success('Đăng tin cho thuê thành công !');
-      navigate(`/quan-ly/${pathSystem.POSTS}`);
-    }
+    console.log(payload)
+    // if (result === 0 && payload) {
+    //   await apiCreatePost(payload);
+    //   toast.success('Đăng tin cho thuê thành công !');
+    //   navigate(`/quan-ly/${pathSystem.POSTS}`);
+    // }
   };
 
   return (

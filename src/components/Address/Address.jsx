@@ -70,7 +70,7 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
     const formattedAddress = `${address ? address + ',' : ''} ${
       ward ? dataWards?.find((i) => i?.ward_id === ward)?.ward_name + ',' : ''
     } ${district ? dataDistricts?.find((i) => i?.district_id === district)?.district_name + ',' : ''} ${
-      province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name + '.' : ''
+      province ? dataProvinces?.find((i) => i?.province_id === province)?.province_name : ''
     }`.trim();
 
     setAddressFinal(formattedAddress);
@@ -110,7 +110,8 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             id="province"
             options={dataProvinces}
             value={province || 'a'}
-            setValue={setProvince}
+            // setValue={setProvince}
+            onChange={(e) => setProvince(e.target.value)}
             type="province"
             invalidField={invalidField}
             onFocus={() => setInvalidField([])}
@@ -120,7 +121,8 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             id="district"
             options={dataDistricts}
             value={district || 'a'}
-            setValue={setDistrict}
+            // setValue={setDistrict}
+            onChange={(e) => setDistrict(e.target.value)}
             type="district"
             invalidField={invalidField}
             onFocus={() => setInvalidField([])}
@@ -131,7 +133,8 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             id="ward"
             options={dataWards}
             value={ward || 'a'}
-            setValue={setWard}
+            // setValue={setWard}
+            onChange={(e) => setWard(e.target.value)}
             type="ward"
             invalidField={invalidField}
             onFocus={() => setInvalidField([])}

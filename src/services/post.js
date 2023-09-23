@@ -103,3 +103,18 @@ export const apiGetUserPosts = (query) =>
       reject(error);
     }
   });
+
+export const apiUpdateUserPosts = (payload) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'put',
+        url: `/api/v1/post/update-user-post`,
+        data: payload,
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('apiUpdateUserPosts error: ', error);
+      reject(error);
+    }
+  });

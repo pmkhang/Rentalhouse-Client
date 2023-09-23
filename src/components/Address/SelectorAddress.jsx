@@ -6,12 +6,11 @@ const SelectorAddress = ({
   id,
   options,
   value = 'a',
-  setValue,
   type,
   className,
   invalidField,
-  setInvalidField,
   onFocus,
+  onChange,
 }) => {
   let valueKey;
   let nameKey;
@@ -41,8 +40,8 @@ const SelectorAddress = ({
       </label>
       <select
         id={id}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        defaultValue={value}
+        onChange={onChange}
         className="outline-none border border-gray-400 rounded-md py-1 px-2 text-sm"
         onFocus={onFocus}
       >

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { BsCamera2 } from 'react-icons/bs';
-import { FaTimes } from 'react-icons/fa';
 import { ColorRing } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { apiUploadImages } from '../../services/post';
@@ -9,6 +7,11 @@ import SelectorAddress from '../Address/SelectorAddress';
 import Input from '../Input';
 import SelectorOverview from '../Overview/SelectorOverview';
 import Button from '../Button';
+import icons from '../../utils/icons';
+import { getCodesWithNumber } from '../../utils/Common/getCodes';
+import { useForm } from 'react-hook-form';
+
+const { BsCamera2, FaTimes } = icons;
 
 const targerts = [
   {
@@ -25,37 +28,81 @@ const targerts = [
   },
 ];
 
-const UpdatePost = ({ setIsEdit, dataEdit }) => {
+const UpdatePost = ({ setIsEdit }) => {
+  const { categories } = useSelector((state) => state.category);
+  const { editPost } = useSelector((state) => state.post);
+  const { userDataByID } = useSelector((state) => state.user);
+  const { acreages } = useSelector((state) => state.acreage);
+  const { prices } = useSelector((state) => state.price);
+  const addresString = editPost?.address.split(',');
+
   const [dataProvinces, setDataProvinces] = useState([]);
   const [dataDistricts, setDataDistricts] = useState([]);
   const [dataWards, setDataWards] = useState([]);
   const [province, setProvince] = useState('');
   const [district, setDistrict] = useState('');
   const [ward, setWard] = useState('');
-  const { categories } = useSelector((state) => state.category);
-  const { userDataByID } = useSelector((state) => state.user);
-  const { editPost } = useSelector((state) => state.post);
   const [isLoading, setIsloading] = useState(false);
-  console.log(editPost);
-  const [formData, setFormData] = useState({
-    title: '',
-    desc: '',
-    price: '',
-    acreage: '',
-    images: [],
+
+  const [addressSate, setAddressSate] = useState({
+    addressStreet: addresString[0].trim() || '',
+    wardName: addresString[addresString.length - 3].trim() || '',
+    districtName: addresString[addresString.length - 2].trim() || '',
+    provinceName: addresString[addresString.length - 1].trim() || '',
   });
 
-  const { title, desc, price, acreage, images } = formData;
-  const [genderCode, setGenderCode] = useState('');
-  const [categoryCode, setCategoryCode] = useState('');
+  const [imagesS, setImagesS] = useState({
+    imaage: JSON.parse(editPost?.images.image) || [],
+  });
+  const { imaage } = imagesS;
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
+  const { addressStreet, wardName, districtName, provinceName } = addressSate;
+
+  const [editDataPayload, setEditDataPayload] = useState({
+    postID: editPost?.id,
+    attributesID: editPost?.attributesID,
+    imagesID: editPost?.imagesID,
+    overviewID: editPost?.overviewID,
+    acreageCode: editPost?.acreageCode || '',
+    acreageNumber: editPost?.acreageNumber || '',
+    title: editPost?.title || '',
+    address: editPost?.address || '',
+    categoryCode: editPost?.categoryCode || '',
+    categoryName: categories?.find((i) => i?.code === editPost?.categoryCode)?.value || '',
+    desc: JSON.parse(editPost?.desc) || '',
+    label: editPost?.labels.value || '',
+    priceCode: editPost?.priceCode || '',
+    priceNumber: editPost?.priceNumber * 10 ** 6 || '',
+    star: editPost?.star || '',
+    target: editPost?.overviews.target,
+  });
+
+  const { title, acreageNumber, categoryCode, desc, priceNumber, target } = editDataPayload;
+
+  const handleSetEditDataPayloadCategogy = (value) => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      categoryCode: value,
     }));
   };
+  const handleSetEditDataPayload = (value) => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      target: value,
+    }));
+  };
+
+  useEffect(() => {
+    setProvince(dataProvinces?.find((i) => i.province_name === provinceName)?.province_id);
+  }, [dataProvinces, provinceName]);
+
+  useEffect(() => {
+    setDistrict(dataDistricts?.find((i) => i?.district_name === districtName)?.district_id);
+  }, [dataDistricts, districtName]);
+
+  useEffect(() => {
+    setWard(dataWards?.find((i) => i?.ward_name === wardName)?.ward_id);
+  }, [dataWards, wardName]);
 
   useEffect(() => {
     const fetchPublicProvince = async () => {
@@ -109,6 +156,49 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
     !district && setDataWards([]);
   }, [district]);
 
+  useEffect(() => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      categoryName: categories?.find((i) => i?.code === categoryCode)?.value,
+    }));
+  }, [categories, categoryCode]);
+
+  useEffect(() => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      acreageCode: getCodesWithNumber(acreageNumber, acreages)?.code,
+      priceCode: getCodesWithNumber(priceNumber / 10 ** 6, prices)?.code,
+    }));
+  }, [acreageNumber, acreages, priceNumber, prices]);
+
+  useEffect(() => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      priceNumber: prev.priceNumber / 10 ** 6,
+    }));
+  }, []);
+  useEffect(() => {
+    if (district && ward && province) {
+      setAddressSate((prev) => ({
+        ...prev,
+        districtName: dataDistricts?.find((i) => i?.district_id === district)?.district_name || '',
+        wardName: dataWards?.find((i) => i.ward_id === ward)?.ward_name || '',
+        provinceName: dataProvinces?.find((i) => i?.province_id === province)?.province_name || '',
+      }));
+    }
+  }, [dataDistricts, dataProvinces, dataWards, district, province, ward]);
+
+  useEffect(() => {
+    if (addressStreet && districtName && wardName && provinceName) {
+      setEditDataPayload((prev) => ({
+        ...prev,
+        address: `${addressStreet}, ${wardName && wardName}, ${districtName && districtName}, ${
+          provinceName && provinceName
+        }`,
+      }));
+    }
+  }, [addressStreet, districtName, provinceName, wardName]);
+
   const handleFiles = async (e) => {
     e.stopPropagation();
     const files = e.target.files;
@@ -120,9 +210,9 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
       try {
         const response = await apiUploadImages(formData);
         if (response.status === 200) {
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            images: [...prevFormData.images, response?.data?.secure_url],
+          setImagesS((prev) => ({
+            ...prev,
+            imaage: [...prev.imaage, response?.data?.secure_url],
           }));
         } else {
           console.error('Upload failed:', response?.statusText);
@@ -135,23 +225,32 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
   };
 
   const handleDelImage = (i) => {
-    const indexToRemove = formData.images.indexOf(i);
-    if (indexToRemove !== -1) {
-      const updatedImages = [...formData.images];
-      updatedImages.splice(indexToRemove, 1);
+    setImagesS((prevImages) => {
+      const updatedImages = prevImages.filter((image) => image !== i);
+      return updatedImages;
+    });
+  };
 
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        images: updatedImages,
-      }));
-    }
+  useEffect(() => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      images: JSON.stringify(imaage),
+      provinceName: dataProvinces?.find((i) => i?.province_id === province)?.province_name || '',
+    }));
+  }, [dataProvinces, imaage, province]);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (e) => {
+    console.log({ editDataPayload });
   };
 
   return (
-    <div
-      className="flex items-center px-5 justify-center fixed top-0 right-0 left-0 bottom-0 rounded-xl shadow-lg bg-overlay-30 backdrop-blur-sm"
-      onClick={() => setIsEdit(false)}
-    >
+    <div className="flex items-center px-5 justify-center fixed top-0 right-0 left-0 bottom-0 rounded-xl shadow-lg bg-overlay-30 backdrop-blur-sm">
       <div
         className="relative max-w-[1200px] w-full max-h-[800px] h-full mt-[-50px] p-5 px-8 tl:px-5 overflow-y-scroll bg-white rounded-lg shadow-lg"
         onClick={(e) => {
@@ -159,12 +258,13 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
         }}
       >
         <h2 className="text-2xl font-semibold">Chỉnh sửa tin đăng</h2>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4">
             <div className="w-full h-fit">
               <h2 className="font-semibold text-xl">Địa chỉ cho thuê</h2>
               <div className=" w-full flex flex-col gap-8">
                 <Input
+                  {...register('address', { required: 'Bạn cần phải nhập trường này!' })}
                   type="text"
                   label="Nhập địa chỉ cho thuê"
                   labelStyle={'font-semibold'}
@@ -173,23 +273,31 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                   placeholder={'Nhập số nhà và đường'}
                   className={'mt-5'}
                   typeName="address"
+                  value={addressStreet || ''}
+                  onChange={(e) =>
+                    setAddressSate((prev) => ({
+                      ...prev,
+                      addressStreet: e.target.value,
+                    }))
+                  }
+                  errors={errors?.address}
                 />
                 <div className="w-full flex flex-col gap-4">
                   <SelectorAddress
                     label="Tỉnh/Thành phố"
                     id="province"
                     options={dataProvinces}
-                    value={province || 'a'}
-                    setValue={setProvince}
                     type="province"
+                    value={province || 'a'}
+                    onChange={(e) => setProvince(e.target.value)}
                   />
                   <SelectorAddress
                     label="Quận/Huyện"
                     id="district"
                     options={dataDistricts}
                     value={district || 'a'}
-                    setValue={setDistrict}
                     type="district"
+                    onChange={(e) => setDistrict(e.target.value)}
                   />
                   <SelectorAddress
                     className={'flex-2'}
@@ -197,7 +305,7 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                     id="ward"
                     options={dataWards}
                     value={ward || 'a'}
-                    setValue={setWard}
+                    onChange={(e) => setWard(e.target.value)}
                     type="ward"
                   />
                 </div>
@@ -208,7 +316,7 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                   label="Xác nhận địa chỉ"
                   id="exactly-address"
                   labelStyle={'font-semibold'}
-                  value={editPost?.address}
+                  value={`${addressStreet}, ${wardName}, ${districtName}, ${provinceName}`}
                 />
               </div>
             </div>
@@ -219,32 +327,46 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
               <SelectorOverview
                 label="Loại chuyên mục"
                 options={categories}
-                value={editPost?.categoryCode || categoryCode || 'a'}
-                setValue={setCategoryCode}
                 type="categoryCode"
+                value={categoryCode}
+                setValue={(value) => handleSetEditDataPayloadCategogy(value)}
               />
               <Input
+                {...register('title', { required: 'Bạn cần phải nhập trường này!' })}
+                errors={errors?.title}
                 type="text"
                 label="Tiêu đề"
                 labelStyle={'font-semibold'}
                 id="title"
                 inputStyle={'py-2 bg-white focus:border focus:border-blue-400'}
                 name="title"
-                value={editPost?.title || title}
-                onChange={handleInputChange}
                 typeName="title"
+                value={title || ''}
+                onChange={(e) =>
+                  setEditDataPayload((prev) => ({
+                    ...prev,
+                    title: e.target.value,
+                  }))
+                }
               />
               <div className="flex flex-col gap-2">
                 <label htmlFor="content" className="text-base block font-semibold text-gray-900 cursor-pointer">
                   Nội dung mô tả
                 </label>
                 <textarea
+                  {...register('content', { required: 'Bạn cần phải nhập trường này!' })}
                   id="content"
                   className="w-full min-h-[200px] p-3 outline-none border border-gray-300 rounded-md focus:border-blue-400"
                   name="desc"
-                  value={editPost?.desc || desc}
-                  onChange={handleInputChange}
+                  value={desc || ''}
+                  onChange={(e) =>
+                    setEditDataPayload((prev) => ({
+                      ...prev,
+                      desc: e.target.value,
+                    }))
+                  }
                 />
+                {errors?.content && <span className="text-red-500 text-xs">{errors?.content?.message}</span>}
               </div>
               <Input
                 type="text"
@@ -254,7 +376,7 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                 id="info"
                 labelStyle={'font-semibold'}
                 name="userName"
-                value={userDataByID?.name || ''}
+                value={userDataByID?.name}
               />
               <Input
                 type="text"
@@ -264,10 +386,12 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                 id="phone"
                 labelStyle={'font-semibold'}
                 name="userPhone"
-                value={userDataByID?.phone || ''}
+                value={userDataByID?.phone}
               />
               <div className="w-1/2 tl:w-full">
                 <Input
+                  {...register('price', { required: 'Bạn cần phải nhập trường này!' })}
+                  errors={errors?.price}
                   type="text"
                   inputStyle={'py-2 bg-white rounded-r-none border-r-0 focus:border focus:border-blue-400'}
                   label="Giá cho thuê"
@@ -276,11 +400,18 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                   name="price"
                   decs1={'Đồng/tháng'}
                   decs2={'Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000'}
-                  value={editPost?.priceNumber * 10 ** 6 || price}
-                  onChange={handleInputChange}
                   typeName="priceNumber"
+                  value={priceNumber || ''}
+                  onChange={(e) =>
+                    setEditDataPayload((prev) => ({
+                      ...prev,
+                      priceNumber: e.target.value,
+                    }))
+                  }
                 />
                 <Input
+                  {...register('acreage', { required: 'Bạn cần phải nhập trường này!' })}
+                  errors={errors?.acreage}
                   type="number"
                   inputStyle={'py-2 bg-white rounded-r-none border-r-0  focus:border focus:border-blue-400'}
                   label="Diện tích"
@@ -288,17 +419,22 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                   labelStyle={'font-semibold'}
                   name="acreage"
                   decs1={'m²'}
-                  value={editPost?.acreageNumber || acreage}
-                  onChange={handleInputChange}
                   typeName="acreageNumber"
+                  value={acreageNumber || ''}
+                  onChange={(e) =>
+                    setEditDataPayload((prev) => ({
+                      ...prev,
+                      acreageNumber: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <SelectorOverview
                 label="Đối tượng cho thuê"
                 options={targerts}
-                value={editPost?.overviews?.target || genderCode || 'a'}
-                setValue={setGenderCode}
                 type="target"
+                value={target}
+                setValue={(value) => handleSetEditDataPayload(value)}
               />
             </div>
             <div className="w-full flex flex-col gap-2">
@@ -328,11 +464,11 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                 </label>
                 <input type="file" id="file" hidden multiple onChange={handleFiles} />
               </div>
-              {images.length > 0 && (
+              {imaage.length > 0 && (
                 <div className="flex flex-col gap-3">
                   <h3 className="font-semibold">Hình đã upload</h3>
                   <div className="flex flex-wrap gap-6 items-center">
-                    {images?.map((i, index) => (
+                    {imaage?.map((i, index) => (
                       <div
                         key={index}
                         className="relative w-[235px] h-[150px] border border-gray-400 rounded-lg shadow-md p-2"
@@ -363,7 +499,16 @@ const UpdatePost = ({ setIsEdit, dataEdit }) => {
                 setIsEdit(false);
               }}
             />
-            <Button fullWidth text="Hoàn tất" className={'bg-green-500 hover:bg-green-400'} textStyle={'text-white'} />
+            <Button
+              fullWidth
+              text="Hoàn tất"
+              className={'bg-green-500 hover:bg-green-400'}
+              textStyle={'text-white'}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSubmit();
+              }}
+            />
           </div>
         </form>
       </div>
