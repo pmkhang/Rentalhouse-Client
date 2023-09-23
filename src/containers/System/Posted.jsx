@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 import { pathSystem } from '../../utils/constant';
 import checkStatus from '../../utils/Common/checkStatus';
 import Button from '../../components/Button';
+import UpdatePost from '../../components/UpdatePost';
+import { useState } from 'react';
+import { setEditPost } from '../../redux/Slice/PostsSlice';
 
 const Posted = () => {
   const dispatch = useDispatch();
   const { userPosts } = useSelector((state) => state.post);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     dispatch(getUserPosts());
@@ -27,7 +31,7 @@ const Posted = () => {
       <div className="min-w-full overflow-x-scroll">
         <table className="w-full divide-y divide-gray-200">
           <thead>
-            <tr className='bg-blue-600'>
+            <tr className="bg-blue-600">
               <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Mã tin</th>
               <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">
                 Ảnh đại diện
@@ -40,9 +44,7 @@ const Posted = () => {
               <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">
                 Ngày hết hạn
               </th>
-              <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">
-                Trạng thái
-              </th>
+              <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Trạng thái</th>
               <th className="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Tuỳ chọn</th>
             </tr>
           </thead>
@@ -83,7 +85,14 @@ const Posted = () => {
                 <td className="px-6 whitespace-nowrap py-4">{i?.overviews?.expired}</td>
                 <td className="px-6 whitespace-nowrap py-4">{checkStatus(i?.overviews?.expired?.split(' ')[3])}</td>
                 <td className="px-6 whitespace-nowrap py-4 flex items-center gap-2">
-                  <Button text="Sửa" className={'bg-yellow-400 py-[4px] hover:bg-yellow-300 focus:ring-yellow-200'} />
+                  <Button
+                    text="Sửa"
+                    className={'bg-yellow-400 py-[4px] hover:bg-yellow-300 focus:ring-yellow-200'}
+                    onClick={() => {
+                      setIsEdit(true);
+                      dispatch(setEditPost(i));
+                    }}
+                  />
                   <Button
                     text="Xoá"
                     className={'bg-red-500 py-[4px] hover:bg-red-400 focus:ring-red-200'}
@@ -95,6 +104,7 @@ const Posted = () => {
           </tbody>
         </table>
       </div>
+      {isEdit && <UpdatePost setIsEdit={setIsEdit} />}
     </div>
   );
 };

@@ -8,6 +8,7 @@ const postSlice = createSlice({
     count: 0,
     newPosts: [],
     userPosts: [],
+    editPost: [],
   },
   reducers: {
     getPostsSuccess(state, action) {
@@ -37,6 +38,9 @@ const postSlice = createSlice({
       state.message = action.payload;
       state.count = 0;
     },
+    setEditPost(state, action) {
+      state.editPost = action.payload;
+    },
   },
 });
 
@@ -47,5 +51,6 @@ export const {
   getNewPostsFail,
   getUserPostSucces,
   getUserPostFail,
+  setEditPost,
 } = postSlice.actions;
 export default postSlice.reducer;

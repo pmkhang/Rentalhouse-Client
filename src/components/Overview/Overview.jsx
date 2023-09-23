@@ -122,7 +122,7 @@ const Overview = ({ setPayload, setInvalidField, invalidField }) => {
           options={categories}
           value={categoryCode || 'a'}
           setValue={setCategoryCode}
-          setInvalidField={setInvalidField}
+          onFocus={() => setInvalidField([])}
           invalidField={invalidField}
           type="categoryCode"
         />
@@ -177,7 +177,7 @@ const Overview = ({ setPayload, setInvalidField, invalidField }) => {
           name="userPhone"
           value={userPhone || ''}
         />
-        <div className="w-1/2">
+        <div className="w-1/2 tl:w-full">
           <Input
             type="text"
             inputStyle={'py-2 bg-white rounded-r-none border-r-0 focus:border focus:border-blue-400'}
@@ -213,7 +213,7 @@ const Overview = ({ setPayload, setInvalidField, invalidField }) => {
           options={targerts}
           value={genderCode || 'a'}
           setValue={setGenderCode}
-          setInvalidField={setInvalidField}
+          onFocus={() => setInvalidField([])}
           invalidField={invalidField}
           type="target"
         />

@@ -11,6 +11,7 @@ const SelectorAddress = ({
   className,
   invalidField,
   setInvalidField,
+  onFocus,
 }) => {
   let valueKey;
   let nameKey;
@@ -34,7 +35,7 @@ const SelectorAddress = ({
   }
 
   return (
-    <div className={`flex flex-col w-1/2 gap-2 ${className}`}>
+    <div className={`flex flex-col w-1/2 gap-2 tl:w-full ${className}`}>
       <label htmlFor={id} className="font-semibold">
         {label}
       </label>
@@ -43,7 +44,7 @@ const SelectorAddress = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="outline-none border border-gray-400 rounded-md py-1 px-2 text-sm"
-        onFocus={() => setInvalidField([])}
+        onFocus={onFocus}
       >
         <option value="">-- Chọn {label} --</option>
         {options?.map((item) => (

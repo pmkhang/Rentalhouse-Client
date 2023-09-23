@@ -71,7 +71,6 @@ const CreatePost = () => {
   } = useForm();
 
   const onSubmit = async () => {
-    
     const result = validate(
       { provinceName, districtName, categoryCode, address, target, title, desc, acreageNumber, priceNumber },
       setInvalidField,
@@ -85,7 +84,7 @@ const CreatePost = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-3xl font-medium py-4 border-b border-gray-200">Đăng tin mới</h2>
+      <h2 className="text-3xl font-medium py-4 border-b border-gray-200">{'Đăng tin mới'}</h2>
       <div className="w-full flex gap-5">
         <form className="w-[70%] min-h-[1800px] flex flex-col gap-8 py-4 tl:w-full" onSubmit={handleSubmit(onSubmit)}>
           <Address
@@ -96,11 +95,14 @@ const CreatePost = () => {
             errors={errors}
           />
           <Overview invalidField={invalidField} setInvalidField={setInvalidField} setPayload={setPayload} />
-          <Button
-            text={'Đăng tin'}
-            className={'bg-green-700 focus:ring-green-500 hover:bg-green-600'}
-            textStyle={'text-white font-semibold'}
-          />
+          <div className="w-full flex items-center gap-3">
+            <Button
+              text={'Đăng tin'}
+              className={'bg-green-700 focus:ring-green-500 hover:bg-green-600'}
+              textStyle={'text-white font-semibold'}
+              fullWidth
+            />
+          </div>
         </form>
         <div className="w-[30%] py-4 tl:hidden">
           <div className="w-full min-h-[500px] border border-red-400 ">Map</div>

@@ -113,7 +113,7 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             setValue={setProvince}
             type="province"
             invalidField={invalidField}
-            setInvalidField={setInvalidField}
+            onFocus={() => setInvalidField([])}
           />
           <SelectorAddress
             label="Quận/Huyện"
@@ -123,7 +123,7 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             setValue={setDistrict}
             type="district"
             invalidField={invalidField}
-            setInvalidField={setInvalidField}
+            onFocus={() => setInvalidField([])}
           />
           <SelectorAddress
             className={'flex-2'}
@@ -134,7 +134,7 @@ const Address = ({ setPayload, invalidField, setInvalidField, register, errors }
             setValue={setWard}
             type="ward"
             invalidField={invalidField}
-            setInvalidField={setInvalidField}
+            onFocus={() => setInvalidField([])}
           />
         </div>
         <Input
