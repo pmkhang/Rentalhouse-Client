@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-const Button = ({ type = 'buttom', text, textStyle, fullWidth, IconLeft, IconRight, onClick, className }) => {
+const Button = ({ type = 'buttom', text, textStyle, fullWidth, IconLeft, IconRight, onClick, className, disabled }) => {
   return (
     <button
       type={type}
@@ -8,6 +8,7 @@ const Button = ({ type = 'buttom', text, textStyle, fullWidth, IconLeft, IconRig
         fullWidth && 'w-full'
       } `}
       onClick={onClick}
+      disabled={disabled}
     >
       <span
         className={` w-full inline-flex items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap gap-2 ${textStyle}`}

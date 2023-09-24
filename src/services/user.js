@@ -27,3 +27,18 @@ export const apiGetUserByID = () =>
       reject(error);
     }
   });
+
+export const apiUpdateUserByID = ({name, zalo, fbUrl, avatar}) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'put',
+        url: '/api/v1/user/update-user-data',
+        data: { name, zalo, fbUrl, avatar },
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('Error apiGetUsersData: ', error);
+      reject(error);
+    }
+  });

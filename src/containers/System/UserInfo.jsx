@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import Input from '../../components/Input';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { pathSystem } from '../../utils/constant';
 import { useForm } from 'react-hook-form';
+import { apiUploadImages } from '../../services/post';
+import { ColorRing } from 'react-loader-spinner';
+import { apiUpdateUserByID } from '../../services/user';
+import { toast } from 'react-toastify';
+import { getUserDataByID } from '../../redux/action/userAction';
 
 const UserInfo = () => {
   const { userDataByID } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isButtonVisible, setButtonVisible] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Thông tin cá nhân';
+  }, []);
 
   const [userInfo, setUserInfo] = useState({
     id: '',
@@ -66,14 +78,43 @@ const UserInfo = () => {
   }, [errors?.userEmail, errors?.userFacebook, errors?.userName, errors?.userZalo]);
 
   const handleFocus = (fieldName) => {
+    setButtonVisible(true);
     setFieldError((prev) => ({
       ...prev,
       [fieldName]: '',
     }));
   };
 
-  const onSubmit = () => {
-    console.log({ name, zalo, fbUrl, avatar });
+  const handleUploadFile = async (e) => {
+    setIsLoading(true);
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
+    const response = await apiUploadImages(formData);
+    console.log(response);
+    if (response.status === 200) {
+      setUserInfo((prev) => ({
+        ...prev,
+        avatar: response?.data?.secure_url,
+      }));
+    }
+    setIsLoading(false);
+  };
+
+  const onSubmit = async () => {
+    try {
+      console.log({ name, zalo, fbUrl, avatar });
+      const response = await apiUpdateUserByID({ name, zalo, fbUrl, avatar });
+      if (response?.status === 200) {
+        dispatch(getUserDataByID());
+        toast.success('Cập nhật thông tin thành công');
+        navigate('/');
+      }
+    } catch (error) {
+      console.log('Update info error: ', error);
+      toast.error('Cập nhật thông tin Thất bại');
+    }
   };
 
   return (
@@ -90,6 +131,7 @@ const UserInfo = () => {
           name="userId"
           value={id || ''}
         />
+
         <Input
           type="text"
           inputStyle="py-2 bg-gray-200 focus:border focus:border-blue-400"
@@ -148,10 +190,9 @@ const UserInfo = () => {
           /> */}
           <Input
             {...register('userZalo', {
-              required: 'Bạn cần phải nhập trường này !',
               pattern: {
                 value: /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/,
-                message: 'Bạn phải nhập đúng định đạng số điện thoại',
+                message: 'Bạn phải nhập đúng định đạng số Zalo',
               },
             })}
             errors={zaloError}
@@ -167,7 +208,6 @@ const UserInfo = () => {
           />
           <Input
             {...register('userFacebook', {
-              required: 'Bạn cần phải nhập trường này !',
               pattern: {
                 value: /https?:\/\/(?:www\.)?facebook\.com\/[A-Za-z0-9_.-]+\//g,
                 message: 'Bạn phải nhập đúng định đạng Facebook url',
@@ -186,23 +226,53 @@ const UserInfo = () => {
           />
           <div className="w-full flex flex-col gap-6">
             <label className="text-base block font-semibold text-gray-900 cursor-pointer">Ảnh đại diện</label>
-            <div className="w-full flex items-center justify-center py-4">
-              <img
-                src={
-                  avatar ||
-                  'https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA='
-                }
-                alt="avatar"
-                className="w-[120px] h-[120px] object-contain shadow-md rounded-full border border-gray-400"
-              />
-            </div>
+            {isLoading ? (
+              <div className="w-full flex items-center justify-center">
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="blocks-loading"
+                  wrapperClass="blocks-wrapper"
+                  colors={['#b8c480', '#B2A3B5', '#F4442E', '#51E5FF', '#429EA6']}
+                />
+              </div>
+            ) : (
+              <div className="w-full flex flex-col gap-3 items-center justify-center py-4">
+                <img
+                  src={
+                    avatar ||
+                    'https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA='
+                  }
+                  alt="avatar"
+                  className="w-[120px] h-[120px] object-contain shadow-md rounded-full border border-gray-400"
+                />
+                <label
+                  htmlFor="avatar"
+                  className="cursor-pointer bg-slate-200 p-2 rounded-md text-sm shadow-md hover:bg-slate-100"
+                >
+                  Chọn ảnh mới
+                </label>
+                <input type="file" id="avatar" hidden onChange={handleUploadFile} />
+              </div>
+            )}
           </div>
-          <Button
-            fullWidth
-            text="Lưu & Cập nhật"
-            className={'bg-blue-600 focus:ring-blue-300 hover:bg-blue-500'}
-            textStyle={'text-white'}
-          />
+          {isButtonVisible ? (
+            <Button
+              fullWidth
+              text="Lưu & Cập nhật"
+              className={'bg-blue-600 focus:ring-blue-300 hover:bg-blue-500'}
+              textStyle={'text-white'}
+            />
+          ) : (
+            <Button
+              fullWidth
+              text="Lưu & Cập nhật"
+              className={'bg-gray-600 cursor-default'}
+              textStyle={'text-white'}
+              disabled
+            />
+          )}
         </form>
       </div>
     </div>

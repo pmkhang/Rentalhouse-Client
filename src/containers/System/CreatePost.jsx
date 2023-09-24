@@ -105,7 +105,7 @@ const CreatePost = () => {
           </div>
         </form>
         <div className="w-[30%] py-4 tl:hidden">
-          <div className="w-full min-h-[500px] border border-red-400 ">Map</div>
+          {/* <div className="w-full min-h-[500px] border border-red-400 ">Map</div> */}
         </div>
       </div>
     </div>
