@@ -5,3 +5,4 @@ export { default as UserInfo } from './UserInfo';
 export { default as SavedPosts } from './SavedPosts';
 export { default as Header } from './Header';
 export { default as Sidebar } from './Sidebar';
+export { default as ChangePassword } from './ChangePassword';

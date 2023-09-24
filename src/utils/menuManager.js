@@ -1,6 +1,6 @@
 import icons from './icons';
 
-const { BsClipboardPlus, BsClipboardCheck, BiUser, BiHeart } = icons;
+const { BsClipboardPlus, BsClipboardCheck, BiUser } = icons;
 
 export const menuManager = [
   {
@@ -20,11 +20,5 @@ export const menuManager = [
     text: 'Thông tin cá nhân',
     path: '/quan-ly/cap-nhat-thong-tin-ca-nhan',
     icon: <BiUser />,
-  },
-  {
-    id: 4,
-    text: 'Tin đã lưu',
-    path: '/quan-ly/tin-da-luu',
-    icon: <BiHeart />,
   },
 ];

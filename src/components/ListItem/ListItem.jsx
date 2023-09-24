@@ -14,12 +14,29 @@ const ListItem = ({ images, address, attributes, desc, star, title, users }) => 
     <div className="w-full flex items-center justify-between my-3 p-4 gap-5 bg-sky-100 rounded-xl shadow-lg tl:flex-col">
       <div className="w-2/5 flex gap-1 flex-wrap items-center justify-center relative cursor-pointer tl:w-full">
         {images &&
-          images
-            .slice(0, 4)
-            .map((image, index) => (
-              <img key={index} src={image} alt="Preview" className="w-[118px] h-[118px] object-cover rounded-md" />
-            ))}
-        {/* <img src={images[0]} alt="" className="w-full h-full object-contain rounded-md" /> */}
+          (images.length >= 4
+            ? images.slice(0, 4).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt="Preview"
+                  className="w-[118px] h-[118px] object-cover rounded-md"
+                  onError={(e) => {
+                    e.target.src = 'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
+                  }}
+                />
+              ))
+            : [...images, 'your_additional_image_url'].map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt="Preview"
+                  className="w-[118px] h-[118px] object-cover rounded-md"
+                  onError={(e) => {
+                    e.target.src = 'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
+                  }}
+                />
+              )))}
         <span className="text-white text-xs bg-overlay-70 py-1 px-2 rounded-md absolute left-3 bottom-1">
           {`${images?.length}`} ảnh
         </span>

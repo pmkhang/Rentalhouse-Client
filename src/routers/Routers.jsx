@@ -9,7 +9,7 @@ import {
   HomePage,
   SearchDetail,
 } from '../containers/Public';
-import { CreatePost, Posted, SavedPosts, System, UserInfo } from '../containers/System';
+import { ChangePassword, CreatePost, Posted, SavedPosts, System, UserInfo } from '../containers/System';
 import { path, pathSystem } from '../utils/constant';
 
 const routes = [
@@ -29,6 +29,7 @@ const systemRoutes = [
   { path: pathSystem.POSTS, element: <Posted /> },
   { path: pathSystem.INFO, element: <UserInfo /> },
   { path: pathSystem.SAVED_POSTS, element: <SavedPosts /> },
+  { path: pathSystem.CHANGE_PASSWORD, element: <ChangePassword /> },
 ];
 
 const Routers = () => {

@@ -16,6 +16,7 @@ export const pathSystem = {
   POSTS: 'tin-dang',
   INFO: 'cap-nhat-thong-tin-ca-nhan',
   SAVED_POSTS: 'tin-da-luu',
+  CHANGE_PASSWORD: 'doi-mat-khau',
 };
 
 export const text = {

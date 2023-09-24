@@ -1,6 +1,6 @@
 import icons from './icons';
 
-const { BsClipboardPlus, BsClipboardCheck, BiUser, BiHeart, AiOutlineContacts } = icons;
+const { BsClipboardPlus, BsClipboardCheck, BiUser, AiOutlineContacts } = icons;
 
 export const menuSidebar = [
   {
@@ -20,12 +20,6 @@ export const menuSidebar = [
     text: 'Sửa thông tin cá nhân',
     path: '/quan-ly/cap-nhat-thong-tin-ca-nhan',
     icon: <BiUser />,
-  },
-  {
-    id: 4,
-    text: 'Tin đã lưu',
-    path: '/quan-ly/tin-da-luu',
-    icon: <BiHeart />,
   },
   {
     id: 5,

@@ -118,3 +118,18 @@ export const apiUpdateUserPosts = (payload) =>
       reject(error);
     }
   });
+
+export const apiDeleteUserPosts = (postID, attributesID, overviewID, labelCode, imagesID) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosConfig({
+        method: 'delete',
+        url: `/api/v1/post/delete-user-post`,
+        params: { postID, attributesID, overviewID, labelCode, imagesID },
+      });
+      resolve(response);
+    } catch (error) {
+      console.log('apiDeleteUserPosts error: ', error);
+      reject(error);
+    }
+  });

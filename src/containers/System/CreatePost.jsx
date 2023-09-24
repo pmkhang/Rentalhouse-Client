@@ -75,12 +75,11 @@ const CreatePost = () => {
       { provinceName, districtName, categoryCode, address, target, title, desc, acreageNumber, priceNumber },
       setInvalidField,
     );
-    console.log(payload)
-    // if (result === 0 && payload) {
-    //   await apiCreatePost(payload);
-    //   toast.success('Đăng tin cho thuê thành công !');
-    //   navigate(`/quan-ly/${pathSystem.POSTS}`);
-    // }
+    if (result === 0 && payload) {
+      await apiCreatePost(payload);
+      toast.success('Đăng tin cho thuê thành công !');
+      navigate(`/quan-ly/${pathSystem.POSTS}`);
+    }
   };
 
   return (

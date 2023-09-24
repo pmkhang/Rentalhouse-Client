@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { useSelector } from 'react-redux';
-import { apiUploadImages } from '../../services/post';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiUpdateUserPosts, apiUploadImages } from '../../services/post';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
 import SelectorAddress from '../Address/SelectorAddress';
 import Input from '../Input';
@@ -10,6 +10,10 @@ import Button from '../Button';
 import icons from '../../utils/icons';
 import { getCodesWithNumber } from '../../utils/Common/getCodes';
 import { useForm } from 'react-hook-form';
+import { pathSystem } from '../../utils/constant';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { getUserPosts } from '../../redux/action/postAction';
 
 const { BsCamera2, FaTimes } = icons;
 
@@ -57,6 +61,7 @@ const UpdatePost = ({ setIsEdit }) => {
   const { imaage } = imagesS;
 
   const { addressStreet, wardName, districtName, provinceName } = addressSate;
+  const [PriceNumber, setPriceNumber] = useState(editPost?.priceNumber * 10 ** 6);
 
   const [editDataPayload, setEditDataPayload] = useState({
     postID: editPost?.id,
@@ -72,12 +77,12 @@ const UpdatePost = ({ setIsEdit }) => {
     desc: JSON.parse(editPost?.desc) || '',
     label: editPost?.labels.value || '',
     priceCode: editPost?.priceCode || '',
-    priceNumber: editPost?.priceNumber * 10 ** 6 || '',
+    priceNumber: '',
     star: editPost?.star || '',
     target: editPost?.overviews.target,
   });
 
-  const { title, acreageNumber, categoryCode, desc, priceNumber, target } = editDataPayload;
+  const { title, acreageNumber, categoryCode, desc, target } = editDataPayload;
 
   const handleSetEditDataPayloadCategogy = (value) => {
     setEditDataPayload((prev) => ({
@@ -167,16 +172,10 @@ const UpdatePost = ({ setIsEdit }) => {
     setEditDataPayload((prev) => ({
       ...prev,
       acreageCode: getCodesWithNumber(acreageNumber, acreages)?.code,
-      priceCode: getCodesWithNumber(priceNumber / 10 ** 6, prices)?.code,
+      priceCode: getCodesWithNumber(PriceNumber / 10 ** 6, prices)?.code,
     }));
-  }, [acreageNumber, acreages, priceNumber, prices]);
+  }, [acreageNumber, acreages, PriceNumber, prices]);
 
-  useEffect(() => {
-    setEditDataPayload((prev) => ({
-      ...prev,
-      priceNumber: prev.priceNumber / 10 ** 6,
-    }));
-  }, []);
   useEffect(() => {
     if (district && ward && province) {
       setAddressSate((prev) => ({
@@ -225,10 +224,15 @@ const UpdatePost = ({ setIsEdit }) => {
   };
 
   const handleDelImage = (i) => {
-    setImagesS((prevImages) => {
-      const updatedImages = prevImages.filter((image) => image !== i);
-      return updatedImages;
-    });
+    const indexToRemove = imagesS.imaage.indexOf(i);
+    if (indexToRemove !== -1) {
+      const updatedImages = [...imagesS.imaage];
+      updatedImages.splice(indexToRemove, 1);
+      setImagesS((prev) => ({
+        ...prev,
+        imaage: updatedImages,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -239,14 +243,31 @@ const UpdatePost = ({ setIsEdit }) => {
     }));
   }, [dataProvinces, imaage, province]);
 
+  useEffect(() => {
+    setEditDataPayload((prev) => ({
+      ...prev,
+      priceNumber: PriceNumber / 10 ** 6,
+    }));
+  }, [PriceNumber]);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
 
-  const onSubmit = (e) => {
-    console.log({ editDataPayload });
+  const onSubmit = async () => {
+    try {
+      const response = await apiUpdateUserPosts(editDataPayload);
+      if (response.status === 200) {
+        dispatch(getUserPosts());
+        toast.success('Sửa tin thành công !');
+        setIsEdit(false);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   };
 
   return (
@@ -401,13 +422,8 @@ const UpdatePost = ({ setIsEdit }) => {
                   decs1={'Đồng/tháng'}
                   decs2={'Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000'}
                   typeName="priceNumber"
-                  value={priceNumber || ''}
-                  onChange={(e) =>
-                    setEditDataPayload((prev) => ({
-                      ...prev,
-                      priceNumber: e.target.value,
-                    }))
-                  }
+                  value={PriceNumber || ''}
+                  onChange={(e) => setPriceNumber(e.target.value)}
                 />
                 <Input
                   {...register('acreage', { required: 'Bạn cần phải nhập trường này!' })}
@@ -504,10 +520,6 @@ const UpdatePost = ({ setIsEdit }) => {
               text="Hoàn tất"
               className={'bg-green-500 hover:bg-green-400'}
               textStyle={'text-white'}
-              onClick={(e) => {
-                e.stopPropagation();
-                onSubmit();
-              }}
             />
           </div>
         </form>

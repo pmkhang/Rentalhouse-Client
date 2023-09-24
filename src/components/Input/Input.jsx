@@ -27,6 +27,7 @@ const Input = forwardRef(
       invalidField,
       setInvalidField,
       typeName,
+      decs2Style,
       ...prop
     },
     ref,
@@ -53,13 +54,10 @@ const Input = forwardRef(
           </div>
         ) : (
           <div className={`flex flex-col gap-1 ${className}`}>
-            <label
-              htmlFor={id}
-              className={`text-base block font-medium text-gray-900 cursor-pointer  ${labelStyle} `}
-            >
+            <label htmlFor={id} className={`text-base block font-medium text-gray-900 cursor-pointer  ${labelStyle} `}>
               {label}
             </label>
-            <div className="flex items-center">
+            <div className={'flex items-center'}>
               <input
                 type={type}
                 id={id}
@@ -75,9 +73,7 @@ const Input = forwardRef(
                 readOnly={readOnly}
                 ref={ref}
                 {...prop}
-                className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  ${inputStyle} ${
-                  errors && 'bg-red-100 border-red-300 text-red-400'
-                }`}
+                className={`outline-none bg-[#f9fbff] p-3 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  ${inputStyle}`}
               />
               {decs1 && <span className="p-2 text-sm border border-gray-300 bg-slate-100 rounded-r-md">{decs1}</span>}
             </div>
@@ -87,7 +83,7 @@ const Input = forwardRef(
             ) : (
               ''
             )}
-            {decs2 && <span className="p-2 text-xs mt-[-6px] text-gray-400">{decs2}</span>}
+            {decs2 && <span className={`p-2 text-xs mt-[-6px] text-gray-400 ${decs2Style}`}>{decs2}</span>}
           </div>
         )}
       </>
