@@ -8,6 +8,10 @@ export const path = {
   CAN_HO: 'cho-thue-can-ho',
   MAT_BANG: 'cho-thue-mat-bang',
   SEARCH_DETAIL: 'tim-kiem',
+  CONTACT: 'lien-he',
+  DETAIL: '/chi-tiet/',
+  DETAIL_ALL: 'chi-tiet/*',
+  DETAIL_POST: 'chi-tiet/:title/:postID',
 };
 
 export const pathSystem = {

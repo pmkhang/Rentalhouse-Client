@@ -67,6 +67,7 @@ const List = ({ posts }) => {
               key={item?.id}
             >
               <ListItem
+                id={item?.id}
                 address={item?.labels.value}
                 attributes={item?.attributes}
                 desc={JSON.parse(item?.desc)}

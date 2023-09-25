@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { path } from '../../utils/constant';
 
 const Header = () => {
   const { categories } = useSelector((state) => state.category);
@@ -34,6 +35,9 @@ const Header = () => {
             {i?.title.replace('Cho', '').trim().charAt(0).toUpperCase() + i?.title.replace('Cho', '').trim().slice(1)}
           </NavLink>
         ))}
+        <NavLink to={path.CONTACT} className={'text-white font-semibold hover:text-orange-400'}>
+          Liên hệ
+        </NavLink>
       </div>
     </div>
   );

@@ -64,7 +64,6 @@ const CreatePost = () => {
     }));
   }, [acreageNumber, acreages, categoryName, districtName, priceNumber, prices]);
   const {
-    
     handleSubmit,
     register,
     formState: { errors },

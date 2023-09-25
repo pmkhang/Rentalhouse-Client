@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { ColorRing } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getUserPosts } from '../../redux/action/postAction';
 import { apiUpdateUserPosts, apiUploadImages } from '../../services/post';
 import { apiGetPublicDistrict, apiGetPublicProvince, apiGetPublicWard } from '../../services/province';
+import { getCodesWithNumber } from '../../utils/Common/getCodes';
+import icons from '../../utils/icons';
 import SelectorAddress from '../Address/SelectorAddress';
+import Button from '../Button';
 import Input from '../Input';
 import SelectorOverview from '../Overview/SelectorOverview';
-import Button from '../Button';
-import icons from '../../utils/icons';
-import { getCodesWithNumber } from '../../utils/Common/getCodes';
-import { useForm } from 'react-hook-form';
-import { pathSystem } from '../../utils/constant';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { getUserPosts } from '../../redux/action/postAction';
 
 const { BsCamera2, FaTimes } = icons;
 

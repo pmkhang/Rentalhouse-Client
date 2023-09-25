@@ -8,9 +8,11 @@ import {
   RentGround,
   HomePage,
   SearchDetail,
+  Contact,
 } from '../containers/Public';
 import { ChangePassword, CreatePost, Posted, SavedPosts, System, UserInfo } from '../containers/System';
 import { path, pathSystem } from '../utils/constant';
+import DetailPost from '../components/DetailPost';
 
 const routes = [
   { path: '*', element: <HomePage /> },
@@ -22,6 +24,9 @@ const routes = [
   { path: path.MAT_BANG, element: <RentGround /> },
   { path: path.PHONG_TRO, element: <RentMotel /> },
   { path: path.SEARCH_DETAIL, element: <SearchDetail /> },
+  { path: path.CONTACT, element: <Contact /> },
+  { path: path.DETAIL_POST, element: <DetailPost /> },
+  // { path: path.DETAIL_ALL, element: <DetailPost /> },
 ];
 
 const systemRoutes = [

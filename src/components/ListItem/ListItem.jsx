@@ -2,41 +2,55 @@
 /* eslint-disable no-unused-vars */
 import React, { memo, useState } from 'react';
 import icons from '../../utils/icons';
+import { Link } from 'react-router-dom';
+import { path } from '../../utils/constant';
+import unidecode from 'unidecode';
 
 const { BiSolidStar, BiHeart, BiSolidHeart, BsFillBookmarkStarFill } = icons;
 
-const ListItem = ({ images, address, attributes, desc, star, title, users }) => {
+const ListItem = ({ images, address, attributes, desc, star, title, users, id }) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const Address =
     address.replace('Cho thuê', '').trim().charAt(0).toUpperCase() + address.replace('Cho thuê', '').trim().slice(1);
 
   return (
     <div className="w-full flex items-center justify-between my-3 p-4 gap-5 bg-sky-100 rounded-xl shadow-lg tl:flex-col">
-      <div className="w-2/5 flex gap-1 flex-wrap items-center justify-center relative cursor-pointer tl:w-full">
-        {images &&
-          (images.length >= 4
-            ? images.slice(0, 4).map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt="Preview"
-                  className="w-[118px] h-[118px] object-cover rounded-md"
-                  onError={(e) => {
-                    e.target.src = 'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
-                  }}
-                />
-              ))
-            : [...images, 'your_additional_image_url'].map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt="Preview"
-                  className="w-[118px] h-[118px] object-cover rounded-md"
-                  onError={(e) => {
-                    e.target.src = 'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
-                  }}
-                />
-              )))}
+      <div className="w-2/5 relative tl:w-full">
+        <Link
+          to={`${path.DETAIL}${unidecode(title)
+            ?.replace(/[-/.,]/g, '')
+            ?.toLowerCase()
+            ?.split(' ')
+            ?.join('-')}/${id}`}
+          className="flex gap-1 flex-wrap items-center justify-center cursor-pointer tl:w-full "
+        >
+          {images &&
+            (images.length >= 4
+              ? images.slice(0, 4).map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt="Preview"
+                    className="w-[118px] h-[118px] object-cover rounded-md"
+                    onError={(e) => {
+                      e.target.src =
+                        'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
+                    }}
+                  />
+                ))
+              : [...images, 'your_additional_image_url'].map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt="Preview"
+                    className="w-[118px] h-[118px] object-cover rounded-md"
+                    onError={(e) => {
+                      e.target.src =
+                        'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png';
+                    }}
+                  />
+                )))}
+        </Link>
         <span className="text-white text-xs bg-overlay-70 py-1 px-2 rounded-md absolute left-3 bottom-1">
           {`${images?.length}`} ảnh
         </span>
@@ -50,18 +64,26 @@ const ListItem = ({ images, address, attributes, desc, star, title, users }) => 
       </div>
       <div className="w-3/5 flex flex-col justify-between gap-2 tl:w-full">
         <div className="flex justify-between gap-[2px]">
-          <h3 className="text-red-600 font-bold text-[14px]">
-            <span className="inline-flex items-center gap-1">
-              {Array(+star)
-                .fill()
-                .map((_, index) => (
-                  <span key={index} className="text-[14px] text-[#ffd454]">
-                    <BiSolidStar />
-                  </span>
-                ))}
-            </span>
-            {title}
-          </h3>
+          <Link
+            to={`${path.DETAIL}${unidecode(title)
+              ?.replace(/[-/.,]/g, '')
+              ?.toLowerCase()
+              ?.split(' ')
+              ?.join('-')}/${id}`}
+          >
+            <h3 className="text-red-600 font-bold text-[14px] hover:underline">
+              <span className="inline-flex items-center gap-1">
+                {Array(+star)
+                  .fill()
+                  .map((_, index) => (
+                    <span key={index} className="text-[14px] text-[#ffd454]">
+                      <BiSolidStar />
+                    </span>
+                  ))}
+              </span>
+              {title}
+            </h3>
+          </Link>
           {+star === 5 && (
             <span className="pt-1 text-[#ffd454] text-[24px]">
               <BsFillBookmarkStarFill />

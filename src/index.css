@@ -90,3 +90,18 @@ input[type='radio'],
 input[type='checkbox'] {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* slick-prev */
+
+.slick-next {
+  right: 30px;
+}
+.slick-next::before,
+.slick-prev::before {
+  font-size: 40px;
+  color: #fb923c;
+}
+.slick-prev {
+  left: 10px;
+  z-index: 100;
+}

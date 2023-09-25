@@ -1,9 +1,11 @@
 import React from 'react';
 import { dataContact } from '../../utils/dataContact';
 import Button from '../Button';
-
+import { useNavigate } from 'react-router-dom';
+import { path } from '../../utils/constant';
 
 const Contact = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-[200px] w-full flex flex-col items-center justify-center p-12 gap-8 mb:gap-4 mb:p-4 bg-white rounded-lg shadow-lg border-[7px] border-[#e8eefc] border-dashed">
       <img src={dataContact.image} alt="thumbal" className="w-full h-[250px] object-contain" />
@@ -21,6 +23,7 @@ const Contact = () => {
         text={'Giửi liên hệ'}
         className={'bg-blue-600 hover:bg-blue-500 focus:ring-blue-300'}
         textStyle={'font-bold text-white text-sm'}
+        onClick={() => navigate(path.CONTACT)}
       />
     </div>
   );
