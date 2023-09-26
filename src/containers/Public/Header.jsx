@@ -42,11 +42,11 @@ const Header = () => {
   }, [navigate]);
 
   return (
-    <div id="header" className="max-w-[1100px] mx-auto my-0 flex items-center justify-between">
+    <div id="header" className="max-w-[1100px] mx-auto my-0 px-5 flex items-center justify-between">
       <img
         src={logoRentalHouse}
         alt="logo"
-        className=" h-[70px] object-contain cursor-pointer py-2 ml-5"
+        className=" h-[70px] object-contain cursor-pointer py-2"
         onClick={goHome}
       />
       <div className="flex items-center gap-1 mb:hidden">
@@ -113,7 +113,7 @@ const Header = () => {
             </div>
             <Button
               text={'Đăng tin mới'}
-              className={'text-white font-bold bg-green-600 hover:bg-green-500 focus:ring-green-300 mr-5'}
+              className={'text-white font-bold bg-green-600 hover:bg-green-500 focus:ring-green-300'}
               IconLeft={BsClipboardPlus}
               onClick={() => {
                 navigate('/quan-ly/dang-tin-cho-thue');
