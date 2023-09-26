@@ -35,7 +35,7 @@ const Header = () => {
             {i?.title.replace('Cho', '').trim().charAt(0).toUpperCase() + i?.title.replace('Cho', '').trim().slice(1)}
           </NavLink>
         ))}
-        <NavLink to={path.CONTACT} className={'text-white font-semibold hover:text-orange-400'}>
+        <NavLink to={`/${path.CONTACT}`} className={'text-white font-semibold hover:text-orange-400'}>
           Liên hệ
         </NavLink>
       </div>

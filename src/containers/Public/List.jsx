@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Suspense, lazy, memo, useState } from 'react';
+import React, { Suspense, lazy, memo } from 'react';
 import Button from '../../components/Button';
 
 const ListItem = lazy(() => import('../../components/ListItem'));

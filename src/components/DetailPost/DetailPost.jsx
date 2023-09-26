@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, createSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { setSearchTitle } from '../../redux/Slice/appStateSlice';
 import { getPostsLimit } from '../../redux/action/postAction';
+import { path } from '../../utils/constant';
 import icons from '../../utils/icons';
-import SliderImage from '../SliderImage';
 import Boxinfo from '../BoxInfo';
 import PostsSibar from '../PostsSidebar';
-import { path } from '../../utils/constant';
-import { setSearchTitle } from '../../redux/Slice/appStateSlice';
+import SliderImage from '../SliderImage';
 const { ImLocation2, ImPriceTags, FaRulerCombined, BiHash, BiTimeFive, BiSolidStar } = icons;
 
 const DetailPost = () => {
