@@ -25,6 +25,7 @@ const SignUpLogin = ({ flag }) => {
     watch,
     reset,
   } = useForm();
+  const [isPending, setisPending] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,12 +61,14 @@ const SignUpLogin = ({ flag }) => {
       }
     } else {
       dispatch(login({ phone, password }));
+      setisPending(true);
       if (isLoggedIn) {
         dispatch(login({ phone, password }));
         dispatch(setUpdate(true));
         navigate('/');
         toast.success('Đăng nhập thành công!');
         reset();
+        setisPending(false);
       } else if (message === 'saimk&sdt') {
         Swal.fire('Oops !', 'Bạn đã sai mật khẩu hoặc số điện thoại', 'error');
       }
@@ -148,11 +151,20 @@ const SignUpLogin = ({ flag }) => {
               errors={errors?.confirmPassword}
             />
           )}
-          <Button
-            className={'text-white bg-blue-700 hover:bg-blue-600 focus:ring-blue-300'}
-            text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
-            fullWidth
-          />
+          {isPending ? (
+            <Button
+              className={'text-white bg-gray-500  focus:ring-gray-300 cursor-default'}
+              text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
+              fullWidth
+              disabled
+            />
+          ) : (
+            <Button
+              className={'text-white bg-blue-700 hover:bg-blue-600 focus:ring-blue-300'}
+              text={isRegister ? 'Đăng ký' : 'Đăng nhập'}
+              fullWidth
+            />
+          )}
         </form>
       </div>
       {isRegister ? (
