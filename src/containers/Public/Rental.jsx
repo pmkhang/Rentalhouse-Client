@@ -13,6 +13,7 @@ const Rental = ({ title, desc, text, homePage }) => {
   const { categories } = useSelector((state) => state.category);
   const { posts } = useSelector((state) => state.post);
   const [categoryCode, setCategoryCode] = useState('');
+  const [sort, setSort] = useState(0);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -49,10 +50,11 @@ const Rental = ({ title, desc, text, homePage }) => {
     if (categoryCode) {
       searchParamsObject.categoryCode = categoryCode;
       dispatch(getPostsLimit(searchParamsObject));
-    } else {
-      dispatch(getPostsLimit(searchParamsObject));
     }
-  }, [searchParams, categoryCode, dispatch]);
+    if (sort === 1) searchParamsObject.order = ['createdAt', 'DESC'];
+    if (sort === 0) searchParamsObject.order = ['star', 'DESC'];
+    dispatch(getPostsLimit(searchParamsObject));
+  }, [searchParams, categoryCode, dispatch, sort]);
 
   return (
     <>
@@ -65,7 +67,7 @@ const Rental = ({ title, desc, text, homePage }) => {
         <Province />
         <div className="w-full flex gap-4 mt-3">
           <div className="w-[70%] h-fit p-5 bg-white shadow-lg rounded-[15px] tl:w-full">
-            <List posts={posts} categoryCode={categoryCode} />
+            <List posts={posts} categoryCode={categoryCode} sort={sort} setSort={setSort} />
             <Pagination />
           </div>
           <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">

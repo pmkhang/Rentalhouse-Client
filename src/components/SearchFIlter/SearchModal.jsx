@@ -122,7 +122,6 @@ const SearchModal = ({
         setTextAcreage(`Diện tích từ ${numV1} - ${numV2} m²`);
       }
     }
-
     setShowModal(false);
   };
 

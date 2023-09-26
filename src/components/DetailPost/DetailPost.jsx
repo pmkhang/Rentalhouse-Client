@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Navigate, createSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { getPostsLimit } from '../../redux/action/postAction';
 import icons from '../../utils/icons';
 import SliderImage from '../SliderImage';
 import Boxinfo from '../BoxInfo';
 import PostsSibar from '../PostsSidebar';
+import { path } from '../../utils/constant';
+import { setSearchTitle } from '../../redux/Slice/appStateSlice';
 const { ImLocation2, ImPriceTags, FaRulerCombined, BiHash, BiTimeFive, BiSolidStar } = icons;
 
 const DetailPost = () => {
   const { posts } = useSelector((state) => state.post);
   const { postID } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (postID) {
@@ -22,6 +25,14 @@ const DetailPost = () => {
   useEffect(() => {
     document.title = posts[0]?.title;
   }, [posts]);
+
+  const handleOnClick = () => {
+    navigate({
+      pathname: `/${path.SEARCH_DETAIL}`,
+      search: createSearchParams({ labelCode: posts[0]?.labels?.code }).toString(),
+    });
+    dispatch(setSearchTitle(`${posts[0]?.labels?.value}`));
+  };
 
   return (
     <div className="w-full flex gap-4 ">
@@ -44,8 +55,11 @@ const DetailPost = () => {
           </h2>
           <div className="flex items-center gap-2">
             <span>Chuyên mục: </span>
-            <span className="text-blue-600 underline font-semibold hover:text-orange-600">
-              {posts[0]?.overviews?.area}
+            <span
+              className="text-blue-600 underline font-semibold hover:text-orange-600 cursor-pointer"
+              onClick={handleOnClick}
+            >
+              {posts[0]?.labels?.value}
             </span>
           </div>
           <div className="flex items-center gap-2">

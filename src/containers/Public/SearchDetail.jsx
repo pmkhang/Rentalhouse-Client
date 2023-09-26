@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
@@ -13,7 +13,8 @@ const SearchDetail = ({ text, homePage }) => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const searchTitle = useSelector((state) => state.appState);
-  
+  const [sort, setSort] = useState(0);
+
   useEffect(() => {
     const paramsArray = Array.from(searchParams.entries());
     const searchParamsObject = paramsArray.reduce((acc, [key, value]) => {
@@ -22,9 +23,10 @@ const SearchDetail = ({ text, homePage }) => {
         [key]: acc[key] ? [...acc[key], value] : [value],
       };
     }, {});
-
+    if (sort === 1) searchParamsObject.order = ['createdAt', 'DESC'];
+    if (sort === 0) searchParamsObject.order = ['star', 'DESC'];
     dispatch(getPostsLimit(searchParamsObject));
-  }, [searchParams, dispatch]);
+  }, [searchParams, dispatch, sort]);
 
   useEffect(() => {
     document.title = searchTitle.searchTitle || 'Kết quả tìm kiếm';
@@ -39,7 +41,7 @@ const SearchDetail = ({ text, homePage }) => {
         </div>
         <div className="w-full flex gap-4 mt-3">
           <div className="w-[70%] h-fit p-5 bg-white shadow-lg rounded-[15px] tl:w-full">
-            <List posts={posts} />
+            <List posts={posts} sort={sort} setSort={setSort} />
             <Pagination />
           </div>
           <div className="w-[30%] h-fit flex flex-col items-center gap-3 tl:hidden">

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Suspense, lazy, memo } from 'react';
+import React, { Suspense, lazy, memo, useState } from 'react';
 import Button from '../../components/Button';
 
 const ListItem = lazy(() => import('../../components/ListItem'));
 
-const List = ({ posts }) => {
+const List = ({ posts, sort, setSort }) => {
   return (
     <div className="w-full">
       {posts.length > 0 && (
@@ -17,13 +17,15 @@ const List = ({ posts }) => {
             <span className="text-[13.3px]">Sắp xếp: </span>
             <Button
               text="Mặc định"
-              className={'py-[3px] px-2 bg-gray-200 hover:translate-y-[-3px] focus:ring-gray-400'}
+              className={`py-[3px] px-2 bg-gray-200 focus:ring-gray-100 ${sort === 0 && 'bg-slate-400 text-white'}`}
               textStyle={'text-[13.3px]'}
+              onClick={() => setSort(0)}
             />
             <Button
               text="Mới nhất"
-              className={'py-[3px] px-2 bg-gray-200 hover:translate-y-[-3px] focus:ring-gray-400'}
+              className={`py-[3px] px-2 bg-gray-200 focus:ring-gray-100 ${sort === 1 && 'bg-slate-400 text-white'}`}
               textStyle={'text-[13.3px]'}
+              onClick={() => setSort(1)}
             />
           </div>
         </>
