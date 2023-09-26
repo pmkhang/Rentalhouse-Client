@@ -6,7 +6,7 @@ import logoRentalHousefavi from './Assets/logoRentalHousefavi.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAcreages, getPrices } from './redux/action/priceAndArceage';
 import { getCategory } from './redux/action/categoryAction';
-import { getNewPosts } from './redux/action/postAction';
+import { getNewPosts, getOutstandingPosts } from './redux/action/postAction';
 import { getProvince } from './redux/action/provinceAction';
 import { getUserDataByID } from './redux/action/userAction';
 import { useLocation } from 'react-router-dom';
@@ -31,6 +31,7 @@ const App = () => {
     dispatch(getPrices());
     dispatch(getCategory());
     dispatch(getNewPosts());
+    dispatch(getOutstandingPosts());
     dispatch(getProvince());
   }, [dispatch]);
 

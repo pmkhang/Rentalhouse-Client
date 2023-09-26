@@ -7,6 +7,8 @@ import {
   getNewPostsFail,
   getUserPostFail,
   getUserPostSucces,
+  getOutstandingSuccess,
+  getOutstandingFail,
 } from '../Slice/PostsSlice';
 import { apiGetPostsLimit, apiGetNewPosts, apiGetUserPosts } from '../../services/post';
 
@@ -49,6 +51,23 @@ export const getNewPosts = (query) => async (dispatch) => {
   } catch (error) {
     console.log('Error getPostsLimit: ', error);
     dispatch(getNewPostsFail({ message: 'An error occurred' }));
+  }
+};
+
+export const getOutstandingPosts = () => async (dispatch) => {
+  try {
+    const response = await apiGetPostsLimit({
+      limitPost: 5,
+      order: ['star', 'DESC'],
+    });
+    if (response?.data.error === 0) {
+      dispatch(getOutstandingSuccess(response.data.response));
+    } else {
+      dispatch(getOutstandingFail({ message: response.data.message }));
+    }
+  } catch (error) {
+    console.log('Error getPostsLimit: ', error);
+    dispatch(getOutstandingFail({ message: 'An error occurred' }));
   }
 };
 

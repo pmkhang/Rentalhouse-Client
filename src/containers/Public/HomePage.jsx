@@ -3,7 +3,7 @@ import Rental from './Rental';
 
 const HomePage = () => {
   useEffect(() => {
-    document.title = 'Trang chủ';
+    document.title = 'RentalHouse - Trang chủ';
   }, []);
 
   return (

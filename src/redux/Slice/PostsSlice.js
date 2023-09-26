@@ -9,6 +9,7 @@ const postSlice = createSlice({
     newPosts: [],
     userPosts: [],
     editPost: [],
+    outstandingPosts: [],
   },
   reducers: {
     getPostsSuccess(state, action) {
@@ -24,8 +25,16 @@ const postSlice = createSlice({
     getNewPostsSuccess(state, action) {
       state.newPosts = action.payload;
     },
+    getOutstandingSuccess(state, action) {
+      state.outstandingPosts = action.payload.rows;
+      state.message = action.payload.message;
+    },
     getNewPostsFail(state, action) {
       state.newPosts = [];
+      state.message = action.payload;
+    },
+    getOutstandingFail(state, action) {
+      state.outstandingPost = [];
       state.message = action.payload;
     },
     getUserPostSucces(state, action) {
@@ -52,5 +61,7 @@ export const {
   getUserPostSucces,
   getUserPostFail,
   setEditPost,
+  getOutstandingSuccess,
+  getOutstandingFail,
 } = postSlice.actions;
 export default postSlice.reducer;

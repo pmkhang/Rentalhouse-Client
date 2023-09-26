@@ -72,8 +72,6 @@ const Header = () => {
               <Button
                 text={'Quản lý tài khoản'}
                 onClick={() => {
-                  // dispatch(logoutUser());
-                  // toast.warn('Đã đăng xuất !');
                   setShowDropDown(!showDropDown);
                 }}
                 IconRight={BsChevronDoubleDown}

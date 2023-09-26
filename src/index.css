@@ -103,5 +103,5 @@ input[type='checkbox'] {
 }
 .slick-prev {
   left: 10px;
-  z-index: 100;
+  z-index: 50;
 }

@@ -30,8 +30,8 @@ const SliderImage = ({ images }) => {
     <div className="w-full">
       <Slider {...settings}>
         {dataImages?.map((i, index) => (
-          <div key={index} className="w-full h-[480px] flex items-center justify-center bg-gray-800 rounded-lg shadow-md">
-            <img src={i || ''} alt="pictureRental" className="w-full h-full object-contain rounded-lg" />
+          <div key={index} className="w-full h-[480px] flex items-center justify-center bg-gray-800 shadow-md">
+            <img src={i || ''} alt="pictureRental" className="w-full h-full object-contain" />
           </div>
         ))}
       </Slider>

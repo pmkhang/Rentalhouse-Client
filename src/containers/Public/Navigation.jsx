@@ -35,7 +35,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <div className={`w-full text-white bg-blue-600 shadow-md ${addFixed && 'fixed top-0 right-0 left-0 z-10'}`}>
+    <div className={`w-full text-white bg-blue-600 shadow-md ${addFixed && 'fixed top-0 right-0 left-0 z-[100]'}`}>
       <div className="max-w-[1100px] my-0 mx-auto px-5">
         <nav className="h-[38px]">
           <ul className="flex items-center mb:hidden">
