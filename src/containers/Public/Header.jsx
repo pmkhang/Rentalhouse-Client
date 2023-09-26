@@ -46,7 +46,7 @@ const Header = () => {
       <img
         src={logoRentalHouse}
         alt="logo"
-        className=" h-[70px] object-contain cursor-pointer py-2"
+        className=" h-[70px] object-cover cursor-pointer py-2"
         onClick={goHome}
       />
       <div className="flex items-center gap-1 mb:hidden">
