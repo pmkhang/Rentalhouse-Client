@@ -10,4 +10,6 @@ const reduxStore = () => {
   return { store, persistor };
 };
 
+
+
 export default reduxStore;
